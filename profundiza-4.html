@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profundizar · Asíntotas verticales de tan(x) · Cuaderno de Límites</title>
+<link rel="stylesheet" href="css/notebook.css">
+</head>
+<body data-module="4">
+
+<button id="index-tab" class="index-tab">📑 Índice</button>
+<div id="drawer-overlay" class="drawer-overlay"></div>
+<aside id="index-drawer" class="index-drawer"></aside>
+
+<div class="desk">
+  <main class="notebook-page">
+    <div class="spiral" aria-hidden="true"></div>
+    <div class="margin-line" aria-hidden="true"></div>
+
+    <div class="page-content">
+
+      <a class="dd-back" href="modulo-4.html">← volver al Módulo 4</a>
+      <header class="page-header">
+        <span class="dd-badge">🔎 Profundización · Módulo 4</span>
+        <h1 class="underline-draw">Infinitas asíntotas verticales: el caso de tan(x)
+          <svg viewBox="0 0 600 14" preserveAspectRatio="none"><path d="M4 9 Q 190 2, 596 8"/></svg>
+        </h1>
+        <p style="font-size:1.2rem;color:#4a453a;max-width:680px;">En el módulo vimos una función con <em>una</em> asíntota vertical. La tangente trigonométrica tiene <strong>infinitas</strong>, todas iguales entre sí por periodicidad — un buen ejercicio para aplicar la definición repetidas veces.</p>
+      </header>
+
+      <div class="box example">
+        <span class="box-tag">🧭 Razonamiento</span>
+        <p>Como <span class="math">tan(x) = sen(x)/cos(x)</span>, hay posibles asíntotas verticales exactamente donde <span class="math">cos(x) = 0</span>, es decir en <span class="math">x = π/2 + kπ</span> (k entero) — siempre que el numerador <span class="math">sen(x)</span> no se anule ahí también (y no lo hace, porque sen y cos nunca son cero en el mismo x).</p>
+        <p>Cerca de <span class="math">x = π/2</span>: cuando <span class="math">x→(π/2)⁻</span>, <span class="math">sen(x)→1⁺</span> y <span class="math">cos(x)→0⁺</span>, así que <span class="math">tan(x)→+∞</span>. Cuando <span class="math">x→(π/2)⁺</span>, <span class="math">cos(x)→0⁻</span>, así que <span class="math">tan(x)→−∞</span>.</p>
+      </div>
+      <p class="dd-source">Fuente: Stewart, Sección 2.2, Ejemplo 10 (pág. 96).</p>
+
+      <div class="widget">
+        <canvas id="plot-tan" cssHeight="400"></canvas>
+        <div class="widget-controls">
+          <label>Asíntota k: <input type="range" id="ctrl-k" min="-2" max="2" step="1" value="0"></label>
+          <span>x = π/2 + k·π, k = <span class="widget-readout" id="read-k">0</span></span>
+        </div>
+        <p class="widget-caption" id="tan-note">Movete entre las distintas asíntotas verticales de tan(x). El patrón de signos (+∞ por izquierda, −∞ por derecha) se repite exactamente igual en cada una, cada π unidades — consecuencia directa de que tan(x) es periódica.</p>
+      </div>
+
+      <div class="box def">
+        <span class="box-tag">📖 Todas las asíntotas de tan(x)</span>
+        <p style="text-align:center;font-size:1.15rem;">x = <span class="frac"><span class="num">π</span><span class="den">2</span></span> + kπ, &nbsp; k ∈ ℤ &nbsp; (…, −3π/2, −π/2, π/2, 3π/2, …)</p>
+      </div>
+
+      <h3>El mismo patrón, versión "simple": y = 1/x²</h3>
+      <p>El caso más sencillo de asíntota vertical, mencionado por Stewart al presentar la definición formal, es <span class="math">y = 1/x²</span>: el eje y (x=0) es asíntota vertical porque <span class="math">lim(x→0) 1/x² = +∞</span> — ya lo viste en el widget de "los cuatro casos" del Módulo 4 con potencia par.</p>
+
+      <div class="postit orange lg postit-float">
+        <b>Utilidad práctica</b>
+        Conocer de antemano <i>dónde</i> están las asíntotas verticales (sin necesitar graficar punto por punto) es una herramienta clave para bosquejar gráficos rápido — Stewart lo señala explícitamente como una de las razones para estudiar límites infinitos.
+      </div>
+
+      <h3>Practicá vos: ¿dónde están las asíntotas de sec(x)?</h3>
+      <p>Como <span class="math">sec(x) = 1/cos(x)</span>, tiene exactamente las mismas asíntotas verticales que <span class="math">tan(x)</span> — por la misma razón (el denominador cos(x) se anula en los mismos puntos).</p>
+      <div class="widget">
+        <canvas id="plot-sec" cssHeight="360"></canvas>
+      </div>
+
+      <div class="reflect-box">
+        <b>🖊️ Para pensar</b>
+        <p style="margin:.4em 0 0;">¿Por qué en x=π/2 el límite por izquierda de tan(x) es +∞ y por derecha es −∞ (signos opuestos), mientras que en 1/x² cerca de x=0 ambos lados dan +∞ (mismo signo)? ¿Qué tiene que ver esto con la potencia par/impar del Módulo 4?</p>
+        <textarea placeholder="Escribí tu respuesta acá."></textarea>
+        <details>
+          <summary>Ver una posible respuesta</summary>
+          <p class="model-answer">Con 1/x², el denominador (x²) es siempre positivo a ambos lados de 0 — como una potencia par — así que la función no cambia de signo. En cambio cos(x) cerca de π/2 SÍ cambia de signo: es positivo del lado izquierdo (donde x&lt;π/2, dentro del primer cuadrante) y negativo del lado derecho (segundo cuadrante). Ese cambio de signo en el denominador es lo que produce que tan(x) se dispare a +∞ de un lado y a −∞ del otro — el mismo comportamiento que la potencia impar (n=1) que viste en el widget de los cuatro casos.</p>
+        </details>
+      </div>
+
+      <nav class="page-nav">
+        <a class="corner prev" href="modulo-4.html"><span class="dir">← volver</span><span class="ttl">Módulo 4: límites infinitos</span></a>
+        <a class="corner next" href="profundiza-5.html"><span class="dir">profundización siguiente →</span><span class="ttl">Módulo 5: definición formal</span></a>
+      </nav>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/notebook.js"></script>
+<script src="js/plotter.js"></script>
+<script>
+(function(){
+  /* ---- widget 1: tan(x) con asíntota seleccionable ---- */
+  const plotT = new NotebookPlot(document.getElementById('plot-tan'), {xMin:-7.5,xMax:7.5,yMin:-6,yMax:6,xStep:1,yStep:1,cssHeight:400});
+  const tanFn = x => Math.tan(x);
+  const ctrlK = document.getElementById('ctrl-k');
+  const readK = document.getElementById('read-k');
+  function asymList(){
+    const arr=[];
+    for(let k=-3;k<=3;k++) arr.push(Math.PI/2 + k*Math.PI);
+    return arr;
+  }
+  function drawTan(){
+    const k = parseInt(ctrlK.value,10);
+    readK.textContent = k;
+    const a = Math.PI/2 + k*Math.PI;
+    plotT.clear(); plotT.drawGrid(); plotT.drawAxes({ticks:false});
+    const asy = asymList();
+    asy.forEach(v=>{
+      plotT.plotFunction(tanFn, {color: Math.abs(v-a)<1e-6?NB_INK.red:NB_INK.blue, lineWidth: Math.abs(v-a)<1e-6?3.4:2.2, domain:[v-Math.PI/2+0.03, v+Math.PI/2-0.03], asymptoteAt:[v-Math.PI/2,v+Math.PI/2], samples:300});
+    });
+    plotT.vLine(a,{color:NB_INK.red, dash:[6,5], label:'asíntota'});
+    document.getElementById('tan-note').innerHTML =
+      `En x = π/2 + (${k})π: por izquierda tan(x) → <b>+∞</b>, por derecha → <b>−∞</b>. Este patrón se repite exactamente igual en cada asíntota, separadas por π.`;
+  }
+  plotT.onRedraw(drawTan);
+  ctrlK.addEventListener('input', drawTan);
+  drawTan();
+
+  /* ---- widget 2: sec(x) ---- */
+  const plotSec = new NotebookPlot(document.getElementById('plot-sec'), {xMin:-7.5,xMax:7.5,yMin:-6,yMax:6,xStep:1,yStep:1,cssHeight:360});
+  const secFn = x => 1/Math.cos(x);
+  function drawSec(){
+    plotSec.clear(); plotSec.drawGrid(); plotSec.drawAxes({ticks:false});
+    for(let k=-3;k<=3;k++){
+      const v = Math.PI/2 + k*Math.PI;
+      plotSec.plotFunction(secFn, {color:NB_INK.purple, lineWidth:2.6, domain:[v-Math.PI/2+0.03, v+Math.PI/2-0.03], asymptoteAt:[v-Math.PI/2,v+Math.PI/2], samples:300});
+      plotSec.vLine(v,{color:'#bbb', dash:[3,4]});
+    }
+  }
+  plotSec.onRedraw(drawSec);
+  drawSec();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profundizar · Trampas al conjeturar un límite · Cuaderno de Límites</title>
+<link rel="stylesheet" href="css/notebook.css">
+</head>
+<body data-module="2">
+
+<button id="index-tab" class="index-tab">📑 Índice</button>
+<div id="drawer-overlay" class="drawer-overlay"></div>
+<aside id="index-drawer" class="index-drawer"></aside>
+
+<div class="desk">
+  <main class="notebook-page">
+    <div class="spiral" aria-hidden="true"></div>
+    <div class="margin-line" aria-hidden="true"></div>
+
+    <div class="page-content">
+
+      <a class="dd-back" href="modulo-2.html">← volver al Módulo 2</a>
+      <header class="page-header">
+        <span class="dd-badge">🔎 Profundización · Módulo 2</span>
+        <h1 class="underline-draw">Cuando "hacer una tabla" no alcanza
+          <svg viewBox="0 0 560 14" preserveAspectRatio="none"><path d="M4 9 Q 180 2, 556 8"/></svg>
+        </h1>
+        <p style="font-size:1.2rem;color:#4a453a;max-width:680px;">En el módulo anterior usamos tablas de valores para <em>conjeturar</em> un límite. Es una herramienta poderosa — pero Stewart dedica varios ejemplos a mostrar que también puede engañarte. Vale la pena ver por qué.</p>
+      </header>
+
+      <h3>El límite más importante de la trigonometría</h3>
+      <p>Uno de los límites que más se usa en Análisis es <span class="math">lim<span style="font-size:.7em;">x→0</span> sen(x)/x</span>. No se puede evaluar por sustitución directa (da 0/0), pero la tabla de valores es contundente:</p>
+      <div class="widget">
+        <canvas id="plot-sinx" cssHeight="360"></canvas>
+        <div class="widget-controls">
+          <label>x: <input type="range" id="ctrl-x2b" min="-3.1" max="3.1" step="0.01" value="1.2"></label>
+          <span>x = <span class="widget-readout" id="read-x2b">1,20</span></span>
+          <span>sen(x)/x = <span class="widget-readout" id="read-fx2b">—</span></span>
+        </div>
+        <p class="widget-caption">Acercá x a 0. La función se acerca a 1 —de hecho, exactamente a 1, aunque no está definida en x=0. En el capítulo de Derivadas se demuestra esto con un argumento geométrico (no solo con la tabla).</p>
+      </div>
+      <div class="box def">
+        <span class="box-tag">Resultado (se usa muchísimo)</span>
+        <span class="lim"><span class="lim-word">lim</span><span class="lim-sub">x→0</span></span> <span class="frac"><span class="num">sen x</span><span class="den">x</span></span> = 1
+      </div>
+      <p class="dd-source">Fuente: Stewart, Sección 2.2, Ejemplo 3 (pág. 90).</p>
+
+      <h3>Trampa 1: cuando la función oscila infinitamente</h3>
+      <p>Ahora probá con <span class="math">f(x) = sen(π/x)</span>. Evaluando en <span class="math">x = 1, 1/2, 1/3, 1/4,…</span> siempre da <span class="math">sen(nπ) = 0</span>, así que podríamos apurarnos a decir que el límite es 0. <strong>Es un error.</strong></p>
+      <div class="widget">
+        <canvas id="plot-oscila" cssHeight="380"></canvas>
+        <div class="widget-controls">
+          <label>Zoom cerca de 0: <input type="range" id="ctrl-zoom" min="0.05" max="1" step="0.01" value="1"></label>
+          <span>rango: ±<span class="widget-readout" id="read-zoom">1,00</span></span>
+        </div>
+        <p class="widget-caption" id="oscila-note">Acercá el zoom a 0 (achicá el rango): la curva oscila cada vez más rápido entre −1 y 1, sin acercarse nunca a un único valor. Por más que f(1/n)=0 para todo entero n, también hay valores de x tan cerca de 0 como quieras donde f(x)=1.</p>
+      </div>
+      <div class="box warn">
+        <span class="box-tag">⚠️ Por qué falla la tabla acá</span>
+        <p>Si solo evaluás en <span class="math">x = 1/n</span> (n entero), <strong>siempre</strong> vas a obtener 0 — pero eso es un artefacto de la sucesión que elegiste, no del comportamiento real de la función. Como <span class="math">f(x)</span> no se acerca a un único valor cuando <span class="math">x→0</span> (oscila entre −1 y 1 infinitas veces), <span class="lim" style="font-size:.9em;"><span class="lim-word">lim</span><span class="lim-sub">x→0</span></span> sen(π/x) <strong>no existe</strong>.</p>
+      </div>
+      <p class="dd-source">Fuente: Stewart, Sección 2.2, Ejemplo 4 (pág. 90).</p>
+
+      <h3>Trampa 2: cuando la calculadora miente</h3>
+      <p>Con <span class="math">f(t) = (√(t²+9) − 3)/t²</span>, la tabla sugiere que el límite es 1/6 ≈ 0,16667 — y es correcto. Pero si seguís achicando t con una calculadora común, en algún momento empieza a mostrar <strong>0</strong>, porque <span class="math">√(t²+9)</span> se redondea a 3,000 exactamente y la resta pierde toda la información (un fenómeno llamado <i>cancelación catastrófica</i>).</p>
+      <div class="box example">
+        <span class="box-tag">Tabla "falsa" con t muy chico</span>
+        <table class="value-table">
+          <thead><tr><th>t</th><th>0,0005</th><th>0,0001</th><th>0,00005</th><th>0,00001</th></tr></thead>
+          <tbody><tr><td>(calculadora da)</td><td>0,168</td><td>0,200</td><td>0,000</td><td>0,000</td></tr></tbody>
+        </table>
+        <p>El valor real del límite (demostrable algebraicamente, no solo con tablas) sigue siendo <strong>1/6</strong>. La lección: una tabla de valores es una <em>conjetura</em>, no una <em>demostración</em> — y a veces ni siquiera es una buena conjetura si nos pasamos de precisión.</p>
+      </div>
+      <p class="dd-source">Fuente: Stewart, Sección 2.2, Ejemplo 2 y su discusión posterior (pág. 89-90).</p>
+
+      <div class="postit pink lg postit-float">
+        <b>Moraleja del módulo</b>
+        Las tablas y los gráficos son excelentes para <i>intuir</i> hacia dónde va un límite, pero la <i>certeza</i> viene del álgebra (factorizar, racionalizar) o — como vas a ver en el Módulo 5 — de la definición formal ε–δ.
+      </div>
+
+      <h3>Un ejemplo más sutil: x³·cos(5x)/10 000</h3>
+      <p>Con valores de x no tan chicos, la tabla sugiere límite 0. Con valores más chicos todavía, sugiere 0,0001. ¿Cuál es? La clave es que <span class="math">cos(5x)→1</span> cuando x→0, así que <span class="math">x³cos(5x)/10000 ≈ x³/10000 → 0</span>... salvo que el "0" que veíamos antes en realidad era 0,0001 mal redondeado por la calculadora al mostrar pocos decimales. Con las leyes de límites del Módulo 6 vas a poder confirmar el valor exacto sin ambigüedad.</p>
+
+      <div class="reflect-box">
+        <b>🖊️ Para pensar</b>
+        <p style="margin:.4em 0 0;">¿Por qué evaluar en x = 1, 1/2, 1/3, 1/4... (una sucesión que se acerca a 0) no es suficiente para asegurar que ese es el límite de verdad?</p>
+        <textarea placeholder="Escribí tu respuesta acá."></textarea>
+        <details>
+          <summary>Ver una posible respuesta</summary>
+          <p class="model-answer">Porque la definición de límite exige que f(x) se acerque a L para <i>todos</i> los x suficientemente cerca de a, no solo para una sucesión particular que uno elige. Si sen(π/x) diera 0 en una sucesión pero 1 en otra sucesión igual de cercana a 0, no hay un único valor al que "todos los caminos" lleven — y por lo tanto el límite no existe.</p>
+        </details>
+      </div>
+
+      <nav class="page-nav">
+        <a class="corner prev" href="modulo-2.html"><span class="dir">← volver</span><span class="ttl">Módulo 2: definición informal</span></a>
+        <a class="corner next" href="profundiza-3.html"><span class="dir">profundización siguiente →</span><span class="ttl">Módulo 3: límites laterales</span></a>
+      </nav>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/notebook.js"></script>
+<script src="js/plotter.js"></script>
+<script>
+(function(){
+  /* ---- widget 1: sen(x)/x ---- */
+  const plotA = new NotebookPlot(document.getElementById('plot-sinx'), {xMin:-3.3,xMax:3.3,yMin:-0.4,yMax:1.3,xStep:1,yStep:0.5,cssHeight:360});
+  const f1 = x => Math.abs(x)<1e-9 ? 1 : Math.sin(x)/x;
+  const ctrlX2b = document.getElementById('ctrl-x2b');
+  const readX2b = document.getElementById('read-x2b');
+  const readFx2b = document.getElementById('read-fx2b');
+  function drawSinx(){
+    let x = parseFloat(ctrlX2b.value);
+    plotA.clear(); plotA.drawGrid(); plotA.drawAxes();
+    plotA.plotFunction(f1, {color:NB_INK.blue, lineWidth:3.2, domain:[-3.3,3.3]});
+    plotA.point(0,1,{color:NB_INK.purple, r:6, hollow:true, label:'(0; 1)', labelDy:-12});
+    plotA.point(x, f1(x), {color:NB_INK.red, r:6});
+    readX2b.textContent = x.toFixed(2).replace('.',',');
+    readFx2b.textContent = f1(x).toFixed(4).replace('.',',');
+  }
+  plotA.onRedraw(drawSinx);
+  ctrlX2b.addEventListener('input', drawSinx);
+  drawSinx();
+
+  /* ---- widget 2: sen(pi/x) oscilando ---- */
+  let plotB;
+  const f2 = x => Math.abs(x)<1e-9 ? 0 : Math.sin(Math.PI/x);
+  const ctrlZoom = document.getElementById('ctrl-zoom');
+  const readZoom = document.getElementById('read-zoom');
+  function drawOscila(){
+    const r = parseFloat(ctrlZoom.value);
+    readZoom.textContent = r.toFixed(2).replace('.',',');
+    plotB = new NotebookPlot(document.getElementById('plot-oscila'), {xMin:-r,xMax:r,yMin:-1.3,yMax:1.3,xStep:r/4,yStep:0.5,cssHeight:380,samples:1200});
+    plotB.clear(); plotB.drawGrid(); plotB.drawAxes({});
+    plotB.plotFunction(f2, {color:NB_INK.blue, lineWidth:2.2, domain:[-r,r], samples:1500});
+    plotB.hLine(1,{color:NB_INK.green, dash:[4,4]});
+    plotB.hLine(-1,{color:NB_INK.green, dash:[4,4]});
+  }
+  ctrlZoom.addEventListener('input', drawOscila);
+  drawOscila();
+})();
+</script>
+</body>
+</html>

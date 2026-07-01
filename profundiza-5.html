@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profundizar · Demostraciones ε–δ con funciones no lineales · Cuaderno de Límites</title>
+<link rel="stylesheet" href="css/notebook.css">
+</head>
+<body data-module="5">
+
+<button id="index-tab" class="index-tab">📑 Índice</button>
+<div id="drawer-overlay" class="drawer-overlay"></div>
+<aside id="index-drawer" class="index-drawer"></aside>
+
+<div class="desk">
+  <main class="notebook-page">
+    <div class="spiral" aria-hidden="true"></div>
+    <div class="margin-line" aria-hidden="true"></div>
+
+    <div class="page-content">
+
+      <a class="dd-back" href="modulo-5.html">← volver al Módulo 5</a>
+      <header class="page-header">
+        <span class="dd-badge">🔎 Profundización · Módulo 5</span>
+        <h1 class="underline-draw">Demostrar ε–δ cuando la función no es lineal
+          <svg viewBox="0 0 600 14" preserveAspectRatio="none"><path d="M4 9 Q 190 2, 596 8"/></svg>
+        </h1>
+        <p style="font-size:1.2rem;color:#4a453a;max-width:680px;">Con <span class="math">4x−5</span> encontrar δ = ε/4 fue directo porque la función es lineal. Con funciones cuadráticas o con raíces, hay un truco extra: <strong>acotar un factor molesto con una constante</strong>. Veamos los dos ejemplos que trae Stewart.</p>
+      </header>
+
+      <h3>Ejemplo 1 — demostrar que lim(x→0) √x = 0</h3>
+      <div class="box example">
+        <span class="box-tag">Paso 1: intuir δ</span>
+        <p>Queremos: si <span class="math">0 &lt; x &lt; δ</span> entonces <span class="math">|√x − 0| &lt; ε</span>, es decir <span class="math">√x &lt; ε</span>. Elevando al cuadrado ambos lados (válido porque ambos son positivos): <span class="math">x &lt; ε²</span>.</p>
+        <p>Esto sugiere elegir <strong>δ = ε²</strong>.</p>
+      </div>
+      <div class="box def">
+        <span class="box-tag">Paso 2: verificar que funciona</span>
+        <p>Dado ε&gt;0, sea δ=ε². Si <span class="math">0 &lt; x &lt; δ = ε²</span>, entonces <span class="math">√x &lt; √(ε²) = ε</span>, es decir <span class="math">|√x − 0| &lt; ε</span>. ✔ Funciona para cualquier ε&gt;0, así que queda demostrado.</p>
+      </div>
+      <p class="dd-source">Fuente: Stewart, Sección 2.4, Ejemplo 3 (pág. 113-114).</p>
+
+      <div class="widget">
+        <canvas id="plot-sqrt" cssHeight="380"></canvas>
+        <div class="widget-controls">
+          <label>ε: <input type="range" id="ctrl-eps-sq" min="0.1" max="1.5" step="0.02" value="0.6"></label>
+          <span>ε = <span class="widget-readout" id="read-eps-sq">0,60</span> &nbsp;→&nbsp; δ = ε² = <span class="widget-readout" id="read-delta-sq">0,36</span></span>
+        </div>
+        <p class="widget-caption">Con δ=ε², la franja vertical (0, δ) queda exactamente contenida dentro de lo que hace falta para que √x cumpla la franja horizontal (0, ε). Probá cambiar ε y mirá cómo δ se ajusta como su cuadrado — no como una simple fracción, porque la curva no es una recta.</p>
+      </div>
+
+      <h3>Ejemplo 2 — demostrar que lim(x→3) x² = 9</h3>
+      <p>Acá aparece el truco central de las demostraciones con funciones no lineales: acotar un factor con una <strong>constante C</strong>.</p>
+      <div class="box example">
+        <span class="box-tag">Paso 1: relacionar |x²−9| con |x−3|</span>
+        <p><span class="math">|x² − 9| = |x−3|·|x+3|</span>. Si pudiéramos acotar <span class="math">|x+3| ≤ C</span> para algún número C, entonces <span class="math">|x²−9| ≤ C|x−3|</span>, y bastaría pedir <span class="math">|x−3| &lt; ε/C</span>.</p>
+        <p><strong>¿Cómo acotamos |x+3|?</strong> Restringimos la atención a x cercanos a 3 — digamos, a menos de 1 unidad: <span class="math">|x−3| &lt; 1</span>. Eso implica <span class="math">2 &lt; x &lt; 4</span>, y por lo tanto <span class="math">5 &lt; x+3 &lt; 7</span>, así que <span class="math">|x+3| &lt; 7 = C</span>.</p>
+        <p>Ahora hay <strong>dos</strong> condiciones sobre δ: que garantice <span class="math">|x−3|&lt;1</span> y que garantice <span class="math">|x−3| &lt; ε/7</span>. Nos quedamos con la más exigente (la menor): <strong>δ = mín{1, ε/7}</strong>.</p>
+      </div>
+      <div class="box def">
+        <span class="box-tag">Paso 2: verificar</span>
+        <p>Si <span class="math">0&lt;|x−3|&lt;δ</span>, entonces <span class="math">|x−3|&lt;1</span> (así que <span class="math">|x+3|&lt;7</span>) <strong>y</strong> <span class="math">|x−3|&lt;ε/7</span>. Multiplicando: <span class="math">|x²−9| = |x−3||x+3| &lt; (ε/7)·7 = ε</span>. ✔</p>
+      </div>
+      <p class="dd-source">Fuente: Stewart, Sección 2.4, Ejemplo 4 (pág. 114-115).</p>
+
+      <div class="widget">
+        <canvas id="plot-cuad" cssHeight="400"></canvas>
+        <div class="widget-controls">
+          <label>ε: <input type="range" id="ctrl-eps-c" min="0.3" max="6" step="0.1" value="2.5"></label>
+          <span>ε = <span class="widget-readout" id="read-eps-c">2,50</span></span>
+        </div>
+        <p class="widget-controls" style="margin-top:0;border-top:none;padding-top:0;">
+          <span id="status-cuad" style="font-family:var(--font-title);font-size:1.1rem;"></span>
+        </p>
+        <p class="widget-caption">δ = mín{1, ε/7} se recalcula solo con cada ε. Fijate que para ε chico, ε/7 es el que manda (δ=ε/7); pero si ε fuera muy grande, δ quedaría "topeado" en 1 — el candado de seguridad que impusimos para poder acotar |x+3|.</p>
+      </div>
+
+      <div class="postit yellow lg postit-float">
+        <b>La receta general</b>
+        Para demostrar lim(x→a) f(x) = L con f no lineal: (1) escribí |f(x)−L| en términos de |x−a| multiplicado por algún factor, (2) restringí x a un entorno de a (por ejemplo |x−a|&lt;1) para acotar ese factor con una constante C, (3) tomá δ = mín{1, ε/C}.
+      </div>
+
+      <div class="reflect-box">
+        <b>🖊️ Para pensar</b>
+        <p style="margin:.4em 0 0;">¿Por qué elegimos restringir con "|x−3|&lt;1" y no, por ejemplo, "|x−3|&lt;0,5" o "|x−3|&lt;5"? ¿Cambiaría el resultado final si usáramos otro número?</p>
+        <textarea placeholder="Escribí tu respuesta acá."></textarea>
+        <details>
+          <summary>Ver una posible respuesta</summary>
+          <p class="model-answer">El número "1" es arbitrario — cualquier cota funcionaría, solo cambiaría el valor de C y por lo tanto la fórmula final de δ. Por ejemplo, con |x−3|&lt;0,5 tendríamos 2,5&lt;x&lt;3,5, entonces 5,5&lt;x+3&lt;6,5, y C=6,5 en vez de 7. El resultado (que el límite es 9) no cambia — solo cambia la "receta" concreta de δ que demuestra ese resultado. Se elige 1 porque da números enteros cómodos, no porque sea matemáticamente especial.</p>
+        </details>
+      </div>
+
+      <nav class="page-nav">
+        <a class="corner prev" href="modulo-5.html"><span class="dir">← volver</span><span class="ttl">Módulo 5: definición formal (ε–δ)</span></a>
+        <a class="corner next" href="profundiza-6.html"><span class="dir">profundización siguiente →</span><span class="ttl">Módulo 6: técnicas de cálculo</span></a>
+      </nav>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/notebook.js"></script>
+<script src="js/plotter.js"></script>
+<script>
+(function(){
+  /* ---- widget 1: sqrt(x), delta=eps^2 ---- */
+  const plotQ = new NotebookPlot(document.getElementById('plot-sqrt'), {xMin:-0.1,xMax:2.2,yMin:-0.1,yMax:1.6,xStep:0.5,yStep:0.5,cssHeight:380});
+  const sqrtFn = x => x<0?NaN:Math.sqrt(x);
+  const epsSq = document.getElementById('ctrl-eps-sq');
+  const readEpsSq = document.getElementById('read-eps-sq');
+  const readDeltaSq = document.getElementById('read-delta-sq');
+  function drawSqrt(){
+    const eps = parseFloat(epsSq.value);
+    const delta = eps*eps;
+    readEpsSq.textContent = eps.toFixed(2).replace('.',',');
+    readDeltaSq.textContent = delta.toFixed(3).replace('.',',');
+    plotQ.clear(); plotQ.drawGrid(); plotQ.drawAxes({});
+    plotQ.hBand(0,eps,{color:'rgba(182,57,47,.13)'});
+    plotQ.vBand(0,delta,{color:'rgba(35,62,130,.13)'});
+    plotQ.plotFunction(sqrtFn, {color:NB_INK.blue, lineWidth:3.2, domain:[0,2.2]});
+    plotQ.point(0,0,{color:NB_INK.black, r:5});
+  }
+  plotQ.onRedraw(drawSqrt);
+  epsSq.addEventListener('input', drawSqrt);
+  drawSqrt();
+
+  /* ---- widget 2: x^2 -> 9, delta=min(1,eps/7) ---- */
+  const plotK = new NotebookPlot(document.getElementById('plot-cuad'), {xMin:0,xMax:6,yMin:0,yMax:36,xStep:1,yStep:4,cssHeight:400});
+  const sq = x => x*x;
+  const epsC = document.getElementById('ctrl-eps-c');
+  const readEpsC = document.getElementById('read-eps-c');
+  const statusCuad = document.getElementById('status-cuad');
+  function drawCuad(){
+    const eps = parseFloat(epsC.value);
+    const delta = Math.min(1, eps/7);
+    readEpsC.textContent = eps.toFixed(2).replace('.',',');
+    plotK.clear(); plotK.drawGrid(); plotK.drawAxes({});
+    plotK.hBand(9-eps,9+eps,{color:'rgba(182,57,47,.13)'});
+    plotK.vBand(3-delta,3+delta,{color:'rgba(35,62,130,.13)'});
+    plotK.plotFunction(sq, {color:NB_INK.blue, lineWidth:3.2, domain:[0,6]});
+    plotK.hLine(9,{color:NB_INK.purple, dash:[5,5], label:'L=9'});
+    plotK.point(3,9,{color:NB_INK.black, r:5});
+    const usaTope = delta>=1-1e-9;
+    statusCuad.innerHTML = `δ = mín{1, ε/7} = <b>${delta.toFixed(4).replace('.',',')}</b> ${usaTope?'(está topeado en 1, ε/7 sería más grande)':'(gana ε/7, todavía menor que 1)'}`;
+    statusCuad.style.color = 'var(--ink-blue)';
+  }
+  plotK.onRedraw(drawCuad);
+  epsC.addEventListener('input', drawCuad);
+  drawCuad();
+})();
+</script>
+</body>
+</html>

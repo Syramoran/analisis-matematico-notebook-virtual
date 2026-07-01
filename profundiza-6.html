@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profundizar · Más técnicas de cálculo de límites · Cuaderno de Límites</title>
+<link rel="stylesheet" href="css/notebook.css">
+</head>
+<body data-module="6">
+
+<button id="index-tab" class="index-tab">📑 Índice</button>
+<div id="drawer-overlay" class="drawer-overlay"></div>
+<aside id="index-drawer" class="index-drawer"></aside>
+
+<div class="desk">
+  <main class="notebook-page">
+    <div class="spiral" aria-hidden="true"></div>
+    <div class="margin-line" aria-hidden="true"></div>
+
+    <div class="page-content">
+
+      <a class="dd-back" href="modulo-6.html">← volver al Módulo 6</a>
+      <header class="page-header">
+        <span class="dd-badge">🔎 Profundización · Módulo 6</span>
+        <h1 class="underline-draw">Tres técnicas más para destrabar límites difíciles
+          <svg viewBox="0 0 640 14" preserveAspectRatio="none"><path d="M4 9 Q 200 2, 636 8"/></svg>
+        </h1>
+        <p style="font-size:1.2rem;color:#4a453a;max-width:680px;">El módulo cerró con tres técnicas clásicas. Acá van tres más de la Sección 2.6 de Stewart — sustitución auxiliar, el teorema de la compresión en acción, y una diferencia de raíces que parece ∞−∞ pero no lo es.</p>
+      </header>
+
+      <h3>4️⃣ Racionalizar una diferencia de infinitos: √(x²+1) − x</h3>
+      <p>Cuando <span class="math">x→∞</span>, tanto <span class="math">√(x²+1)</span> como <span class="math">x</span> crecen sin cota — su diferencia es la forma indeterminada <span class="math">∞−∞</span>. Multiplicamos por el conjugado:</p>
+      <div class="box example">
+        <span class="box-tag">Desarrollo</span>
+        <p><span class="frac"><span class="num">(√(x²+1)−x)(√(x²+1)+x)</span><span class="den">√(x²+1)+x</span></span> = <span class="frac"><span class="num">(x²+1)−x²</span><span class="den">√(x²+1)+x</span></span> = <span class="frac"><span class="num">1</span><span class="den">√(x²+1)+x</span></span></p>
+        <p>Cuando <span class="math">x→∞</span>, el denominador crece sin cota, así que el cociente entero se va a 0:</p>
+        <p style="text-align:center;font-size:1.15rem;"><span class="lim"><span class="lim-word">lim</span><span class="lim-sub">x→∞</span></span> (√(x²+1) − x) = 0</p>
+      </div>
+      <p class="dd-source">Fuente: Stewart, Sección 2.6, Ejemplo 5 (pág. 135).</p>
+      <div class="widget">
+        <canvas id="plot-raiz" cssHeight="360"></canvas>
+        <div class="widget-controls">
+          <label>x: <input type="range" id="ctrl-xr" min="1" max="60" step="0.5" value="5"></label>
+          <span>x = <span class="widget-readout" id="read-xr">5</span></span>
+          <span>√(x²+1) − x = <span class="widget-readout" id="read-fxr">—</span></span>
+        </div>
+        <p class="widget-caption">La diferencia parece "grande menos grande", pero en realidad se achica rápidamente hacia 0 — no hay contradicción: ∞−∞ es indeterminada porque <i>puede</i> dar cualquier resultado según la función, y acá el álgebra revela que da justo 0.</p>
+      </div>
+
+      <h3>5️⃣ Cambio de variable auxiliar: arctan(1/(x−2))</h3>
+      <p>Para <span class="lim" style="font-size:.9em;"><span class="lim-word">lim</span><span class="lim-sub">x→2⁺</span></span> arctan(1/(x−2)), conviene introducir <span class="math">t = 1/(x−2)</span>. Cuando <span class="math">x→2⁺</span>, <span class="math">t→+∞</span>. Entonces:</p>
+      <div class="box formula">
+        <span class="box-tag">Sustitución</span>
+        <span class="lim"><span class="lim-word">lim</span><span class="lim-sub">x→2⁺</span></span> arctan<span class="frac"><span class="num">1</span><span class="den">x−2</span></span> = <span class="lim"><span class="lim-word">lim</span><span class="lim-sub">t→∞</span></span> arctan(t) = π/2
+      </div>
+      <p class="dd-source">Fuente: Stewart, Sección 2.6, Ejemplo 6 (pág. 135).</p>
+      <div class="widget">
+        <canvas id="plot-arctan" cssHeight="340"></canvas>
+        <p class="widget-caption">arctan(t) tiene y=π/2 como asíntota horizontal cuando t→∞ (y y=−π/2 cuando t→−∞). Por eso, al reemplazar x→2⁺ por t→∞, heredamos ese mismo comportamiento.</p>
+      </div>
+
+      <h3>6️⃣ El teorema de la compresión en acción: x²sen(1/x)</h3>
+      <p>No podemos usar la ley del producto acá, porque <span class="lim" style="font-size:.9em;"><span class="lim-word">lim</span><span class="lim-sub">x→0</span></span> sen(1/x) <strong>no existe</strong> (es la misma oscilación infinita que viste en la Profundización del Módulo 2). Pero sabemos que <span class="math">−1 ≤ sen(1/x) ≤ 1</span> para todo x≠0, así que:</p>
+      <div class="box def">
+        <span class="box-tag">Encajonando la función</span>
+        <p><span class="math">−x² ≤ x²sen(1/x) ≤ x²</span> para todo x≠0. Como <span class="lim" style="font-size:.9em;"><span class="lim-word">lim</span><span class="lim-sub">x→0</span></span>(−x²) = <span class="lim" style="font-size:.9em;"><span class="lim-word">lim</span><span class="lim-sub">x→0</span></span>(x²) = 0, el teorema de la compresión obliga a que:</p>
+        <p style="text-align:center;font-size:1.2rem;"><span class="lim"><span class="lim-word">lim</span><span class="lim-sub">x→0</span></span> x²sen(1/x) = 0</p>
+      </div>
+      <p class="dd-source">Fuente: Stewart, Sección 2.3, Ejemplo 11 (pág. 106).</p>
+      <div class="widget">
+        <canvas id="plot-sandwich2" cssHeight="380"></canvas>
+        <div class="widget-controls">
+          <label>Rango: <input type="range" id="ctrl-rango2" min="0.1" max="1" step="0.02" value="1"></label>
+          <span>±<span class="widget-readout" id="read-rango2">1,00</span></span>
+        </div>
+        <p class="widget-caption">La curva roja (x²sen(1/x)) oscila muchísimo cerca de 0 — igual que sen(1/x) sola — pero queda atrapada entre las parábolas ±x² (verde/azul), que sí van a 0. Por eso no le queda otra que ir a 0 también, aunque "tiemble" en el camino.</p>
+      </div>
+
+      <div class="postit green lg postit-float">
+        <b>Por qué importa este ejemplo</b>
+        Es la prueba de que el teorema de la compresión no es solo un tecnicismo: hay funciones (como x²sen(1/x)) que <i>no se pueden</i> resolver con las leyes de límites comunes porque uno de los factores no tiene límite. El "sándwich" es la única herramienta que salva estos casos.
+      </div>
+
+      <div class="reflect-box">
+        <b>🖊️ Para pensar</b>
+        <p style="margin:.4em 0 0;">¿Por qué el mismo truco (acotar entre −x² y x²) no serviría para probar que lim(x→0) sen(1/x) = 0 directamente, sin el factor x² multiplicando?</p>
+        <textarea placeholder="Escribí tu respuesta acá."></textarea>
+        <details>
+          <summary>Ver una posible respuesta</summary>
+          <p class="model-answer">Sin el factor x², tendríamos −1 ≤ sen(1/x) ≤ 1, y esas dos cotas (−1 y 1) NO tienden al mismo valor cuando x→0 (una tiende a −1 y la otra a 1). El teorema de la compresión exige que ambas funciones que "encajonan" converjan al mismo límite L — si no lo hacen, no podemos concluir nada sobre la función del medio. Por eso sen(1/x) sola de verdad no tiene límite, pero x²sen(1/x) sí: el factor x² "aplasta" las cotas hacia 0 por ambos lados.</p>
+        </details>
+      </div>
+
+      <div class="box def" style="margin-top:50px;text-align:center;">
+        <span class="box-tag">📚 Para seguir profundizando</span>
+        <p>Todas las técnicas de esta página y las de los otros módulos de profundización están tomadas de Stewart, J. (2012). <i>Cálculo. Trascendentes tempranas</i>, 7.ª ed., Capítulo 2 (secciones 2.1 a 2.6). Vale la pena leer el capítulo completo — tiene muchos más ejemplos y ejercicios que los que entran en este cuaderno.</p>
+      </div>
+
+      <nav class="page-nav">
+        <a class="corner prev" href="modulo-6.html"><span class="dir">← volver</span><span class="ttl">Módulo 6: técnicas de cálculo</span></a>
+        <a class="corner next" href="index.html"><span class="dir">volver al índice →</span><span class="ttl">Portada del cuaderno</span></a>
+      </nav>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/notebook.js"></script>
+<script src="js/plotter.js"></script>
+<script>
+(function(){
+  /* ---- widget 1: sqrt(x^2+1)-x ---- */
+  const plotR = new NotebookPlot(document.getElementById('plot-raiz'), {xMin:0,xMax:65,yMin:0,yMax:1.2,xStep:8,yStep:0.2,cssHeight:360});
+  const diffFn = x => Math.sqrt(x*x+1)-x;
+  const ctrlXr = document.getElementById('ctrl-xr');
+  const readXr = document.getElementById('read-xr');
+  const readFxr = document.getElementById('read-fxr');
+  function drawRaiz(){
+    const x = parseFloat(ctrlXr.value);
+    readXr.textContent = x;
+    readFxr.textContent = diffFn(x).toFixed(5).replace('.',',');
+    plotR.clear(); plotR.drawGrid(); plotR.drawAxes({});
+    plotR.plotFunction(diffFn, {color:NB_INK.blue, lineWidth:3, domain:[0.1,65]});
+    plotR.hLine(0,{color:NB_INK.green, dash:[5,5]});
+    plotR.point(x, diffFn(x), {color:NB_INK.red, r:6});
+  }
+  plotR.onRedraw(drawRaiz);
+  ctrlXr.addEventListener('input', drawRaiz);
+  drawRaiz();
+
+  /* ---- widget 2: arctan(t) ---- */
+  const plotAr = new NotebookPlot(document.getElementById('plot-arctan'), {xMin:-12,xMax:12,yMin:-2.2,yMax:2.2,xStep:2,yStep:0.5,cssHeight:340});
+  function drawArctan(){
+    plotAr.clear(); plotAr.drawGrid(); plotAr.drawAxes({});
+    plotAr.plotFunction(Math.atan, {color:NB_INK.blue, lineWidth:3.2, domain:[-12,12]});
+    plotAr.hLine(Math.PI/2,{color:NB_INK.green, dash:[5,5], label:'y=π/2'});
+    plotAr.hLine(-Math.PI/2,{color:NB_INK.red, dash:[5,5], label:'y=−π/2'});
+  }
+  plotAr.onRedraw(drawArctan);
+  drawArctan();
+
+  /* ---- widget 3: x^2 sen(1/x) sandwich ---- */
+  let plotSw;
+  const swFn = x => Math.abs(x)<1e-9?0:x*x*Math.sin(1/x);
+  const ctrlR2 = document.getElementById('ctrl-rango2');
+  const readR2 = document.getElementById('read-rango2');
+  function drawSandwich(){
+    const r = parseFloat(ctrlR2.value);
+    readR2.textContent = r.toFixed(2).replace('.',',');
+    plotSw = new NotebookPlot(document.getElementById('plot-sandwich2'), {xMin:-r,xMax:r,yMin:-r*r*1.2-0.02,yMax:r*r*1.2+0.02,xStep:r/4,yStep:r*r/3,cssHeight:380,samples:1500});
+    plotSw.clear(); plotSw.drawGrid(); plotSw.drawAxes({});
+    plotSw.plotFunction(x=>x*x, {color:NB_INK.green, lineWidth:2.2, domain:[-r,r]});
+    plotSw.plotFunction(x=>-x*x, {color:NB_INK.blueSoft, lineWidth:2.2, domain:[-r,r]});
+    plotSw.plotFunction(swFn, {color:NB_INK.red, lineWidth:2.4, domain:[-r,r], samples:2000});
+    plotSw.point(0,0,{color:NB_INK.black, r:5});
+  }
+  ctrlR2.addEventListener('input', drawSandwich);
+  drawSandwich();
+})();
+</script>
+</body>
+</html>
