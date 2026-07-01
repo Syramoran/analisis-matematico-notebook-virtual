@@ -303,7 +303,7 @@ sup.mexp{ font-size:.68em; position:relative; top:-.55em; }
 .postit.green{ background:var(--post-green); --rot:-1.5deg; }
 .postit.blue{ background:var(--post-blue); --rot:1.8deg; }
 .postit.orange{ background:var(--post-orange); --rot:-2deg; }
-.postit.sm{ width:150px; font-size:.86rem; }
+.postit.sm{ width:280px; font-size:.88rem; padding:14px 14px 16px; }
 .postit.md{ width:210px; }
 .postit.lg{ width:260px; font-size:1.02rem; }
 

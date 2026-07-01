@@ -26,40 +26,65 @@
           <svg viewBox="0 0 420 14" preserveAspectRatio="none"><path d="M4 9 Q 140 2, 416 8"/></svg>
         </h1>
         <p style="font-size:1.2rem;color:#4a453a;max-width:640px;">¿De dónde sale la idea de límite? De una pregunta muy simple: <strong>¿cuál es la pendiente de la recta tangente a una curva en un punto?</strong></p>
+        <details style="margin-top:8px;margin-bottom:12px;">
+          <summary style="cursor:pointer;color:#6a3f8f;font-weight:500;font-size:1rem;">💡 ¿Qué es la recta tangente?</summary>
+          <div style="margin-top:12px;padding:12px;background:#f5f0e6;border-radius:6px;font-size:1rem;">
+            <p><strong>Recta tangente:</strong> es la recta que "toca" a una curva en un punto, sin atravesarla. Representa la dirección instantánea de la curva en ese punto.</p>
+            <canvas id="plot-tangent-def" style="width:100%;height:300px;display:block;margin-top:12px;border:1px solid #ddd;border-radius:4px;"></canvas>
+          </div>
+        </details>
       </header>
 
-      <p>Para una recta, la pendiente es fácil: <span class="math">m = (y₂−y₁)/(x₂−x₁)</span>. Pero para hallar la pendiente de una <strong>curva</strong> en un solo punto necesitamos otro punto para poder calcular algo... y ahí aparece el truco.</p>
+      <p>Para una recta, la pendiente es fácil: <span class="math">m = (y₂−y₁)/(x₂−x₁)</span></p>
+      <details style="margin-bottom:12px;">
+        <summary style="cursor:pointer;color:#6a3f8f;font-weight:500;font-size:1rem;">📊 Ejemplo: cálculo de pendiente en recta lineal</summary>
+        <div style="margin-top:12px;padding:12px;background:#f5f0e6;border-radius:6px;font-size:1rem;">
+          <p>Por ejemplo, en la recta <span class="math">y = 2x + 3</span>, tomemos dos puntos: <span class="math">(1, 5)</span> y <span class="math">(3, 9)</span>.</p>
+          <p style="margin-top:8px;">m = <span class="frac"><span class="num">9 − 5</span><span class="den">3 − 1</span></span> = <span class="frac"><span class="num">4</span><span class="den">2</span></span> = 2</p>
+          <canvas id="plot-linear-slope" style="width:100%;height:300px;display:block;margin-top:12px;border:1px solid #ddd;border-radius:4px;"></canvas>
+        </div>
+      </details>
+      <p>Pero para hallar la pendiente de una <strong>curva</strong> en un solo punto necesitamos otro punto para poder calcular algo... y ahí aparece el truco.</p>
 
-      <div class="postit yellow sm postit-float">
+      <div class="postit yellow sm postit-float" style="position:relative;z-index:100;">
         <b>Idea clave</b>
-        No podemos calcular la pendiente con un solo punto. La resolvemos <i>acercando</i> un segundo punto, no poniéndolo exactamente encima.
+        <p style="margin-top:6px;margin-bottom:0;">No podemos calcular la pendiente con un solo punto. La resolvemos <i>acercando</i> un segundo punto, no poniéndolo exactamente encima.</p>
+        <details style="margin-top:10px;">
+          <summary style="cursor:pointer;color:#6a3f8f;font-weight:500;">➡️ Ver animación</summary>
+          <div style="margin-top:10px;">
+            <canvas id="plot-secant-to-tangent" style="width:100%;height:320px;display:block;margin-top:8px;border:1px solid rgba(0,0,0,0.1);border-radius:4px;"></canvas>
+            <p style="font-size:0.9rem;margin-top:8px;color:#5a5555;">Observa cómo Q se acerca a P: la secante <span style="color:var(--ink-red)">roja</span> se transforma en tangente <span style="color:var(--ink-green)">verde</span>.</p>
+          </div>
+        </details>
       </div>
 
       <div class="box example">
         <span class="box-tag">✏️ El problema (Guía de estudio N.º 5)</span>
-        <p>Sea <span class="math">f(x) = x² − 1</span>. Buscamos la ecuación de la recta <strong>tangente</strong> a <span class="math">f(x)</span> en el punto <span class="math">P(1;\u00A00)</span>.</p>
+        <p>Sea <span class="math">f(x) = x² − 1</span>. Buscamos la ecuación de la recta <strong>tangente</strong> a <span class="math">f(x)</span> en el punto <span class="math">P(1; 0)</span>.</p>
+        <canvas id="plot-problem-intro" style="width:100%;height:300px;display:block;margin-top:12px;border:1px solid #ddd;border-radius:4px;"></canvas>
       </div>
 
       <h3>Paso 1 — Empezamos con una recta secante</h3>
-      <p>Tomamos otro punto sobre la curva, por ejemplo <span class="math">R(3;\u00A08)</span>, y calculamos la pendiente de la recta <strong>secante</strong> que une <span class="math">P</span> con <span class="math">R</span>:</p>
+      <p>Tomamos otro punto sobre la curva, por ejemplo <span class="math">R(3; 8)</span>, y calculamos la pendiente de la recta <strong>secante</strong> que une <span class="math">P</span> con <span class="math">R</span>:</p>
       <div class="box formula">
         <span class="box-tag">m</span>
         m = <span class="frac"><span class="num">8 − 0</span><span class="den">3 − 1</span></span> = <span class="frac"><span class="num">8</span><span class="den">2</span></span> = 4
       </div>
       <p>Esa recta secante <em>cruza</em> la curva por dos puntos — todavía no es la tangente. Para acercarnos a la tangente, tenemos que acercar <span class="math">R</span> a <span class="math">P</span>.</p>
+      <canvas id="plot-step1" style="width:100%;height:300px;display:block;margin-top:12px;border:1px solid #ddd;border-radius:4px;"></canvas>
 
       <h3>Paso 2 — Generalizamos con un punto Q que se mueve</h3>
-      <p>Llamamos <span class="math">Q(x;\u00A0x²−1)</span> a un punto genérico sobre la curva, y calculamos la pendiente de la secante <span class="math">PQ</span>, que llamamos <span class="math">m<sub>PQ</sub></span>:</p>
+      <p>Llamamos <span class="math">Q(x; x²−1)</span> a un punto genérico sobre la curva, y calculamos la pendiente de la secante <span class="math">PQ</span>, que llamamos <span class="math">m<sub>PQ</sub></span>:</p>
       <div class="box formula">
         <span class="box-tag">m<sub>PQ</sub>(x)</span>
         m<sub>PQ</sub> = <span class="frac"><span class="num">(x² − 1) − 0</span><span class="den">x − 1</span></span> = <span class="frac"><span class="num">x² − 1</span><span class="den">x − 1</span></span>
       </div>
-      <p>Esta fórmula depende de <span class="math">x</span>: para cada posición de <span class="math">Q</span> obtenemos una pendiente distinta. Jugá con el gráfico:</p>
+      <p>Esta fórmula depende de <span class="math">x</span>: para cada posición de <span class="math">Q</span> obtenemos una pendiente distinta. Jugá con el gráfico interactivo:</p>
 
       <div class="widget">
         <canvas id="plot-tangente" cssHeight="380"></canvas>
         <div class="widget-controls">
-          <label>Posición de Q (x): <input type="range" id="ctrl-x" min="0.5" max="1.5" step="0.0005" value="1.3"></label>
+          <label>Posición de Q (x): <input type="range" id="ctrl-x" min="-1" max="3" step="0.001" value="1.3"></label>
           <span>x = <span class="widget-readout" id="read-x">1.30</span></span>
           <span>m<sub>PQ</sub> = <span class="widget-readout" id="read-m">—</span></span>
         </div>
@@ -82,6 +107,7 @@
         m<sub>PQ</sub> = <span class="frac"><span class="num">1 − 1</span><span class="den">1 − 1</span></span> = <span class="frac"><span class="num">0</span><span class="den">0</span></span>
         <p style="margin-top:10px;font-size:1rem;">Una división <span class="math">0/0</span> no está definida. Necesitamos otra estrategia: <strong>no evaluar en x=1, sino observar qué pasa cuando x se acerca cada vez más a 1</strong>, sin llegar a tocarlo.</p>
       </div>
+      <canvas id="plot-step3" style="width:100%;height:300px;display:block;margin-top:12px;border:1px solid #ddd;border-radius:4px;"></canvas>
 
       <h3>Paso 4 — Completamos la tabla (así lo hace la guía)</h3>
       <p>Reemplazando valores de <span class="math">x</span> cada vez más cercanos a 1, por izquierda y por derecha:</p>
@@ -210,6 +236,175 @@
     btn.addEventListener('click', ()=>{ slider.value = btn.dataset.x; draw(); });
   });
   draw();
+
+  // ========== Gráficos adicionales ==========
+
+  // Gráfico de tangente
+  const tangentPlot = (() => {
+    let plot = null;
+    const draw = () => {
+      const el = document.getElementById('plot-tangent-def');
+      if(!el) return;
+      if(!plot) plot = new NotebookPlot(el, {xMin:-0.5, xMax:3, yMin:-1, yMax:3, xStep:1, yStep:1, cssHeight:300});
+      plot.clear(); plot.drawGrid(); plot.drawAxes();
+      plot.plotFunction(x => (x-1.5)*(x-1.5)+0.5, {color:NB_INK.blue, lineWidth:3});
+      plot.segment(-0.5, 0.5, 3, 0.5, {color:NB_INK.green, lineWidth:2.2, dash:[2,5]});
+      plot.point(1.5, 0.5, {color:NB_INK.black, r:6});
+    };
+    return {draw};
+  })();
+
+  // Gráfico de pendiente lineal
+  const linearPlot = (() => {
+    let plot = null;
+    const draw = () => {
+      const el = document.getElementById('plot-linear-slope');
+      if(!el) return;
+      if(!plot) plot = new NotebookPlot(el, {xMin:0, xMax:4, yMin:0, yMax:12, xStep:1, yStep:1, cssHeight:300});
+      plot.clear(); plot.drawGrid(); plot.drawAxes();
+      plot.plotFunction(x => 2*x + 3, {color:NB_INK.blue, lineWidth:3});
+      plot.point(1, 5, {color:NB_INK.red, r:6, label:'(1;5)', labelDy:-10});
+      plot.point(3, 9, {color:NB_INK.red, r:6, label:'(3;9)', labelDy:-10});
+      plot.segment(1, 5, 3, 9, {color:NB_INK.red, lineWidth:2.2});
+    };
+    return {draw};
+  })();
+
+  // Gráfico de secante a tangente (animado)
+  const secantPlot = (() => {
+    let plot = null;
+    let step = 0;
+    let animating = false;
+
+    const draw = () => {
+      const el = document.getElementById('plot-secant-to-tangent');
+      if(!el) return;
+      if(!plot) plot = new NotebookPlot(el, {xMin:-1.3, xMax:3.3, yMin:-1.5, yMax:8.5, xStep:1, yStep:2, cssHeight:320});
+
+      const f = x => x*x - 1;
+      const P = {x:1, y:0};
+      const x = step < 20 ? 1 + (2-1)*(1 - step/20) : 1 + (2-1)*(step-20)/20;
+      const Qy = f(x);
+      const m = (Qy - P.y)/(x - P.x);
+
+      plot.clear(); plot.drawGrid(); plot.drawAxes();
+      plot.plotFunction(f, {color:NB_INK.blue, lineWidth:3.4});
+      plot.segment(-1.3, 2*(-1.3-1), 3.3, 2*(3.3-1), {color:NB_INK.green, lineWidth:2, dash:[2,5]});
+
+      const y1 = P.y + m*(-1.3-P.x), y2 = P.y + m*(3.3-P.x);
+      plot.segment(-1.3, y1, 3.3, y2, {color:NB_INK.red, lineWidth:2.2});
+
+      plot.point(P.x, P.y, {color:NB_INK.black, r:6});
+      plot.point(x, Qy, {color:NB_INK.red, r:6});
+    };
+
+    const animate = () => {
+      if(!animating) return;
+      step = (step + 1) % 40;
+      draw();
+      setTimeout(animate, 150);
+    };
+
+    const start = () => {
+      if(animating) return;
+      animating = true;
+      animate();
+    };
+
+    return {draw, start};
+  })();
+
+  // Otros gráficos
+  const problemPlot = (() => {
+    let plot = null;
+    const draw = () => {
+      const el = document.getElementById('plot-problem-intro');
+      if(!el) return;
+      if(!plot) plot = new NotebookPlot(el, {xMin:-1.5, xMax:3.5, yMin:-1.5, yMax:8.5, xStep:1, yStep:1, cssHeight:300});
+      plot.clear(); plot.drawGrid(); plot.drawAxes();
+      plot.plotFunction(x => x*x - 1, {color:NB_INK.blue, lineWidth:3.4});
+      plot.point(1, 0, {color:NB_INK.black, r:6, label:'P(1; 0)', labelDy:18});
+    };
+    return {draw};
+  })();
+
+  const step1Plot = (() => {
+    let plot = null;
+    const draw = () => {
+      const el = document.getElementById('plot-step1');
+      if(!el) return;
+      if(!plot) plot = new NotebookPlot(el, {xMin:-1.5, xMax:3.5, yMin:-1.5, yMax:8.5, xStep:1, yStep:1, cssHeight:300});
+      const f = x => x*x - 1;
+      const P = {x:1, y:0};
+      const R = {x:3, y:8};
+      const m = (R.y - P.y)/(R.x - P.x);
+      plot.clear(); plot.drawGrid(); plot.drawAxes();
+      plot.plotFunction(f, {color:NB_INK.blue, lineWidth:3.4});
+      const y1 = P.y + m*(-1.5-P.x), y2 = P.y + m*(3.5-P.x);
+      plot.segment(-1.5, y1, 3.5, y2, {color:NB_INK.red, lineWidth:2.2});
+      plot.point(P.x, P.y, {color:NB_INK.black, r:6, label:'P(1; 0)', labelDy:18});
+      plot.point(R.x, R.y, {color:NB_INK.red, r:6, label:'R(3; 8)', labelDy:-10});
+    };
+    return {draw};
+  })();
+
+  const step2Plot = (() => {
+    let plot = null;
+    const draw = () => {
+      const el = document.getElementById('plot-step2');
+      if(!el) return;
+      if(!plot) plot = new NotebookPlot(el, {xMin:-1.5, xMax:3.5, yMin:-1.5, yMax:8.5, xStep:1, yStep:1, cssHeight:300});
+      const f = x => x*x - 1;
+      const P = {x:1, y:0};
+      const Q = {x:1.5, y:1.75};
+      const m = (Q.y - P.y)/(Q.x - P.x);
+      plot.clear(); plot.drawGrid(); plot.drawAxes();
+      plot.plotFunction(f, {color:NB_INK.blue, lineWidth:3.4});
+      const y1 = P.y + m*(-1.5-P.x), y2 = P.y + m*(3.5-P.x);
+      plot.segment(-1.5, y1, 3.5, y2, {color:NB_INK.red, lineWidth:2.2});
+      plot.point(P.x, P.y, {color:NB_INK.black, r:6, label:'P(1; 0)', labelDy:18});
+      plot.point(Q.x, Q.y, {color:NB_INK.red, r:6, label:'Q', labelDy:-10});
+    };
+    return {draw};
+  })();
+
+  const step3Plot = (() => {
+    let plot = null;
+    const draw = () => {
+      const el = document.getElementById('plot-step3');
+      if(!el) return;
+      if(!plot) plot = new NotebookPlot(el, {xMin:-1.5, xMax:3.5, yMin:-1.5, yMax:8.5, xStep:1, yStep:1, cssHeight:300});
+      const f = x => x*x - 1;
+      const P = {x:1, y:0};
+      plot.clear(); plot.drawGrid(); plot.drawAxes();
+      plot.plotFunction(f, {color:NB_INK.blue, lineWidth:3.4});
+      plot.point(P.x, P.y, {color:NB_INK.black, r:6, label:'P(1; 0)', labelDy:18});
+      plot.vLine(1, {color:NB_INK.red, dash:[4,4]});
+    };
+    return {draw};
+  })();
+
+  // Dibujar todos los gráficos
+  tangentPlot.draw();
+  linearPlot.draw();
+  secantPlot.draw();
+  problemPlot.draw();
+  step1Plot.draw();
+  step2Plot.draw();
+  step3Plot.draw();
+
+  // Event listeners para redibujar al abrir detalles
+  document.querySelectorAll('details').forEach(details => {
+    details.addEventListener('toggle', () => {
+      if(details.open){
+        setTimeout(() => {
+          if(details.contains(document.getElementById('plot-tangent-def'))) tangentPlot.draw();
+          if(details.contains(document.getElementById('plot-linear-slope'))) linearPlot.draw();
+          if(details.contains(document.getElementById('plot-secant-to-tangent'))) { secantPlot.draw(); secantPlot.start(); }
+        }, 100);
+      }
+    });
+  });
 
   NBQuiz('quiz-container', {
     moduleId:1,
