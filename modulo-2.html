@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2. Definición informal de límite · Cuaderno de Límites</title>
+<link rel="stylesheet" href="css/notebook.css">
+</head>
+<body data-module="2">
+
+<button id="index-tab" class="index-tab">📑 Índice</button>
+<div id="drawer-overlay" class="drawer-overlay"></div>
+<aside id="index-drawer" class="index-drawer"></aside>
+
+<div class="desk">
+  <main class="notebook-page">
+    <div class="spiral" aria-hidden="true"></div>
+    <div class="margin-line" aria-hidden="true"></div>
+
+    <div class="page-content">
+
+      <header class="page-header">
+        <span class="module-badge"><span class="dot"></span>Módulo 2 de 6</span>
+        <div class="progress-strip"></div>
+        <h1 class="underline-draw">Definición informal de límite
+          <svg viewBox="0 0 460 14" preserveAspectRatio="none"><path d="M4 9 Q 150 2, 456 8"/></svg>
+        </h1>
+        <p style="font-size:1.2rem;color:#4a453a;max-width:660px;">En el módulo anterior vimos <i>un</i> límite. Ahora formalicemos un poco la idea — sin perder de vista que sigue siendo, en el fondo, una idea intuitiva.</p>
+      </header>
+
+      <div class="box def">
+        <span class="box-tag">📖 Definición informal</span>
+        <p>Supongamos que <span class="math">f(x)</span> está definida cerca de <span class="math">a</span> (aunque no necesariamente <em>en</em> <span class="math">a</span>). Escribimos</p>
+        <p style="text-align:center;font-size:1.35rem;">
+          <span class="lim"><span class="lim-word">lim</span><span class="lim-sub">x→a</span></span> f(x) = L
+        </p>
+        <p>y decimos <strong>"el límite de f(x), cuando x tiende a a, es L"</strong> si podemos hacer que los valores de f(x) estén <strong>tan cerca de L como queramos</strong>, tomando <span class="math">x</span> suficientemente cerca de <span class="math">a</span> (pero <span class="math">x ≠ a</span>).</p>
+      </div>
+
+      <h3>Tres frases que conviene entender bien</h3>
+      <div class="postit-row">
+        <div class="postit blue md">
+          <b>"x tiende a a"</b>
+          x va tomando valores cada vez más próximos a a, acercándose de a poco — no "salta" directo a a.
+        </div>
+        <div class="postit yellow md">
+          <b>"Se acercan arbitrariamente"</b>
+          No hay un límite de precisión: puedo pedir que f(x) esté tan cerca de L como se me ocurra (una millonésima, una billonésima...) y siempre existe una forma de lograrlo achicando la distancia de x a a.
+        </div>
+        <div class="postit pink md">
+          <b>"x ≠ a"</b>
+          Al estudiar el límite, deliberadamente <i>ignoramos</i> qué pasa exactamente en x = a. Nos importa solo el entorno, no el punto en sí.
+        </div>
+      </div>
+
+      <h3>Lo más importante del módulo: el límite no depende de f(a)</h3>
+      <p>Esta es la idea que más cuesta al principio: <mark class="hl">el valor del límite y el valor de la función en ese punto son cosas distintas</mark>, y pueden coincidir o no. Mirá los tres casos:</p>
+
+      <div class="widget">
+        <canvas id="plot-tres-casos" cssHeight="340"></canvas>
+        <div class="widget-controls">
+          <button class="btn secondary" data-case="a">Caso (a)</button>
+          <button class="btn secondary" data-case="b">Caso (b)</button>
+          <button class="btn secondary" data-case="c">Caso (c)</button>
+        </div>
+        <p class="widget-caption" id="caso-desc"></p>
+      </div>
+
+      <div class="box formula">
+        <span class="box-tag">En los tres casos</span>
+        <span class="lim"><span class="lim-word">lim</span><span class="lim-sub">x→a</span></span> f(x) = L
+      </div>
+
+      <h3>Ejemplo trabajado: cuando la función no está definida en a</h3>
+      <p>Conjeturemos el valor de <span class="math">lim<span class="lim-sub" style="display:inline;font-size:.7em;">x→1</span></span> <span class="frac"><span class="num">x − 1</span><span class="den">x² − 1</span></span>. Esta función <strong>no está definida en x = 1</strong> (quedaría 0/0), pero podemos estudiar su comportamiento cerca de 1:</p>
+
+      <div class="widget">
+        <canvas id="plot-ejemplo2" cssHeight="360"></canvas>
+        <div class="widget-controls">
+          <label>x = <input type="range" id="ctrl-x2" min="0.3" max="2" step="0.0005" value="1.3"></label>
+          <span>x = <span class="widget-readout" id="read-x2">1,30</span></span>
+          <span>f(x) = <span class="widget-readout" id="read-fx2">—</span></span>
+        </div>
+        <p class="widget-caption">Acercá x a 1 desde ambos lados. La función se simplifica: <span class="math">(x−1)/(x²−1) = 1/(x+1)</span> para <span class="math">x ≠ 1</span>.</p>
+      </div>
+
+      <table class="value-table">
+        <caption>f(x) = (x−1)/(x²−1) cerca de x = 1</caption>
+        <thead><tr><th>x &lt; 1</th><th>f(x)</th><th>x &gt; 1</th><th>f(x)</th></tr></thead>
+        <tbody>
+          <tr><td>0,5</td><td>0,6667</td><td>1,5</td><td>0,4000</td></tr>
+          <tr><td>0,9</td><td>0,5263</td><td>1,1</td><td>0,4762</td></tr>
+          <tr><td>0,99</td><td>0,5025</td><td>1,01</td><td>0,4975</td></tr>
+          <tr><td>0,999</td><td>0,5003</td><td>1,001</td><td>0,4998</td></tr>
+        </tbody>
+      </table>
+
+      <div class="box def">
+        <span class="box-tag">Conclusión</span>
+        <span class="lim"><span class="lim-word">lim</span><span class="lim-sub">x→1</span></span>
+        <span class="frac"><span class="num">x − 1</span><span class="den">x² − 1</span></span> = 0,5
+      </div>
+
+      <h3>Cuando el límite <em>no existe</em>: la función de Heaviside</h3>
+      <p>No siempre hay un único valor L al que se acerca f(x). Un ejemplo clásico es la función de Heaviside, usada en electrónica para modelar una corriente que se enciende en <span class="math">t = 0</span>:</p>
+      <div class="box formula">
+        H(t) = <span style="display:inline-flex;flex-direction:column;text-align:left;font-size:.85em;vertical-align:middle;">
+          <span>0 &nbsp;si t &lt; 0</span>
+          <span>1 &nbsp;si t ≥ 0</span>
+        </span>
+      </div>
+      <div class="widget">
+        <canvas id="plot-heaviside" cssHeight="260"></canvas>
+      </div>
+      <p>Cuando <span class="math">t</span> se acerca a 0 <strong>por la izquierda</strong>, <span class="math">H(t)</span> se acerca a 0. Cuando se acerca <strong>por la derecha</strong>, <span class="math">H(t)</span> se acerca a 1. Como no hay un único número al que se aproxime <span class="math">H(t)</span>, decimos que <span class="lim"><span class="lim-word">lim</span><span class="lim-sub">t→0</span></span> H(t) <strong>no existe</strong>.</p>
+
+      <div class="postit green lg postit-float">
+        <b>Justo lo que viene 👀</b>
+        Esta idea de "acercarse por un lado" y "acercarse por el otro" es exactamente el tema del próximo módulo: <i>límites laterales</i>.
+      </div>
+
+      <div class="reflect-box">
+        <b>🖊️ Para pensar</b>
+        <p style="margin:.4em 0 0;">En el caso (b) del gráfico de arriba, <span class="math">f(a)</span> está definida pero es distinta de <span class="math">L</span>. ¿Por qué el límite sigue siendo L y no f(a)?</p>
+        <textarea placeholder="Escribí tu respuesta acá."></textarea>
+        <details>
+          <summary>Ver una posible respuesta</summary>
+          <p class="model-answer">Porque el límite pregunta por el comportamiento de f cerca de a, sin mirar qué pasa exactamente en a. La definición dice explícitamente "x ≠ a": el valor puntual f(a) queda completamente afuera del cálculo del límite, así que no importa si coincide con L o no.</p>
+        </details>
+      </div>
+
+      <section class="quiz-section" id="quiz">
+        <div class="quiz-intro"><span class="pencil">📝</span><h2>Pon a prueba lo aprendido</h2></div>
+        <p class="quiz-progress">Respondé las preguntas y comprobá al toque. Podés reintentar las que falles.</p>
+        <div id="quiz-container"></div>
+      </section>
+
+      <nav class="page-nav">
+        <a class="corner prev" href="#"></a>
+        <a class="corner next" href="#"></a>
+      </nav>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/notebook.js"></script>
+<script src="js/plotter.js"></script>
+<script src="js/quiz.js"></script>
+<script>
+(function(){
+  /* ---- widget 1: tres casos de la definición informal ---- */
+  const plotA = new NotebookPlot(document.getElementById('plot-tres-casos'), {xMin:-1, xMax:6, yMin:0, yMax:5, xStep:1, yStep:1, cssHeight:340});
+  const curve = x => 2.1 + 1.25*Math.sin(0.85*(x+1)) + 0.08*x;
+  const a = 3;
+  const L = curve(a);
+  let currentCase = 'a';
+  const casoDesc = {
+    a: 'lim f(x) = L y f(a) está definida — el valor de la función coincide con el límite. La curva no tiene ningún salto ni hueco.',
+    b: 'lim f(x) = L y f(a) está definida, pero f(a) ≠ L — la curva tiene un hueco en x=a (círculo vacío) y un punto suelto en otra altura (círculo lleno). El límite sigue siendo L: lo que valga f(a) no cambia hacia dónde se acerca la curva.',
+    c: 'lim f(x) = L pero f(a) no está definida — hay un hueco en la curva y ningún punto marcado en x=a. Aun así, el límite existe: podemos ver claramente hacia dónde "iría" la curva.'
+  };
+  function drawCases(){
+    plotA.clear(); plotA.drawGrid(); plotA.drawAxes();
+    if(currentCase==='a'){
+      plotA.plotFunction(curve, {color:NB_INK.blue, lineWidth:3.2});
+      plotA.point(a,L,{color:NB_INK.blue, r:6});
+    } else if(currentCase==='b'){
+      plotA.plotFunction(curve, {color:NB_INK.blue, lineWidth:3.2, asymptoteAt:[a]});
+      plotA.point(a,L,{color:NB_INK.blue, r:6, hollow:true});
+      plotA.point(a, L-1, {color:NB_INK.red, r:6, label:'f(a)', labelDy:16});
+    } else {
+      plotA.plotFunction(curve, {color:NB_INK.blue, lineWidth:3.2, asymptoteAt:[a]});
+      plotA.point(a,L,{color:NB_INK.blue, r:6, hollow:true});
+    }
+    plotA.hLine(L,{color:NB_INK.purple, dash:[5,5], label:'L'});
+    plotA.vLine(a,{color:'#999',dash:[3,4]});
+    plotA.text(a, -0.35, 'a', {align:'center', color:NB_INK.axis});
+    document.getElementById('caso-desc').textContent = casoDesc[currentCase];
+  }
+  plotA.onRedraw(drawCases);
+  drawCases();
+  document.querySelectorAll('[data-case]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ currentCase = btn.dataset.case; drawCases(); });
+  });
+
+  /* ---- widget 2: (x-1)/(x^2-1) ---- */
+  const plotB = new NotebookPlot(document.getElementById('plot-ejemplo2'), {xMin:-0.3, xMax:2.3, yMin:-0.2, yMax:1.6, xStep:0.5, yStep:0.25, cssHeight:360});
+  const f2 = x => 1/(x+1); // simplificación de (x-1)/(x^2-1)
+  const slider2 = document.getElementById('ctrl-x2');
+  const readX2 = document.getElementById('read-x2');
+  const readFx2 = document.getElementById('read-fx2');
+  function draw2(){
+    let x = parseFloat(slider2.value);
+    if(Math.abs(x-1)<0.0006) x = x<1 ? 0.9994 : 1.0006;
+    plotB.clear(); plotB.drawGrid(); plotB.drawAxes({});
+    plotB.plotFunction(f2, {color:NB_INK.blue, lineWidth:3.2, domain:[-0.3,2.3], asymptoteAt:[1]});
+    plotB.point(1, 0.5, {color:NB_INK.purple, r:6, hollow:true, label:'(1; 0,5)', labelDy:-10});
+    plotB.hLine(0.5,{color:NB_INK.green, dash:[5,5]});
+    plotB.point(x, f2(x), {color:NB_INK.red, r:6});
+    readX2.textContent = x.toFixed(4).replace('.',',');
+    readFx2.textContent = f2(x).toFixed(4).replace('.',',');
+  }
+  plotB.onRedraw(draw2);
+  slider2.addEventListener('input', draw2);
+  draw2();
+
+  /* ---- widget 3: heaviside ---- */
+  const plotC = new NotebookPlot(document.getElementById('plot-heaviside'), {xMin:-3, xMax:3, yMin:-0.4, yMax:1.6, xStep:1, yStep:1, cssHeight:260});
+  function drawH(){
+    plotC.clear(); plotC.drawGrid(); plotC.drawAxes();
+    plotC.plotFunction(x=>0, {color:NB_INK.blue, lineWidth:3.2, domain:[-3,0]});
+    plotC.plotFunction(x=>1, {color:NB_INK.blue, lineWidth:3.2, domain:[0,3]});
+    plotC.point(0,0,{color:NB_INK.blue, r:6, hollow:true});
+    plotC.point(0,1,{color:NB_INK.blue, r:6});
+    plotC.text(1.6, 1.25, 'H(t)=1', {color:NB_INK.blueSoft});
+    plotC.text(-1.6, 0.25, 'H(t)=0', {color:NB_INK.blueSoft});
+  }
+  plotC.onRedraw(drawH);
+  drawH();
+
+  NBQuiz('quiz-container', {
+    moduleId:2,
+    passScore:0.7,
+    questions:[
+      {
+        type:'mcq',
+        prompt:'La definición informal de límite dice que lim(x→a) f(x) = L significa que...',
+        options:[
+          'f(a) = L siempre.',
+          'f(x) se acerca arbitrariamente a L cuando x se acerca a a, sin considerar x = a.',
+          'f(x) es creciente cerca de a.',
+          'a pertenece al dominio de f.'
+        ],
+        correct:1,
+        explain:'Es exactamente la definición informal: acercar f(x) a L acercando x a a, con x≠a.'
+      },
+      {
+        type:'tf',
+        prompt:'Si f(a) no está definida, entonces lim(x→a) f(x) no puede existir.',
+        correct:false,
+        explain:'Falso: el caso (c) del módulo muestra justamente que el límite puede existir aunque f(a) no esté definida. El límite depende del entorno de a, no del punto a en sí.'
+      },
+      {
+        type:'mcq',
+        prompt:'Para la función de Heaviside H(t), lim(t→0) H(t)...',
+        options:[
+          'es 0.',
+          'es 1.',
+          'es 0,5.',
+          'no existe.'
+        ],
+        correct:3,
+        explain:'Por izquierda H(t) se acerca a 0 y por derecha a 1: al no coincidir, no hay un único valor L, así que el límite no existe.'
+      },
+      {
+        type:'fill',
+        prompt:'Calculá: lim(x→1) (x−1)/(x²−1) = ______ (usá coma o punto decimal).',
+        accept:['0.5','0,5','1/2'],
+        explain:'Simplificando (x−1)/(x²−1) = 1/(x+1) para x≠1, y evaluando cerca de x=1 obtenemos 1/2 = 0,5.'
+      },
+      {
+        type:'tf',
+        prompt:'Si f(a) está definida y f(a) = L, entonces necesariamente lim(x→a) f(x) = L.',
+        correct:false,
+        explain:'No necesariamente: podría haber un salto o comportamiento raro cerca de a que haga que el límite no exista o sea distinto, aunque f(a) valga L (lo vas a ver en el módulo de límites laterales).'
+      }
+    ]
+  });
+})();
+</script>
+</body>
+</html>

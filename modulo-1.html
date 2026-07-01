@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1. El problema de la tangente · Cuaderno de Límites</title>
+<link rel="stylesheet" href="css/notebook.css">
+</head>
+<body data-module="1">
+
+<button id="index-tab" class="index-tab">📑 Índice</button>
+<div id="drawer-overlay" class="drawer-overlay"></div>
+<aside id="index-drawer" class="index-drawer"></aside>
+
+<div class="desk">
+  <main class="notebook-page">
+    <div class="spiral" aria-hidden="true"></div>
+    <div class="margin-line" aria-hidden="true"></div>
+
+    <div class="page-content">
+
+      <header class="page-header">
+        <span class="module-badge"><span class="dot"></span>Módulo 1 de 6</span>
+        <div class="progress-strip"></div>
+        <h1 class="underline-draw">El problema de la tangente
+          <svg viewBox="0 0 420 14" preserveAspectRatio="none"><path d="M4 9 Q 140 2, 416 8"/></svg>
+        </h1>
+        <p style="font-size:1.2rem;color:#4a453a;max-width:640px;">¿De dónde sale la idea de límite? De una pregunta muy simple: <strong>¿cuál es la pendiente de la recta tangente a una curva en un punto?</strong></p>
+      </header>
+
+      <p>Para una recta, la pendiente es fácil: <span class="math">m = (y₂−y₁)/(x₂−x₁)</span>. Pero para hallar la pendiente de una <strong>curva</strong> en un solo punto necesitamos otro punto para poder calcular algo... y ahí aparece el truco.</p>
+
+      <div class="postit yellow sm postit-float">
+        <b>Idea clave</b>
+        No podemos calcular la pendiente con un solo punto. La resolvemos <i>acercando</i> un segundo punto, no poniéndolo exactamente encima.
+      </div>
+
+      <div class="box example">
+        <span class="box-tag">✏️ El problema (Guía de estudio N.º 5)</span>
+        <p>Sea <span class="math">f(x) = x² − 1</span>. Buscamos la ecuación de la recta <strong>tangente</strong> a <span class="math">f(x)</span> en el punto <span class="math">P(1;\u00A00)</span>.</p>
+      </div>
+
+      <h3>Paso 1 — Empezamos con una recta secante</h3>
+      <p>Tomamos otro punto sobre la curva, por ejemplo <span class="math">R(3;\u00A08)</span>, y calculamos la pendiente de la recta <strong>secante</strong> que une <span class="math">P</span> con <span class="math">R</span>:</p>
+      <div class="box formula">
+        <span class="box-tag">m</span>
+        m = <span class="frac"><span class="num">8 − 0</span><span class="den">3 − 1</span></span> = <span class="frac"><span class="num">8</span><span class="den">2</span></span> = 4
+      </div>
+      <p>Esa recta secante <em>cruza</em> la curva por dos puntos — todavía no es la tangente. Para acercarnos a la tangente, tenemos que acercar <span class="math">R</span> a <span class="math">P</span>.</p>
+
+      <h3>Paso 2 — Generalizamos con un punto Q que se mueve</h3>
+      <p>Llamamos <span class="math">Q(x;\u00A0x²−1)</span> a un punto genérico sobre la curva, y calculamos la pendiente de la secante <span class="math">PQ</span>, que llamamos <span class="math">m<sub>PQ</sub></span>:</p>
+      <div class="box formula">
+        <span class="box-tag">m<sub>PQ</sub>(x)</span>
+        m<sub>PQ</sub> = <span class="frac"><span class="num">(x² − 1) − 0</span><span class="den">x − 1</span></span> = <span class="frac"><span class="num">x² − 1</span><span class="den">x − 1</span></span>
+      </div>
+      <p>Esta fórmula depende de <span class="math">x</span>: para cada posición de <span class="math">Q</span> obtenemos una pendiente distinta. Jugá con el gráfico:</p>
+
+      <div class="widget">
+        <canvas id="plot-tangente" cssHeight="380"></canvas>
+        <div class="widget-controls">
+          <label>Posición de Q (x): <input type="range" id="ctrl-x" min="0.5" max="1.5" step="0.0005" value="1.3"></label>
+          <span>x = <span class="widget-readout" id="read-x">1.30</span></span>
+          <span>m<sub>PQ</sub> = <span class="widget-readout" id="read-m">—</span></span>
+        </div>
+        <div class="widget-controls" style="margin-top:0;border-top:none;padding-top:0;">
+          <span style="font-family:var(--font-note);font-size:.9rem;color:#6b6252;">Probar valores clásicos:</span>
+          <button class="btn ghost" data-x="1.1">1,1</button>
+          <button class="btn ghost" data-x="1.01">1,01</button>
+          <button class="btn ghost" data-x="1.001">1,001</button>
+          <button class="btn ghost" data-x="0.9">0,9</button>
+          <button class="btn ghost" data-x="0.99">0,99</button>
+          <button class="btn ghost" data-x="0.999">0,999</button>
+        </div>
+        <p class="widget-caption" id="widget-note">Arrastrá el control o tocá un valor: la recta secante <span style="color:var(--ink-red)">roja</span> gira y se acerca a la tangente <span style="color:var(--ink-green)">verde</span> a medida que Q se acerca a P.</p>
+      </div>
+
+      <h3>Paso 3 — ¿Qué pasa si Q coincide con P?</h3>
+      <p>Si reemplazamos directamente <span class="math">x = 1</span> en la fórmula de <span class="math">m<sub>PQ</sub></span>:</p>
+      <div class="box warn">
+        <span class="box-tag">⚠️ No se puede calcular así</span>
+        m<sub>PQ</sub> = <span class="frac"><span class="num">1 − 1</span><span class="den">1 − 1</span></span> = <span class="frac"><span class="num">0</span><span class="den">0</span></span>
+        <p style="margin-top:10px;font-size:1rem;">Una división <span class="math">0/0</span> no está definida. Necesitamos otra estrategia: <strong>no evaluar en x=1, sino observar qué pasa cuando x se acerca cada vez más a 1</strong>, sin llegar a tocarlo.</p>
+      </div>
+
+      <h3>Paso 4 — Completamos la tabla (así lo hace la guía)</h3>
+      <p>Reemplazando valores de <span class="math">x</span> cada vez más cercanos a 1, por izquierda y por derecha:</p>
+      <table class="value-table" id="tabla-valores">
+        <caption>m<sub>PQ</sub>(x) cuando x se acerca a 1</caption>
+        <thead><tr><th>x → 1⁻</th><th>m<sub>PQ</sub></th><th>x → 1⁺</th><th>m<sub>PQ</sub></th></tr></thead>
+        <tbody>
+          <tr><td>0,9</td><td data-val="0.9">1,9</td><td>1,1</td><td data-val="1.1">2,1</td></tr>
+          <tr><td>0,99</td><td data-val="0.99">1,99</td><td>1,01</td><td data-val="1.01">2,01</td></tr>
+          <tr><td>0,999</td><td data-val="0.999">1,999</td><td>1,001</td><td data-val="1.001">2,001</td></tr>
+          <tr><td>0,9999</td><td data-val="0.9999">1,9999</td><td>1,0001</td><td data-val="1.0001">2,0001</td></tr>
+          <tr><td colspan="4" style="font-weight:700;">1 → <span class="text-red">¿?</span> ambos lados se acercan a <span class="text-green">2</span></td></tr>
+        </tbody>
+      </table>
+
+      <div class="box def">
+        <span class="box-tag">💡 Conclusión</span>
+        <p>Por más que no podamos <em>calcular</em> m<sub>PQ</sub> en x=1, sí podemos <strong>predecir</strong> hacia dónde se acerca: hacia 2, tanto si nos acercamos por izquierda como por derecha. Esto se escribe simbólicamente como:</p>
+        <p style="text-align:center;font-size:1.3rem;">
+          <span class="lim"><span class="lim-word">lim</span><span class="lim-sub">x→1</span></span>
+          <span class="frac"><span class="num">x² − 1</span><span class="den">x − 1</span></span> = 2
+        </p>
+        <p>Y esa es, precisamente, la pendiente de la recta tangente a <span class="math">f(x)=x²−1</span> en <span class="math">P(1;0)</span>. Su ecuación es <span class="math">y = 2(x − 1)</span>.</p>
+      </div>
+
+      <div class="postit-row">
+        <div class="postit green md">
+          <b>¿Por qué importa?</b>
+          Esta misma idea — acercarse sin tocar — es el corazón de <i>todos</i> los límites que vamos a ver en este cuaderno, no solo de las rectas tangentes.
+        </div>
+        <div class="postit pink md">
+          <b>Ojo con esto</b>
+          El límite no pregunta "¿cuánto vale la función <i>en</i> el punto?" sino "¿a qué valor se <i>acerca</i> la función <i>cerca</i> del punto?". Son preguntas distintas, como vamos a ver en el próximo módulo.
+        </div>
+      </div>
+
+      <div class="reflect-box">
+        <b>🖊️ Para pensar</b>
+        <p style="margin:.4em 0 0;">¿Por qué no alcanza con evaluar <span class="math">f(1)</span> directamente para hallar la pendiente de la tangente? Escribí tu idea con tus palabras.</p>
+        <textarea placeholder="Escribí tu respuesta acá (no se guarda ni se envía a ningún lado, es solo para pensarlo)."></textarea>
+        <details>
+          <summary>Ver una posible respuesta</summary>
+          <p class="model-answer">Porque para calcular una pendiente necesitamos <strong>dos</strong> puntos distintos. Si evaluamos todo en x=1 nos quedamos con un solo punto, P mismo, y la fórmula de la pendiente se convierte en 0/0: una operación que no tiene sentido con un único punto. Por eso hace falta la idea de "acercarse sin llegar" — el límite.</p>
+        </details>
+      </div>
+
+      <section class="quiz-section" id="quiz">
+        <div class="quiz-intro"><span class="pencil">📝</span><h2>Pon a prueba lo aprendido</h2></div>
+        <p class="quiz-progress">Respondé las preguntas y comprobá al toque. Podés reintentar las que falles.</p>
+        <div id="quiz-container"></div>
+      </section>
+
+      <nav class="page-nav">
+        <a class="corner prev" href="#"></a>
+        <a class="corner next" href="#"></a>
+      </nav>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/notebook.js"></script>
+<script src="js/plotter.js"></script>
+<script src="js/quiz.js"></script>
+<script>
+(function(){
+  const canvas = document.getElementById('plot-tangente');
+  const plot = new NotebookPlot(canvas, {xMin:-1.3, xMax:3.3, yMin:-1.5, yMax:8.5, xStep:1, yStep:1, cssHeight:380});
+  const f = x => x*x - 1;
+  const P = {x:1, y:0};
+
+  const slider = document.getElementById('ctrl-x');
+  const readX = document.getElementById('read-x');
+  const readM = document.getElementById('read-m');
+  const note = document.getElementById('widget-note');
+
+  function draw(){
+    let x = parseFloat(slider.value);
+    if(Math.abs(x-1) < 0.0005) x = x < 1 ? 0.9995 : 1.0005; // evitar 0/0 exacto
+    const Qy = f(x);
+    const m = (Qy - P.y)/(x - P.x);
+
+    plot.clear();
+    plot.drawGrid();
+    plot.drawAxes();
+    plot.plotFunction(f, {color:NB_INK.blue, lineWidth:3.4});
+
+    // recta tangente de referencia (verde), y = 2(x-1)
+    plot.segment(-1.3, 2*(-1.3-1), 3.3, 2*(3.3-1), {color:NB_INK.green, lineWidth:2.2, dash:[2,5]});
+
+    // recta secante PQ extendida (roja)
+    const dx = x - P.x;
+    const dy = Qy - P.y;
+    const t1 = -1.3, t2 = 3.3;
+    const y1 = P.y + m*(t1-P.x), y2 = P.y + m*(t2-P.x);
+    plot.segment(t1,y1,t2,y2,{color:NB_INK.red, lineWidth:2.6});
+
+    plot.point(P.x,P.y,{color:NB_INK.black, r:6, label:'P(1;0)', labelDy:18});
+    plot.point(x,Qy,{color:NB_INK.red, r:6, label:'Q', labelDy:-10});
+
+    readX.textContent = x.toFixed(4).replace('.',',');
+    readM.textContent = m.toFixed(4).replace('.',',');
+
+    if(Math.abs(x-1) < 0.002){
+      note.innerHTML = '¡Q está tan cerca de P que la secante <span style="color:var(--ink-red)">roja</span> casi no se distingue de la tangente <span style="color:var(--ink-green)">verde</span>! m<sub>PQ</sub> ≈ 2.';
+    } else {
+      note.innerHTML = 'Arrastrá el control o tocá un valor: la recta secante <span style="color:var(--ink-red)">roja</span> gira y se acerca a la tangente <span style="color:var(--ink-green)">verde</span> a medida que Q se acerca a P.';
+    }
+
+    // resaltar fila de tabla correspondiente
+    document.querySelectorAll('#tabla-valores td[data-val]').forEach(td=>{
+      td.classList.toggle('highlight', Math.abs(parseFloat(td.dataset.val)-x) < 0.0006);
+    });
+  }
+  plot.onRedraw(draw);
+  slider.addEventListener('input', draw);
+  document.querySelectorAll('[data-x]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ slider.value = btn.dataset.x; draw(); });
+  });
+  draw();
+
+  NBQuiz('quiz-container', {
+    moduleId:1,
+    passScore:0.7,
+    questions:[
+      {
+        type:'mcq',
+        prompt:'¿Por qué no se puede calcular la pendiente de la recta tangente evaluando directamente en x = 1?',
+        options:[
+          'Porque f(1) no está definida.',
+          'Porque la fórmula de m_PQ da 0/0, una expresión sin sentido con un solo punto.',
+          'Porque la función no es continua en x = 1.',
+          'Porque x = 1 no pertenece al dominio de f.'
+        ],
+        correct:1,
+        explain:'Con Q=P nos quedamos con un solo punto, y la fórmula de la pendiente (que necesita dos puntos distintos) se reduce a 0/0.'
+      },
+      {
+        type:'fill',
+        prompt:'Completá: a medida que Q se acerca a P por ambos lados, m_PQ(x) se acerca al valor ______.',
+        accept:['2','2,0','2.0'],
+        explain:'La tabla de valores muestra que tanto por izquierda (1,9 → 1,99 → 1,999...) como por derecha (2,1 → 2,01 → 2,001...) la pendiente se acerca a 2.'
+      },
+      {
+        type:'tf',
+        prompt:'La recta secante PQ y la recta tangente en P son siempre exactamente la misma recta.',
+        correct:false,
+        explain:'Son distintas: la secante corta la curva en dos puntos (P y Q). Solo en el límite, cuando Q se acerca infinitamente a P, la secante "se convierte" en la tangente.'
+      },
+      {
+        type:'mcq',
+        prompt:'¿Cuál es la fórmula correcta de la pendiente de la secante entre P(1;0) y Q(x; x²−1)?',
+        options:[
+          'm_PQ = (x² − 1)/(x + 1)',
+          'm_PQ = (x² − 1)/(x − 1)',
+          'm_PQ = x² − 1',
+          'm_PQ = (x − 1)/(x² − 1)'
+        ],
+        correct:1,
+        explain:'m_PQ = (y_Q − y_P)/(x_Q − x_P) = [(x² − 1) − 0] / (x − 1).'
+      },
+      {
+        type:'mcq',
+        prompt:'La expresión lim(x→1) (x²−1)/(x−1) = 2 significa que...',
+        options:[
+          'la función vale exactamente 2 en x = 1.',
+          'la función se acerca arbitrariamente a 2 cuando x se acerca a 1, sin necesariamente estar definida en x = 1.',
+          'la función es igual a 2 en todo su dominio.',
+          'la pendiente de la función siempre es 2.'
+        ],
+        correct:1,
+        explain:'Esa es justamente la idea de límite: describe el comportamiento de la función cerca del punto, no en el punto.'
+      },
+      {
+        type:'tf',
+        prompt:'La ecuación de la recta tangente hallada, y = 2(x − 1), pasa por el punto P(1;0).',
+        correct:true,
+        explain:'Si reemplazás x=1: y = 2(1−1) = 0, que coincide con P(1;0). ✔'
+      }
+    ]
+  });
+})();
+</script>
+</body>
+</html>

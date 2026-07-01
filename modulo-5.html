@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>5. Definición formal (ε–δ) · Cuaderno de Límites</title>
+<link rel="stylesheet" href="css/notebook.css">
+</head>
+<body data-module="5">
+
+<button id="index-tab" class="index-tab">📑 Índice</button>
+<div id="drawer-overlay" class="drawer-overlay"></div>
+<aside id="index-drawer" class="index-drawer"></aside>
+
+<div class="desk">
+  <main class="notebook-page">
+    <div class="spiral" aria-hidden="true"></div>
+    <div class="margin-line" aria-hidden="true"></div>
+
+    <div class="page-content">
+
+      <header class="page-header">
+        <span class="module-badge"><span class="dot"></span>Módulo 5 de 6</span>
+        <div class="progress-strip"></div>
+        <h1 class="underline-draw">Definición formal (ε – δ)
+          <svg viewBox="0 0 420 14" preserveAspectRatio="none"><path d="M4 9 Q 140 2, 416 8"/></svg>
+        </h1>
+        <p style="font-size:1.2rem;color:#4a453a;max-width:660px;">"Se acerca tanto como queramos" suena claro, pero es informal. Acá le ponemos números precisos a esa idea.</p>
+      </header>
+
+      <h3>Motivación: el fabricante de piezas cuadradas</h3>
+      <p>Un fabricante pide piezas cuadradas de <strong>100 cm²</strong> de área, con una tolerancia de <strong>± 4 cm²</strong>. ¿Qué largos de lado <span class="math">x</span> son aceptables?</p>
+
+      <div class="widget">
+        <canvas id="plot-fabricante" cssHeight="380"></canvas>
+        <div class="widget-controls">
+          <label>Tolerancia ε (cm²): <input type="range" id="ctrl-eps-fab" min="1" max="12" step="0.5" value="4"></label>
+          <span>ε = <span class="widget-readout" id="read-eps-fab">4</span> cm²</span>
+        </div>
+        <p class="widget-caption" id="fab-desc"></p>
+      </div>
+
+      <div class="box example">
+        <span class="box-tag">Razonamiento con ε = 4</span>
+        <p>Queremos <span class="math">|f(x) − L| &lt; ε</span>, es decir <span class="math">|x² − 100| &lt; 4</span>, o sea <span class="math">96 &lt; x² &lt; 104</span>. Tomando raíz cuadrada: <span class="math">9,798 &lt; x &lt; 10,198</span>.</p>
+        <p>Como el lado ideal es <span class="math">x=10</span>, la distancia admisible hacia la izquierda es <span class="math">10 − 9,798 = 0,202</span> y hacia la derecha <span class="math">10,198 − 10 = 0,198</span>. Nos quedamos con la <strong>más chica</strong> para que ambos lados funcionen: <span class="math">δ = 0,198</span>.</p>
+      </div>
+
+      <div class="postit yellow md postit-float">
+        <b>Por qué el mínimo</b>
+        δ tiene que funcionar <i>para los dos lados</i> a la vez. Si uno admite más margen que el otro, hay que quedarse con el más exigente (el menor).
+      </div>
+
+      <div class="box formula">
+        <span class="box-tag">La regla del juego</span>
+        Si tomo un ε más chico, voy a necesitar un δ más chico. <br>Esa relación — "para cada ε existe un δ" — es exactamente la definición formal.
+      </div>
+
+      <h3>La definición formal</h3>
+      <div class="box def">
+        <span class="box-tag">📖 Definición (ε – δ)</span>
+        <p>Sea f definida en un intervalo abierto que contiene a a, excepto posiblemente en a. Decimos que</p>
+        <p style="text-align:center;font-size:1.3rem;"><span class="lim"><span class="lim-word">lim</span><span class="lim-sub">x→a</span></span> f(x) = L</p>
+        <p>si <strong>para todo número ε &gt; 0</strong> existe <strong>un número δ &gt; 0</strong> tal que</p>
+        <p style="text-align:center;font-size:1.2rem;">si &nbsp;0 &lt; |x − a| &lt; δ &nbsp;&nbsp;entonces&nbsp;&nbsp; |f(x) − L| &lt; ε</p>
+      </div>
+
+      <p>En criollo: <mark class="hl">vos elegís qué tan cerca de L querés estar (ε)</mark>, y la definición te garantiza que <mark class="hl green">existe una cercanía a a (δ) que lo logra</mark>. Jugá con los controles:</p>
+
+      <div class="widget">
+        <canvas id="plot-epsdelta" cssHeight="400"></canvas>
+        <div class="widget-controls">
+          <label>ε: <input type="range" id="ctrl-eps" min="0.2" max="3" step="0.05" value="1.4"></label>
+          <span>ε = <span class="widget-readout" id="read-eps">1,4</span></span>
+          <label>δ: <input type="range" id="ctrl-delta" min="0.05" max="3" step="0.02" value="1"></label>
+          <span>δ = <span class="widget-readout" id="read-delta">1,0</span></span>
+        </div>
+        <div class="widget-controls">
+          <button class="btn secondary" id="btn-sugerir">💡 Sugerime el δ más grande que funciona</button>
+          <span id="status-epsdelta" style="font-family:var(--font-title);font-size:1.15rem;"></span>
+        </div>
+        <p class="widget-caption">Franja horizontal = (L−ε, L+ε). Franja vertical = (a−δ, a+δ). Si la curva se escapa de la franja horizontal dentro de la franja vertical, ese δ <strong>no sirve</strong> para ese ε.</p>
+      </div>
+
+      <h3>Ejemplo con álgebra exacta</h3>
+      <p>Probemos que <span class="lim" style="font-size:.9em;"><span class="lim-word">lim</span><span class="lim-sub">x→3</span></span> (4x − 5) = 7 encontrando δ en función de ε:</p>
+      <div class="box example">
+        <span class="box-tag">Desarrollo</span>
+        <p>Queremos: si <span class="math">0 &lt; |x−3| &lt; δ</span> entonces <span class="math">|(4x−5) − 7| &lt; ε</span>.</p>
+        <p><span class="math">|4x − 12| &lt; ε &nbsp;⟹&nbsp; 4|x − 3| &lt; ε &nbsp;⟹&nbsp; |x − 3| &lt; ε/4</span></p>
+        <p>Esto sugiere elegir <strong>δ = ε/4</strong>. Como la función es lineal, ¡este δ funciona exactamente, sin aproximar!</p>
+      </div>
+      <div class="widget">
+        <canvas id="plot-lineal" cssHeight="340"></canvas>
+        <div class="widget-controls">
+          <label>ε: <input type="range" id="ctrl-eps-lin" min="0.2" max="4" step="0.1" value="2"></label>
+          <span>ε = <span class="widget-readout" id="read-eps-lin">2,0</span> &nbsp;→&nbsp; δ = ε/4 = <span class="widget-readout" id="read-delta-lin">0,5</span></span>
+        </div>
+      </div>
+
+      <h3>Otras versiones formales (mismo espíritu, distinto contexto)</h3>
+      <div class="postit-row">
+        <div class="postit blue md">
+          <b>Lateral izquierdo</b>
+          <span class="lim" style="font-size:.85em;"><span class="lim-word">lim</span><span class="lim-sub">x→a⁻</span></span>f(x)=L: para todo ε&gt;0 existe δ&gt;0 tal que si a−δ&lt;x&lt;a entonces |f(x)−L|&lt;ε.
+        </div>
+        <div class="postit blue md">
+          <b>Lateral derecho</b>
+          <span class="lim" style="font-size:.85em;"><span class="lim-word">lim</span><span class="lim-sub">x→a⁺</span></span>f(x)=L: para todo ε&gt;0 existe δ&gt;0 tal que si a&lt;x&lt;a+δ entonces |f(x)−L|&lt;ε.
+        </div>
+        <div class="postit orange md">
+          <b>Límite infinito</b>
+          <span class="lim" style="font-size:.85em;"><span class="lim-word">lim</span><span class="lim-sub">x→a</span></span>f(x)=∞: para todo M&gt;0 existe δ&gt;0 tal que si 0&lt;|x−a|&lt;δ entonces f(x)&gt;M.
+        </div>
+        <div class="postit orange md">
+          <b>Límite al infinito</b>
+          <span class="lim" style="font-size:.85em;"><span class="lim-word">lim</span><span class="lim-sub">x→∞</span></span>f(x)=L: para todo ε&gt;0 existe N tal que si x&gt;N entonces |f(x)−L|&lt;ε.
+        </div>
+      </div>
+      <p style="font-size:1rem;color:#4a453a;">Vas a usar la última (con N) en el próximo módulo, cuando veamos <strong>límites al infinito</strong>.</p>
+
+      <div class="reflect-box">
+        <b>🖊️ Para pensar</b>
+        <p style="margin:.4em 0 0;">En el ejemplo del fabricante, ¿por qué tuvimos que tomar el <em>menor</em> entre 0,202 y 0,198 y no el promedio o el mayor?</p>
+        <textarea placeholder="Escribí tu respuesta acá."></textarea>
+        <details>
+          <summary>Ver una posible respuesta</summary>
+          <p class="model-answer">Porque δ tiene que garantizar la tolerancia en <i>ambas</i> direcciones simultáneamente. Si eligiéramos 0,202 (el mayor), del lado derecho el margen se pasaría de lo permitido. El δ tiene que ser el más chico de los dos para que ningún lado se exceda.</p>
+        </details>
+      </div>
+
+      <section class="quiz-section" id="quiz">
+        <div class="quiz-intro"><span class="pencil">📝</span><h2>Pon a prueba lo aprendido</h2></div>
+        <p class="quiz-progress">Respondé las preguntas y comprobá al toque. Podés reintentar las que falles.</p>
+        <div id="quiz-container"></div>
+      </section>
+
+      <nav class="page-nav">
+        <a class="corner prev" href="#"></a>
+        <a class="corner next" href="#"></a>
+      </nav>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/notebook.js"></script>
+<script src="js/plotter.js"></script>
+<script src="js/quiz.js"></script>
+<script>
+(function(){
+  /* ---- widget fabricante ---- */
+  const plotF = new NotebookPlot(document.getElementById('plot-fabricante'), {xMin:6,xMax:14,yMin:30,yMax:170,xStep:1,yStep:20,cssHeight:380});
+  const area = x => x*x;
+  const epsFab = document.getElementById('ctrl-eps-fab');
+  const readEpsFab = document.getElementById('read-eps-fab');
+  function drawFab(){
+    const eps = parseFloat(epsFab.value);
+    readEpsFab.textContent = eps;
+    const xLo = Math.sqrt(100-eps), xHi = Math.sqrt(100+eps);
+    const delta = Math.min(10-xLo, xHi-10);
+
+    plotF.clear(); plotF.drawGrid(); plotF.drawAxes();
+    plotF.hBand(100-eps,100+eps,{color:'rgba(182,57,47,.12)'});
+    plotF.vBand(10-delta,10+delta,{color:'rgba(35,62,130,.12)'});
+    plotF.plotFunction(area, {color:NB_INK.blue, lineWidth:3.2, domain:[6,14]});
+    plotF.hLine(100,{color:NB_INK.purple, dash:[5,5], label:'L = 100'});
+    plotF.vLine(10,{color:'#999', dash:[3,4]});
+    plotF.point(10,100,{color:NB_INK.red, r:6});
+
+    document.getElementById('fab-desc').innerHTML =
+      `Con ε = ${eps} cm²: el lado debe estar entre <strong>${xLo.toFixed(3).replace('.',',')}</strong> y <strong>${xHi.toFixed(3).replace('.',',')}</strong> cm. `+
+      `Tomando el margen más chico hacia cada lado, δ = <strong>${delta.toFixed(3).replace('.',',')}</strong> cm.`;
+  }
+  plotF.onRedraw(drawFab);
+  epsFab.addEventListener('input', drawFab);
+  drawFab();
+
+  /* ---- widget epsilon-delta general (curva) ---- */
+  const plotE = new NotebookPlot(document.getElementById('plot-epsdelta'), {xMin:-0.5,xMax:5.5,yMin:0,yMax:7,xStep:1,yStep:1,cssHeight:400});
+  const a = 2.5;
+  const curve = x => 0.4*(x-1)*(x-4)+3.6;
+  const L = curve(a);
+  const epsCtrl = document.getElementById('ctrl-eps');
+  const deltaCtrl = document.getElementById('ctrl-delta');
+  const readEps = document.getElementById('read-eps');
+  const readDelta = document.getElementById('read-delta');
+  const status = document.getElementById('status-epsdelta');
+
+  function worksFor(eps,delta){
+    const N=50;
+    for(let i=1;i<=N;i++){
+      const x = a - delta + (2*delta)*i/N;
+      if(Math.abs(x-a) < 1e-6) continue;
+      if(x < -0.5 || x > 5.5) continue;
+      if(Math.abs(curve(x)-L) >= eps) return false;
+    }
+    return true;
+  }
+  function bestDelta(eps){
+    let lo=0.001, hi=3;
+    for(let i=0;i<28;i++){
+      const mid=(lo+hi)/2;
+      if(worksFor(eps,mid)) lo=mid; else hi=mid;
+    }
+    return lo;
+  }
+  function drawEpsDelta(){
+    const eps = parseFloat(epsCtrl.value);
+    const delta = parseFloat(deltaCtrl.value);
+    readEps.textContent = eps.toFixed(2).replace('.',',');
+    readDelta.textContent = delta.toFixed(2).replace('.',',');
+
+    plotE.clear(); plotE.drawGrid(); plotE.drawAxes();
+    plotE.hBand(L-eps,L+eps,{color:'rgba(182,57,47,.13)'});
+    plotE.vBand(a-delta,a+delta,{color:'rgba(35,62,130,.13)'});
+    plotE.plotFunction(curve, {color:NB_INK.blue, lineWidth:3.2, domain:[-0.5,5.5]});
+    plotE.hLine(L,{color:NB_INK.purple, dash:[5,5], label:'L'});
+    plotE.hLine(L+eps,{color:NB_INK.red, dash:[3,4]});
+    plotE.hLine(L-eps,{color:NB_INK.red, dash:[3,4]});
+    plotE.vLine(a-delta,{color:NB_INK.blueSoft, dash:[3,4]});
+    plotE.vLine(a+delta,{color:NB_INK.blueSoft, dash:[3,4]});
+    plotE.point(a,L,{color:NB_INK.black,r:5});
+
+    const ok = worksFor(eps,delta);
+    status.textContent = ok ? '✅ este δ funciona para este ε' : '❌ este δ es demasiado grande — probá achicarlo';
+    status.style.color = ok ? 'var(--ink-green)' : 'var(--ink-red)';
+  }
+  plotE.onRedraw(drawEpsDelta);
+  epsCtrl.addEventListener('input', drawEpsDelta);
+  deltaCtrl.addEventListener('input', drawEpsDelta);
+  document.getElementById('btn-sugerir').addEventListener('click', ()=>{
+    const eps = parseFloat(epsCtrl.value);
+    deltaCtrl.value = Math.max(0.05, (bestDelta(eps)*0.97)).toFixed(3);
+    drawEpsDelta();
+  });
+  drawEpsDelta();
+
+  /* ---- widget lineal 4x-5 ---- */
+  const plotL = new NotebookPlot(document.getElementById('plot-lineal'), {xMin:0,xMax:6,yMin:0,yMax:20,xStep:1,yStep:2,cssHeight:340});
+  const lin = x => 4*x-5;
+  const epsLin = document.getElementById('ctrl-eps-lin');
+  const readEpsLin = document.getElementById('read-eps-lin');
+  const readDeltaLin = document.getElementById('read-delta-lin');
+  function drawLin(){
+    const eps = parseFloat(epsLin.value);
+    const delta = eps/4;
+    readEpsLin.textContent = eps.toFixed(2).replace('.',',');
+    readDeltaLin.textContent = delta.toFixed(3).replace('.',',');
+    plotL.clear(); plotL.drawGrid(); plotL.drawAxes();
+    plotL.hBand(7-eps,7+eps,{color:'rgba(182,57,47,.13)'});
+    plotL.vBand(3-delta,3+delta,{color:'rgba(35,62,130,.13)'});
+    plotL.plotFunction(lin, {color:NB_INK.blue, lineWidth:3.2, domain:[0,6]});
+    plotL.hLine(7,{color:NB_INK.purple, dash:[5,5], label:'L = 7'});
+    plotL.point(3,7,{color:NB_INK.black, r:5});
+  }
+  plotL.onRedraw(drawLin);
+  epsLin.addEventListener('input', drawLin);
+  drawLin();
+
+  NBQuiz('quiz-container', {
+    moduleId:5,
+    passScore:0.7,
+    questions:[
+      {
+        type:'mcq',
+        prompt:'En la definición ε–δ, ¿qué representa ε?',
+        options:[
+          'Qué tan cerca de a debe estar x.',
+          'Qué tan cerca de L queremos que esté f(x) — el margen de error que elegimos tolerar.',
+          'El valor exacto del límite.',
+          'La pendiente de la función.'
+        ],
+        correct:1,
+        explain:'ε es la tolerancia que elegimos para f(x) alrededor de L. δ es la respuesta: qué tan cerca de a hay que estar para lograrlo.'
+      },
+      {
+        type:'mcq',
+        prompt:'Si para un ε dado encontramos que δ = 0,3 funciona, y después achicamos ε a la mitad, ¿qué esperamos que pase con δ, en general?',
+        options:[
+          'δ tiene que agrandarse.',
+          'δ se mantiene igual siempre.',
+          'δ probablemente tenga que achicarse (o mantenerse) para seguir funcionando.',
+          'δ deja de tener sentido.'
+        ],
+        correct:2,
+        explain:'Pedir más precisión en f(x) (ε menor) generalmente exige acercarse más a a (δ menor o igual).'
+      },
+      {
+        type:'fill',
+        prompt:'Para lim(x→3) (4x−5)=7, si ε=0,8, ¿cuánto vale δ usando δ=ε/4?',
+        accept:['0.2','0,2'],
+        explain:'δ = ε/4 = 0,8/4 = 0,2.'
+      },
+      {
+        type:'tf',
+        prompt:'En el ejemplo del fabricante, si la tolerancia ε en el área aumenta, el δ (tolerancia en el lado) también aumenta.',
+        correct:true,
+        explain:'Sí: a mayor tolerancia permitida en el área, mayor es el rango admisible de longitudes de lado.'
+      },
+      {
+        type:'mcq',
+        prompt:'¿Qué significa "0 < |x − a| < δ" en la definición formal?',
+        options:[
+          'Que x puede ser igual a a.',
+          'Que x está a menos de δ de distancia de a, pero x no es igual a a.',
+          'Que x es siempre positivo.',
+          'Que δ es menor que x.'
+        ],
+        correct:1,
+        explain:'El "0 <" excluye x=a; el "< δ" acota qué tan lejos puede estar x de a.'
+      }
+    ]
+  });
+})();
+</script>
+</body>
+</html>

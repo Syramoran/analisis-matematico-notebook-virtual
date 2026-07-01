@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>6. Límites al infinito y técnicas de cálculo · Cuaderno de Límites</title>
+<link rel="stylesheet" href="css/notebook.css">
+</head>
+<body data-module="6">
+
+<button id="index-tab" class="index-tab">📑 Índice</button>
+<div id="drawer-overlay" class="drawer-overlay"></div>
+<aside id="index-drawer" class="index-drawer"></aside>
+
+<div class="desk">
+  <main class="notebook-page">
+    <div class="spiral" aria-hidden="true"></div>
+    <div class="margin-line" aria-hidden="true"></div>
+
+    <div class="page-content">
+
+      <header class="page-header">
+        <span class="module-badge"><span class="dot"></span>Módulo 6 de 6</span>
+        <div class="progress-strip"></div>
+        <h1 class="underline-draw">Límites al infinito y técnicas de cálculo
+          <svg viewBox="0 0 640 14" preserveAspectRatio="none"><path d="M4 9 Q 200 2, 636 8"/></svg>
+        </h1>
+        <p style="font-size:1.2rem;color:#4a453a;max-width:660px;">Último módulo de la unidad: qué pasa cuando <strong>x</strong> (no f(x)) es el que crece sin cota, y las herramientas prácticas para calcular límites sin hacer tablas.</p>
+      </header>
+
+      <h3>Límites al infinito</h3>
+      <p>Investiguemos <span class="math">f(x) = <span class="frac"><span class="num">x² − 1</span><span class="den">x² + 1</span></span></span> cuando <span class="math">x</span> crece cada vez más (o decrece sin cota):</p>
+
+      <div class="widget">
+        <canvas id="plot-alinfinito" cssHeight="380"></canvas>
+        <div class="widget-controls">
+          <label>x: <input type="range" id="ctrl-x6" min="-80" max="80" step="0.5" value="6"></label>
+          <span>x = <span class="widget-readout" id="read-x6">6</span></span>
+          <span>f(x) = <span class="widget-readout" id="read-fx6">—</span></span>
+        </div>
+        <p class="widget-caption">El gráfico se reajusta solo a medida que alejás x. Fijate cómo f(x) se acerca cada vez más a 1, sin importar de qué lado vengas.</p>
+      </div>
+
+      <div class="box def">
+        <span class="box-tag">📖 Definiciones</span>
+        <p><span class="lim"><span class="lim-word">lim</span><span class="lim-sub">x→∞</span></span> f(x) = L : los valores de f(x) se acercan a L tanto como queramos, tomando x suficientemente grande.</p>
+        <p><span class="lim"><span class="lim-word">lim</span><span class="lim-sub">x→−∞</span></span> f(x) = L : los valores de f(x) se acercan a L tanto como queramos, tomando x negativo y suficientemente grande en magnitud.</p>
+        <p style="margin-top:8px;"><strong>Ojo:</strong> igual que ∞ no es un número, tampoco lo son "x→∞" como destino: es una forma de decir "x crece sin parar".</p>
+      </div>
+
+      <div class="box formula">
+        <span class="box-tag">Asíntota horizontal</span>
+        La recta y = L es una <strong>asíntota horizontal</strong> de y=f(x) si <span class="lim" style="font-size:.85em;"><span class="lim-word">lim</span><span class="lim-sub">x→∞</span></span>f(x)=L &nbsp;o&nbsp; <span class="lim" style="font-size:.85em;"><span class="lim-word">lim</span><span class="lim-sub">x→−∞</span></span>f(x)=L.
+      </div>
+
+      <h3>La versión formal, en acción</h3>
+      <p>Recordá del Módulo 5: <span class="lim" style="font-size:.9em;"><span class="lim-word">lim</span><span class="lim-sub">x→∞</span></span>f(x)=L significa que para todo ε&gt;0 existe N tal que si x&gt;N entonces f(x) queda atrapada en la franja (L−ε, L+ε):</p>
+      <div class="widget">
+        <canvas id="plot-N" cssHeight="340"></canvas>
+        <div class="widget-controls">
+          <label>N: <input type="range" id="ctrl-N" min="1" max="26" step="0.5" value="4"></label>
+          <span>N = <span class="widget-readout" id="read-N">4</span></span>
+        </div>
+        <p class="widget-caption">Para x &gt; N (zona sombreada), la curva de f(x)=(2x²−1)/(x²+3) queda atrapada en la franja alrededor de y=2. Probá agrandar N y después achicar la franja de ε en tu cabeza: siempre se puede encontrar un N que funcione.</p>
+      </div>
+
+      <h3>Propiedades (leyes) de los límites</h3>
+      <p>Si <span class="math">c</span> es constante y <span class="lim" style="font-size:.85em;"><span class="lim-word">lim</span><span class="lim-sub">x→a</span></span>f(x) y <span class="lim" style="font-size:.85em;"><span class="lim-word">lim</span><span class="lim-sub">x→a</span></span>g(x) existen, entonces:</p>
+      <div class="box def" style="font-size:1.02rem;">
+        <span class="box-tag">Leyes</span>
+        <ul style="columns:2 220px;">
+          <li>lim [f(x)+g(x)] = lim f(x) + lim g(x)</li>
+          <li>lim [f(x)−g(x)] = lim f(x) − lim g(x)</li>
+          <li>lim [c·f(x)] = c·lim f(x)</li>
+          <li>lim [f(x)·g(x)] = lim f(x) · lim g(x)</li>
+          <li>lim [f(x)/g(x)] = lim f(x) / lim g(x), si lim g(x)≠0</li>
+          <li>lim [f(x)]ⁿ = [lim f(x)]ⁿ</li>
+          <li>lim c = c</li>
+          <li>lim x = a</li>
+          <li>lim xⁿ = aⁿ</li>
+          <li>lim ⁿ√f(x) = ⁿ√(lim f(x))</li>
+        </ul>
+      </div>
+      <div class="box formula">
+        <span class="box-tag">Sustitución directa</span>
+        Si f es polinomial o racional y a está en el dominio de f, entonces <span class="lim" style="font-size:.85em;"><span class="lim-word">lim</span><span class="lim-sub">x→a</span></span>f(x) = f(a).
+      </div>
+
+      <div class="widget">
+        <canvas id="plot-compresion" cssHeight="300"></canvas>
+      </div>
+      <div class="box def">
+        <span class="box-tag">📖 Teorema de la compresión (sándwich)</span>
+        <p>Si <span class="math">f(x) ≤ g(x) ≤ h(x)</span> cerca de <span class="math">a</span> (excepto quizás en a), y <span class="lim" style="font-size:.85em;"><span class="lim-word">lim</span><span class="lim-sub">x→a</span></span>f(x) = <span class="lim" style="font-size:.85em;"><span class="lim-word">lim</span><span class="lim-sub">x→a</span></span>h(x) = L, entonces <span class="lim" style="font-size:.85em;"><span class="lim-word">lim</span><span class="lim-sub">x→a</span></span>g(x) = L también. Si g queda "encajonada" entre dos funciones que van al mismo lugar, no le queda otra que ir ahí también.</p>
+      </div>
+
+      <h3>Formas indeterminadas</h3>
+      <p>Cuando sustitución directa da una de estas expresiones, <strong>no</strong> significa que el límite no exista — significa que hace falta trabajar algebraicamente antes:</p>
+      <div class="box warn">
+        <span class="box-tag">⚠️ Indeterminaciones</span>
+        <p style="text-align:center;font-size:1.3rem;letter-spacing:.3em;">0/0 &nbsp; ∞/∞ &nbsp; ∞−∞ &nbsp; 0·∞ &nbsp; 0⁰ &nbsp; ∞⁰ &nbsp; 1^∞</p>
+      </div>
+
+      <h3>Técnicas de cálculo</h3>
+      <p>Cuatro estrategias típicas para "destrabar" una indeterminación:</p>
+
+      <div class="box example">
+        <span class="box-tag">1️⃣ Desarrollo de potencias</span>
+        <p>Evaluá: <span class="lim" style="font-size:.9em;"><span class="lim-word">lim</span><span class="lim-sub">h→0</span></span> <span class="frac"><span class="num">(3+h)² − 9</span><span class="den">h</span></span></p>
+        <details><summary>Ver desarrollo paso a paso</summary>
+          <div class="model-answer">
+            <p>(3+h)² − 9 = 9 + 6h + h² − 9 = 6h + h² = h(6+h)</p>
+            <p><span class="frac"><span class="num">h(6+h)</span><span class="den">h</span></span> = 6+h &nbsp;(cancelamos h, válido porque h≠0 al tomar el límite)</p>
+            <p><span class="lim" style="font-size:.9em;"><span class="lim-word">lim</span><span class="lim-sub">h→0</span></span>(6+h) = <strong>6</strong></p>
+          </div>
+        </details>
+      </div>
+
+      <div class="box example">
+        <span class="box-tag">2️⃣ Racionalización</span>
+        <p>Evaluá: <span class="lim" style="font-size:.9em;"><span class="lim-word">lim</span><span class="lim-sub">t→0</span></span> <span class="frac"><span class="num">√(t²+9) − 3</span><span class="den">t²</span></span></p>
+        <details><summary>Ver desarrollo paso a paso</summary>
+          <div class="model-answer">
+            <p>Multiplicamos numerador y denominador por el conjugado √(t²+9)+3:</p>
+            <p><span class="frac"><span class="num">(t²+9) − 9</span><span class="den">t²·(√(t²+9)+3)</span></span> = <span class="frac"><span class="num">t²</span><span class="den">t²·(√(t²+9)+3)</span></span> = <span class="frac"><span class="num">1</span><span class="den">√(t²+9)+3</span></span></p>
+            <p><span class="lim" style="font-size:.9em;"><span class="lim-word">lim</span><span class="lim-sub">t→0</span></span> <span class="frac"><span class="num">1</span><span class="den">√(t²+9)+3</span></span> = <span class="frac"><span class="num">1</span><span class="den">3+3</span></span> = <strong>1/6</strong></p>
+          </div>
+        </details>
+      </div>
+
+      <div class="box example">
+        <span class="box-tag">3️⃣ Dividir por la mayor potencia de x</span>
+        <p>Evaluá: <span class="lim" style="font-size:.9em;"><span class="lim-word">lim</span><span class="lim-sub">x→∞</span></span> <span class="frac"><span class="num">3x² − x − 2</span><span class="den">5x² + 4x + 1</span></span></p>
+        <details><summary>Ver desarrollo paso a paso</summary>
+          <div class="model-answer">
+            <p>Dividimos cada término por x² (la mayor potencia presente):</p>
+            <p><span class="frac"><span class="num">3 − 1/x − 2/x²</span><span class="den">5 + 4/x + 1/x²</span></span></p>
+            <p>Cuando x→∞, los términos con 1/x y 1/x² tienden a 0, así que queda: <strong>3/5</strong></p>
+          </div>
+        </details>
+      </div>
+
+      <div class="postit green lg postit-float">
+        <b>Aplicación real 💊</b>
+        La concentración de un medicamento en sangre puede modelarse como C(t) = 50t/(t+10). ¿Qué pasa cuando t→∞? El límite es 50: la concentración se <i>estabiliza</i>, no crece para siempre. La asíntota horizontal tiene sentido físico.
+      </div>
+
+      <div class="reflect-box">
+        <b>🖊️ Para pensar</b>
+        <p style="margin:.4em 0 0;">¿Por qué "0/0" se llama <i>indeterminada</i> y no simplemente "no existe"? Pensá en los ejemplos de este cuaderno donde 0/0 terminó teniendo un límite finito.</p>
+        <textarea placeholder="Escribí tu respuesta acá."></textarea>
+        <details>
+          <summary>Ver una posible respuesta</summary>
+          <p class="model-answer">"Indeterminada" significa que la forma 0/0 por sí sola no nos dice nada sobre el valor del límite — podría dar cualquier resultado según la función. Vimos ejemplos donde 0/0 terminó siendo 0,5 (Módulo 2), 2 (Módulo 1) o 6 (este módulo). Por eso hace falta transformar la expresión (factorizar, racionalizar, etc.) antes de sacar conclusiones.</p>
+        </details>
+      </div>
+
+      <section class="quiz-section" id="quiz">
+        <div class="quiz-intro"><span class="pencil">📝</span><h2>Pon a prueba lo aprendido</h2></div>
+        <p class="quiz-progress">Respondé las preguntas y comprobá al toque. Podés reintentar las que falles.</p>
+        <div id="quiz-container"></div>
+      </section>
+
+      <div class="box def" style="margin-top:50px;text-align:center;">
+        <span class="box-tag">🎉 ¡Llegaste al final de la Unidad 2!</span>
+        <p>Repasaste el problema de la tangente, la definición informal y formal de límite, los límites laterales, infinitos, al infinito, y las técnicas de cálculo. El próximo capítulo del cuaderno — <strong>Continuidad</strong> — se apoya en todo esto.</p>
+      </div>
+
+      <nav class="page-nav">
+        <a class="corner prev" href="#"></a>
+        <a class="corner next" href="#"></a>
+      </nav>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/notebook.js"></script>
+<script src="js/plotter.js"></script>
+<script src="js/quiz.js"></script>
+<script>
+(function(){
+  /* ---- widget 1: (x^2-1)/(x^2+1) con zoom dinámico ---- */
+  const canvas6 = document.getElementById('plot-alinfinito');
+  const f6 = x => (x*x-1)/(x*x+1);
+  const ctrlX6 = document.getElementById('ctrl-x6');
+  const readX6 = document.getElementById('read-x6');
+  const readFx6 = document.getElementById('read-fx6');
+  let plot6;
+  function makePlot6(range){
+    plot6 = new NotebookPlot(canvas6, {xMin:-range,xMax:range,yMin:-1.3,yMax:1.3,xStep:Math.max(1,Math.round(range/8)),yStep:0.5,cssHeight:380});
+    plot6.onRedraw(draw6);
+  }
+  function draw6(){
+    const x = parseFloat(ctrlX6.value);
+    readX6.textContent = x;
+    readFx6.textContent = f6(x).toFixed(5).replace('.',',');
+    plot6.clear(); plot6.drawGrid(); plot6.drawAxes();
+    plot6.hLine(1, {color:NB_INK.green, dash:[5,5], label:'y = 1 (asíntota horizontal)'});
+    plot6.plotFunction(f6, {color:NB_INK.blue, lineWidth:3});
+    plot6.point(x, f6(x), {color:NB_INK.red, r:6});
+  }
+  let lastRange=-1;
+  function updatePlot6(){
+    const x = parseFloat(ctrlX6.value);
+    const range = Math.max(10, Math.abs(x)*1.25);
+    if(Math.abs(range-lastRange) > lastRange*0.15 || lastRange<0){
+      lastRange = range;
+      makePlot6(range);
+    }
+    draw6();
+  }
+  ctrlX6.addEventListener('input', updatePlot6);
+  updatePlot6();
+
+  /* ---- widget 2: N-eps demo (2x^2-1)/(x^2+3) ---- */
+  const plotN = new NotebookPlot(document.getElementById('plot-N'), {xMin:0,xMax:28,yMin:0,yMax:3,xStep:2,yStep:0.5,cssHeight:340});
+  const fN = x => (2*x*x-1)/(x*x+3);
+  const Lh = 2;
+  const eps = 0.15;
+  const ctrlN = document.getElementById('ctrl-N');
+  const readN = document.getElementById('read-N');
+  function drawN(){
+    const N = parseFloat(ctrlN.value);
+    readN.textContent = N;
+    plotN.clear(); plotN.drawGrid(); plotN.drawAxes();
+    plotN.hBand(Lh-eps,Lh+eps,{color:'rgba(182,57,47,.13)'});
+    plotN.vBand(N,28,{color:'rgba(35,62,130,.10)'});
+    plotN.plotFunction(fN, {color:NB_INK.blue, lineWidth:3.2, domain:[0.3,28]});
+    plotN.hLine(Lh,{color:NB_INK.purple, dash:[5,5], label:'L = 2'});
+    plotN.vLine(N,{color:NB_INK.red, dash:[4,4], label:'x = N'});
+  }
+  plotN.onRedraw(drawN);
+  ctrlN.addEventListener('input', drawN);
+  drawN();
+
+  /* ---- widget 3: teorema de la compresión ---- */
+  const plotS = new NotebookPlot(document.getElementById('plot-compresion'), {xMin:-3,xMax:3,yMin:-0.5,yMax:4,xStep:1,yStep:1,cssHeight:300});
+  function drawS(){
+    plotS.clear(); plotS.drawGrid(); plotS.drawAxes();
+    const h = x=> 0.35*x*x+1.6;
+    const f = x=> -0.35*x*x+1.6;
+    const g = x=> 1.6 + 0.5*Math.sin(x*2.4)*Math.exp(-x*x*0.15);
+    plotS.plotFunction(h,{color:NB_INK.green, lineWidth:2.6, domain:[-3,3]});
+    plotS.plotFunction(f,{color:NB_INK.blue, lineWidth:2.6, domain:[-3,3]});
+    plotS.plotFunction(g,{color:NB_INK.red, lineWidth:3, domain:[-3,3]});
+    plotS.point(0,1.6,{color:NB_INK.black,r:5,label:'L',labelDy:-10});
+    plotS.text(2.4,3.2,'h',{color:NB_INK.green});
+    plotS.text(2.4,0.4,'f',{color:NB_INK.blue});
+    plotS.text(1.1,2.5,'g',{color:NB_INK.red});
+  }
+  plotS.onRedraw(drawS);
+  drawS();
+
+  NBQuiz('quiz-container', {
+    moduleId:6,
+    passScore:0.7,
+    questions:[
+      {
+        type:'fill',
+        prompt:'lim(x→∞) (x²−1)/(x²+1) = ______',
+        accept:['1','1,0','1.0'],
+        explain:'Dividiendo numerador y denominador por x², queda (1−1/x²)/(1+1/x²) → 1/1 = 1 cuando x→∞.'
+      },
+      {
+        type:'mcq',
+        prompt:'¿Qué técnica conviene usar en lim(x→∞) (3x²−x−2)/(5x²+4x+1)?',
+        options:[
+          'Sustitución directa.',
+          'Racionalización.',
+          'Dividir cada término por la mayor potencia de x presente (x²).',
+          'Teorema de la compresión.'
+        ],
+        correct:2,
+        explain:'Es la técnica estándar para límites al infinito de funciones racionales: dividir todo por x² deja una expresión donde los términos con 1/x se anulan.'
+      },
+      {
+        type:'fill',
+        prompt:'lim(h→0) ((3+h)²−9)/h = ______',
+        accept:['6','6,0','6.0'],
+        explain:'Desarrollando el binomio: (9+6h+h²−9)/h = (6h+h²)/h = 6+h → 6 cuando h→0.'
+      },
+      {
+        type:'mcq',
+        prompt:'¿Cuál de estas NO es una forma indeterminada?',
+        options:['0/0','∞/∞','5/0','1^∞'],
+        correct:2,
+        explain:'5/0 no es indeterminada: indica que la función crece sin cota (un límite infinito), no una indeterminación. Las indeterminadas son 0/0, ∞/∞, ∞−∞, 0·∞, 0⁰, ∞⁰, 1^∞.'
+      },
+      {
+        type:'tf',
+        prompt:'La propiedad de sustitución directa (lim f(x)=f(a)) se puede usar para cualquier función, siempre que a esté en su dominio.',
+        correct:false,
+        explain:'Solo vale para funciones polinomiales o racionales (con a en el dominio) — no para cualquier función en general.'
+      },
+      {
+        type:'mcq',
+        prompt:'Según el teorema de la compresión, si f(x) ≤ g(x) ≤ h(x) cerca de a, y lim f(x) = lim h(x) = 5, entonces...',
+        options:[
+          'lim g(x) también es 5.',
+          'lim g(x) no se puede determinar.',
+          'lim g(x) es siempre mayor que 5.',
+          'g(x) tiene que ser igual a f(x).'
+        ],
+        correct:0,
+        explain:'Ese es justamente el teorema: si g queda encajonada entre dos funciones que van al mismo límite, g también va ahí.'
+      },
+      {
+        type:'tf',
+        prompt:'Si y=L es asíntota horizontal, la función nunca puede tocar ni cruzar esa recta.',
+        correct:false,
+        explain:'Falso — una función puede cruzar su asíntota horizontal varias veces cerca del origen; lo único que garantiza la asíntota es el comportamiento cuando x→∞ o x→−∞.'
+      }
+    ]
+  });
+})();
+</script>
+</body>
+</html>

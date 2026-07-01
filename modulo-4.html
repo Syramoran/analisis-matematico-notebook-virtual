@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4. Límites infinitos y asíntotas verticales · Cuaderno de Límites</title>
+<link rel="stylesheet" href="css/notebook.css">
+</head>
+<body data-module="4">
+
+<button id="index-tab" class="index-tab">📑 Índice</button>
+<div id="drawer-overlay" class="drawer-overlay"></div>
+<aside id="index-drawer" class="index-drawer"></aside>
+
+<div class="desk">
+  <main class="notebook-page">
+    <div class="spiral" aria-hidden="true"></div>
+    <div class="margin-line" aria-hidden="true"></div>
+
+    <div class="page-content">
+
+      <header class="page-header">
+        <span class="module-badge"><span class="dot"></span>Módulo 4 de 6</span>
+        <div class="progress-strip"></div>
+        <h1 class="underline-draw">Límites infinitos y asíntotas verticales
+          <svg viewBox="0 0 620 14" preserveAspectRatio="none"><path d="M4 9 Q 200 2, 616 8"/></svg>
+        </h1>
+        <p style="font-size:1.2rem;color:#4a453a;max-width:660px;">Hasta ahora f(x) siempre se acercaba a <i>un número</i>. ¿Qué pasa si, en cambio, f(x) crece sin parar?</p>
+      </header>
+
+      <p>Pensá en <span class="math">f(x) = 1/x²</span> cerca de <span class="math">x = 0</span>. A medida que <span class="math">x</span> se acerca a 0, <span class="math">f(x)</span> no se acerca a ningún número — se dispara cada vez más alto.</p>
+
+      <div class="box def">
+        <span class="box-tag">📖 Límite infinito</span>
+        <p>Sea f definida en ambos lados de a, excepto posiblemente en a. Decimos</p>
+        <p style="text-align:center;font-size:1.25rem;"><span class="lim"><span class="lim-word">lim</span><span class="lim-sub">x→a</span></span> f(x) = ∞</p>
+        <p>si los valores de f(x) pueden hacerse <strong>arbitrariamente grandes</strong> (tan grandes como queramos) tomando x lo bastante cerca de a, pero sin llegar a valer a. De forma análoga se define <span class="math">lim<span style="font-size:.7em;">x→a</span> f(x) = −∞</span> cuando f(x) se vuelve arbitrariamente negativo.</p>
+        <p style="margin-top:8px;"><strong>Importante:</strong> ∞ y −∞ no son números. Escribir "el límite es ∞" es una forma de decir <em>por qué</em> el límite no existe: porque la función crece sin cota.</p>
+      </div>
+
+      <h3>Los cuatro casos posibles</h3>
+      <p>Cerca de una asíntota, cada rama (izquierda y derecha) puede irse a <span class="math">+∞</span> o a <span class="math">−∞</span>, de forma independiente. Elegí signo y potencia para explorar los cuatro casos:</p>
+
+      <div class="widget">
+        <canvas id="plot-infinito" cssHeight="380"></canvas>
+        <div class="widget-controls">
+          <label>Posición de la asíntota (a): <input type="range" id="ctrl-a" min="-3" max="3" step="0.5" value="1"></label>
+          <span>a = <span class="widget-readout" id="read-a">1</span></span>
+        </div>
+        <div class="widget-controls">
+          <label><input type="radio" name="signo" value="1" checked> Coeficiente +</label>
+          <label><input type="radio" name="signo" value="-1"> Coeficiente −</label>
+          <label><input type="radio" name="pot" value="1" checked> Potencia impar (n=1)</label>
+          <label><input type="radio" name="pot" value="2"> Potencia par (n=2)</label>
+        </div>
+        <p class="widget-caption" id="caso-infinito-desc" style="font-size:1rem;"></p>
+      </div>
+
+      <div class="postit orange md postit-float">
+        <b>Patrón útil</b>
+        Con potencia <b>par</b> (n=2), las dos ramas siempre van al mismo signo. Con potencia <b>impar</b> (n=1), van a signos opuestos.
+      </div>
+
+      <h3>Asíntotas verticales</h3>
+      <div class="box def">
+        <span class="box-tag">📖 Definición</span>
+        <p>La recta <span class="math">x = a</span> es una <strong>asíntota vertical</strong> de la curva <span class="math">y = f(x)</span> si se cumple <strong>al menos una</strong> de estas seis afirmaciones:</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;text-align:center;margin-top:12px;font-size:1.05rem;">
+          <div><span class="lim" style="font-size:.85em;"><span class="lim-word">lim</span><span class="lim-sub">x→a</span></span>f(x)=∞</div>
+          <div><span class="lim" style="font-size:.85em;"><span class="lim-word">lim</span><span class="lim-sub">x→a⁻</span></span>f(x)=∞</div>
+          <div><span class="lim" style="font-size:.85em;"><span class="lim-word">lim</span><span class="lim-sub">x→a⁺</span></span>f(x)=∞</div>
+          <div><span class="lim" style="font-size:.85em;"><span class="lim-word">lim</span><span class="lim-sub">x→a</span></span>f(x)=−∞</div>
+          <div><span class="lim" style="font-size:.85em;"><span class="lim-word">lim</span><span class="lim-sub">x→a⁻</span></span>f(x)=−∞</div>
+          <div><span class="lim" style="font-size:.85em;"><span class="lim-word">lim</span><span class="lim-sub">x→a⁺</span></span>f(x)=−∞</div>
+        </div>
+      </div>
+
+      <h3>Ejemplo trabajado: hallar la asíntota vertical</h3>
+      <p>Buscamos las asíntotas verticales de <span class="math">f(x) = <span class="frac"><span class="num">x + 1</span><span class="den">x − 2</span></span></span>.</p>
+
+      <div class="widget">
+        <canvas id="plot-ejemplo4" cssHeight="360"></canvas>
+      </div>
+
+      <div class="box example">
+        <span class="box-tag">Razonamiento</span>
+        <p>El denominador se anula en <span class="math">x = 2</span>, y el numerador ahí vale <span class="math">2+1=3≠0</span>. Como el numerador no se anula al mismo tiempo, la función "explota" cerca de <span class="math">x=2</span>:</p>
+        <ul>
+          <li>Si <span class="math">x→2⁻</span> (por ejemplo x=1,9): numerador ≈ 2,9 (positivo), denominador ≈ −0,1 (negativo chico) → f(x) → <strong>−∞</strong></li>
+          <li>Si <span class="math">x→2⁺</span> (por ejemplo x=2,1): numerador ≈ 3,1 (positivo), denominador ≈ 0,1 (positivo chico) → f(x) → <strong>+∞</strong></li>
+        </ul>
+        <p>Por lo tanto, <span class="math">x = 2</span> es una asíntota vertical.</p>
+      </div>
+
+      <div class="reflect-box">
+        <b>🖊️ Para pensar</b>
+        <p style="margin:.4em 0 0;">¿Por qué necesitamos que el numerador <em>no</em> se anule en el mismo punto que el denominador para asegurar una asíntota vertical? ¿Qué pasaría si ambos se anulan a la vez?</p>
+        <textarea placeholder="Escribí tu respuesta acá."></textarea>
+        <details>
+          <summary>Ver una posible respuesta</summary>
+          <p class="model-answer">Si numerador y denominador se anulan juntos, la expresión da 0/0 (indeterminado), y muchas veces se puede simplificar el factor común — como en (x−1)/(x²−1) del Módulo 2, donde en realidad queda un hueco (límite finito), no una asíntota vertical. Por eso hay que revisar si el factor se cancela antes de concluir que hay asíntota.</p>
+        </details>
+      </div>
+
+      <section class="quiz-section" id="quiz">
+        <div class="quiz-intro"><span class="pencil">📝</span><h2>Pon a prueba lo aprendido</h2></div>
+        <p class="quiz-progress">Respondé las preguntas y comprobá al toque. Podés reintentar las que falles.</p>
+        <div id="quiz-container"></div>
+      </section>
+
+      <nav class="page-nav">
+        <a class="corner prev" href="#"></a>
+        <a class="corner next" href="#"></a>
+      </nav>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/notebook.js"></script>
+<script src="js/plotter.js"></script>
+<script src="js/quiz.js"></script>
+<script>
+(function(){
+  /* ---- widget 1: los 4 casos de límite infinito ---- */
+  const plot1 = new NotebookPlot(document.getElementById('plot-infinito'), {xMin:-4,xMax:4,yMin:-6,yMax:6,xStep:1,yStep:1,cssHeight:380});
+  const ctrlA = document.getElementById('ctrl-a');
+  const readA = document.getElementById('read-a');
+  function getSigno(){ return parseFloat(document.querySelector('input[name=signo]:checked').value); }
+  function getPot(){ return parseInt(document.querySelector('input[name=pot]:checked').value,10); }
+  function drawInfinito(){
+    const a = parseFloat(ctrlA.value);
+    readA.textContent = a;
+    const s = getSigno(), n = getPot();
+    const f = x => s / Math.pow(x-a, n);
+    plot1.clear(); plot1.drawGrid(); plot1.drawAxes();
+    plot1.vLine(a, {color:NB_INK.red, label:'x = '+a});
+    plot1.plotFunction(f, {color:NB_INK.blue, lineWidth:3.2, domain:[-4,a], asymptoteAt:[a]});
+    plot1.plotFunction(f, {color:NB_INK.blue, lineWidth:3.2, domain:[a,4], asymptoteAt:[a]});
+
+    const leftSign = Math.sign(s * Math.pow(-1,n)); // sign as x->a- : (x-a) -> 0- ; (x-a)^n sign depends
+    // determinar signos reales evaluando cerca
+    const leftVal = f(a-0.01), rightVal = f(a+0.01);
+    const leftInf = leftVal>0 ? '+∞' : '−∞';
+    const rightInf = rightVal>0 ? '+∞' : '−∞';
+    document.getElementById('caso-infinito-desc').innerHTML =
+      `f(x) = ${s>0?'':'−'}1/(x−${a})${n===2?'²':''} &nbsp;→&nbsp; `+
+      `<span class="lim" style="font-size:.9em;"><span class="lim-word">lim</span><span class="lim-sub">x→${a}⁻</span></span>f(x) = <strong>${leftInf}</strong> &nbsp;&nbsp; `+
+      `<span class="lim" style="font-size:.9em;"><span class="lim-word">lim</span><span class="lim-sub">x→${a}⁺</span></span>f(x) = <strong>${rightInf}</strong>`;
+  }
+  plot1.onRedraw(drawInfinito);
+  ctrlA.addEventListener('input', drawInfinito);
+  document.querySelectorAll('input[name=signo],input[name=pot]').forEach(r=>r.addEventListener('change',drawInfinito));
+  drawInfinito();
+
+  /* ---- widget 2: (x+1)/(x-2) ---- */
+  const plot2 = new NotebookPlot(document.getElementById('plot-ejemplo4'), {xMin:-4,xMax:8,yMin:-8,yMax:8,xStep:1,yStep:2,cssHeight:360});
+  const f2 = x => (x+1)/(x-2);
+  function drawEj4(){
+    plot2.clear(); plot2.drawGrid(); plot2.drawAxes();
+    plot2.vLine(2, {color:NB_INK.red, label:'x = 2 (asíntota)'});
+    plot2.plotFunction(f2, {color:NB_INK.blue, lineWidth:3.2, domain:[-4,2], asymptoteAt:[2]});
+    plot2.plotFunction(f2, {color:NB_INK.blue, lineWidth:3.2, domain:[2,8], asymptoteAt:[2]});
+  }
+  plot2.onRedraw(drawEj4);
+  drawEj4();
+
+  NBQuiz('quiz-container', {
+    moduleId:4,
+    passScore:0.7,
+    questions:[
+      {
+        type:'tf',
+        prompt:'∞ es un número muy grande, así que lim(x→a) f(x) = ∞ significa que el límite existe y vale ese número.',
+        correct:false,
+        explain:'∞ no es un número. Escribir que el límite "es ∞" es una manera de describir por qué no existe: la función crece sin cota, no se estabiliza en ningún valor.'
+      },
+      {
+        type:'mcq',
+        prompt:'Con f(x) = 1/(x−a)² (potencia par), ¿qué ocurre con los dos límites laterales en x=a?',
+        options:[
+          'Uno es +∞ y el otro −∞.',
+          'Los dos son +∞.',
+          'Los dos son −∞.',
+          'Los dos valen 0.'
+        ],
+        correct:1,
+        explain:'Con potencia par, (x−a)² siempre es positivo (a ambos lados), así que 1/(x−a)² siempre es positivo y crece sin cota: ambas ramas van a +∞.'
+      },
+      {
+        type:'mcq',
+        prompt:'¿Cuál es la asíntota vertical de f(x) = (x+1)/(x−2)?',
+        options:['x = −1','x = 2','x = 1','No tiene asíntota vertical'],
+        correct:1,
+        explain:'El denominador se anula en x=2, y el numerador ahí no se anula (vale 3), así que la función crece sin cota cerca de x=2.'
+      },
+      {
+        type:'tf',
+        prompt:'Si el numerador y el denominador de una función racional se anulan en el mismo punto, siempre hay una asíntota vertical ahí.',
+        correct:false,
+        explain:'No siempre: puede haber un factor común que se simplifique, dejando un hueco (límite finito) en vez de una asíntota — como vimos con (x−1)/(x²−1).'
+      },
+      {
+        type:'fill',
+        prompt:'Para f(x) = −1/(x−0)² (con a=0), lim(x→0) f(x) = ______ (escribí "+inf" o "-inf").',
+        accept:['-inf','−inf','-infinito','−infinito'],
+        explain:'Con coeficiente negativo y potencia par, ambas ramas van a −∞.'
+      }
+    ]
+  });
+})();
+</script>
+</body>
+</html>

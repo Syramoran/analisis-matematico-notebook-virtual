@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3. Límites laterales · Cuaderno de Límites</title>
+<link rel="stylesheet" href="css/notebook.css">
+</head>
+<body data-module="3">
+
+<button id="index-tab" class="index-tab">📑 Índice</button>
+<div id="drawer-overlay" class="drawer-overlay"></div>
+<aside id="index-drawer" class="index-drawer"></aside>
+
+<div class="desk">
+  <main class="notebook-page">
+    <div class="spiral" aria-hidden="true"></div>
+    <div class="margin-line" aria-hidden="true"></div>
+
+    <div class="page-content">
+
+      <header class="page-header">
+        <span class="module-badge"><span class="dot"></span>Módulo 3 de 6</span>
+        <div class="progress-strip"></div>
+        <h1 class="underline-draw">Límites laterales
+          <svg viewBox="0 0 300 14" preserveAspectRatio="none"><path d="M4 9 Q 100 2, 296 8"/></svg>
+        </h1>
+        <p style="font-size:1.2rem;color:#4a453a;max-width:660px;">Con la función de Heaviside vimos que a veces "acercarse por izquierda" y "acercarse por derecha" da resultados distintos. Vamos a ponerle nombre a cada acercamiento.</p>
+      </header>
+
+      <div class="box def">
+        <span class="box-tag">📖 Límite lateral izquierdo</span>
+        <p>Escribimos <span class="lim"><span class="lim-word">lim</span><span class="lim-sub">x→a⁻</span></span> f(x) = L y decimos que es el <strong>límite por la izquierda</strong> de f(x) en a, si podemos acercar f(x) a L tanto como queramos, tomando x <strong>menor que a</strong> y suficientemente cerca de a.</p>
+      </div>
+      <div class="box def">
+        <span class="box-tag">📖 Límite lateral derecho</span>
+        <p>Escribimos <span class="lim"><span class="lim-word">lim</span><span class="lim-sub">x→a⁺</span></span> f(x) = L y decimos que es el <strong>límite por la derecha</strong> de f(x) en a, si podemos acercar f(x) a L tanto como queramos, tomando x <strong>mayor que a</strong> y suficientemente cerca de a.</p>
+      </div>
+
+      <p>La notación es sutil pero importante: el signo <strong>⁻</strong> en <span class="math">x→a⁻</span> no significa "menos a", significa <em>"nos acercamos desde números menores que a"</em>. Del mismo modo, <span class="math">x→a⁺</span> significa <em>"desde números mayores que a"</em>.</p>
+
+      <h3>Explorá una función con salto</h3>
+      <p>Esta función tiene un salto en <span class="math">x = 1</span>. Usá los botones para simular el acercamiento paso a paso, como en la tabla del Módulo 1:</p>
+
+      <div class="widget">
+        <canvas id="plot-salto" cssHeight="360"></canvas>
+        <div class="widget-controls">
+          <button class="btn secondary" id="btn-izq">◀ Aproximar por izquierda</button>
+          <button class="btn secondary" id="btn-der">Aproximar por derecha ▶</button>
+          <button class="btn ghost" id="btn-reset">↺ Reiniciar</button>
+        </div>
+        <div id="approach-log" style="margin-top:14px;font-family:var(--font-body);font-size:1rem;"></div>
+        <p class="widget-caption">g(x) = x+3 si x&lt;1; g(x) = −x+6 si x≥1. Notá que g(1)=5 (punto lleno), y que los dos límites laterales <strong>no coinciden</strong>.</p>
+      </div>
+
+      <div class="box formula">
+        <span class="box-tag">Resultado</span>
+        <span class="lim"><span class="lim-word">lim</span><span class="lim-sub">x→1⁻</span></span> g(x) = 4 &nbsp;&nbsp;≠&nbsp;&nbsp;
+        <span class="lim"><span class="lim-word">lim</span><span class="lim-sub">x→1⁺</span></span> g(x) = 5
+      </div>
+
+      <div class="box warn">
+        <span class="box-tag">⚠️ Teorema clave</span>
+        <p style="text-align:center;font-size:1.15rem;margin:6px 0;">
+          <span class="lim"><span class="lim-word">lim</span><span class="lim-sub">x→a</span></span> f(x) = L
+          &nbsp;⟺&nbsp;
+          <span class="lim"><span class="lim-word">lim</span><span class="lim-sub">x→a⁻</span></span> f(x) = L
+          &nbsp;=&nbsp;
+          <span class="lim"><span class="lim-word">lim</span><span class="lim-sub">x→a⁺</span></span> f(x)
+        </p>
+        <p style="margin-top:10px;">Para que el límite (de dos lados) <strong>exista</strong>, los dos límites laterales tienen que existir <strong>y</strong> ser iguales. En el ejemplo de arriba, como 4≠5, <span class="lim" style="font-size:.9em;"><span class="lim-word">lim</span><span class="lim-sub">x→1</span></span> g(x) <strong>no existe</strong>, aunque g(1) sí esté definida.</p>
+      </div>
+
+      <div class="postit pink md postit-float">
+        <b>Error típico</b>
+        Que la función esté definida en a (g(1)=5 en nuestro ejemplo) <u>no garantiza</u> que el límite exista. Son preguntas distintas.
+      </div>
+
+      <h3>Práctica guiada: leé el gráfico</h3>
+      <p>Esta función combina los dos casos que ya viste. Analizá qué pasa en <span class="math">x=0</span> y en <span class="math">x=3</span> antes de destapar la respuesta:</p>
+
+      <div class="widget">
+        <canvas id="plot-lectura" cssHeight="380"></canvas>
+      </div>
+
+      <div class="box example">
+        <span class="box-tag">🔍 Analizá x = 0</span>
+        <p>¿Cuánto valen <span class="lim" style="font-size:.9em;"><span class="lim-word">lim</span><span class="lim-sub">x→0⁻</span></span>g(x), <span class="lim" style="font-size:.9em;"><span class="lim-word">lim</span><span class="lim-sub">x→0⁺</span></span>g(x) y g(0)?</p>
+        <details><summary>Ver respuesta</summary>
+          <p class="model-answer">Ambos límites laterales valen 1,4 (la curva se acerca al mismo hueco desde los dos lados), así que <span class="lim" style="font-size:.85em;"><span class="lim-word">lim</span><span class="lim-sub">x→0</span></span>g(x) = 1,4 <strong>existe</strong>. Sin embargo g(0) = 0,6 (el punto lleno), un valor distinto. El límite existe aunque no coincida con f(a) — igual que en el Módulo 2.</p>
+        </details>
+      </div>
+      <div class="box example">
+        <span class="box-tag">🔍 Analizá x = 3</span>
+        <p>¿Cuánto valen <span class="lim" style="font-size:.9em;"><span class="lim-word">lim</span><span class="lim-sub">x→3⁻</span></span>g(x), <span class="lim" style="font-size:.9em;"><span class="lim-word">lim</span><span class="lim-sub">x→3⁺</span></span>g(x) y g(3)?</p>
+        <details><summary>Ver respuesta</summary>
+          <p class="model-answer">Por izquierda, g(x) se acerca a 2,9. Por derecha, se acerca a 4,2. Como los laterales <strong>no coinciden</strong>, <span class="lim" style="font-size:.85em;"><span class="lim-word">lim</span><span class="lim-sub">x→3</span></span>g(x) <strong>no existe</strong> — hay un salto. Además g(3) = 4,2 (coincide con el límite lateral derecho, pero eso es solo un detalle de esta función, no una regla general).</p>
+        </details>
+      </div>
+
+      <div class="reflect-box">
+        <b>🖊️ Para pensar</b>
+        <p style="margin:.4em 0 0;">¿Podés imaginar una función donde los dos límites laterales existan, sean iguales entre sí, pero la función no esté definida en ese punto? ¿Cambia en algo si no está definida?</p>
+        <textarea placeholder="Escribí tu respuesta acá."></textarea>
+        <details>
+          <summary>Ver una posible respuesta</summary>
+          <p class="model-answer">Sí — es exactamente el caso (c) del Módulo 2, o el ejemplo (x−1)/(x²−1) en x=1. El límite (de dos lados) igual existe: la definición de límite explícitamente no le pide nada a f(a), solo mira el entorno.</p>
+        </details>
+      </div>
+
+      <section class="quiz-section" id="quiz">
+        <div class="quiz-intro"><span class="pencil">📝</span><h2>Pon a prueba lo aprendido</h2></div>
+        <p class="quiz-progress">Respondé las preguntas y comprobá al toque. Podés reintentar las que falles.</p>
+        <div id="quiz-container"></div>
+      </section>
+
+      <nav class="page-nav">
+        <a class="corner prev" href="#"></a>
+        <a class="corner next" href="#"></a>
+      </nav>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/notebook.js"></script>
+<script src="js/plotter.js"></script>
+<script src="js/quiz.js"></script>
+<script>
+(function(){
+  /* ---- widget 1: función con salto en x=1, con animación de acercamiento ---- */
+  const plot1 = new NotebookPlot(document.getElementById('plot-salto'), {xMin:-1.5,xMax:3.5,yMin:0,yMax:7,xStep:1,yStep:1,cssHeight:360});
+  const gLeft = x => x+3;
+  const gRight = x => -x+6;
+  const g = x => x<1 ? gLeft(x) : gRight(x);
+  let marker = null;
+  function drawSalto(){
+    plot1.clear(); plot1.drawGrid(); plot1.drawAxes();
+    plot1.plotFunction(gLeft, {color:NB_INK.blue, lineWidth:3.2, domain:[-1.5,1]});
+    plot1.plotFunction(gRight, {color:NB_INK.blue, lineWidth:3.2, domain:[1,3.5]});
+    plot1.point(1, gLeft(1), {color:NB_INK.blue, r:6, hollow:true, label:'4', labelDx:-22, labelDy:4});
+    plot1.point(1, gRight(1), {color:NB_INK.red, r:6, label:'g(1)=5', labelDx:8, labelDy:-8});
+    if(marker) plot1.point(marker.x, marker.y, {color:NB_INK.purple, r:6.5});
+  }
+  plot1.onRedraw(drawSalto);
+  drawSalto();
+
+  const log = document.getElementById('approach-log');
+  let animating=false;
+  function approach(dir){
+    if(animating) return;
+    animating=true;
+    document.getElementById('btn-izq').disabled=true;
+    document.getElementById('btn-der').disabled=true;
+    const deltas=[1,0.5,0.25,0.1,0.03,0.01,0.001];
+    log.innerHTML = `<table class="value-table"><thead><tr><th>x</th><th>g(x)</th></tr></thead><tbody id="log-body"></tbody></table>`;
+    const body = document.getElementById('log-body');
+    let i=0;
+    function step(){
+      if(i>=deltas.length){
+        animating=false;
+        document.getElementById('btn-izq').disabled=false;
+        document.getElementById('btn-der').disabled=false;
+        const row=document.createElement('tr');
+        const Lval = dir<0 ? 4 : 5;
+        row.innerHTML = `<td colspan="2" style="font-weight:700;">→ el límite lateral ${dir<0?'izquierdo':'derecho'} es ${Lval}</td>`;
+        body.appendChild(row);
+        return;
+      }
+      const x = 1 + dir*deltas[i];
+      const y = g(x);
+      marker = {x,y};
+      drawSalto();
+      const row=document.createElement('tr');
+      row.innerHTML = `<td>${x.toFixed(3).replace('.',',')}</td><td class="highlight">${y.toFixed(3).replace('.',',')}</td>`;
+      body.appendChild(row);
+      i++;
+      setTimeout(step, 480);
+    }
+    step();
+  }
+  document.getElementById('btn-izq').addEventListener('click', ()=>approach(-1));
+  document.getElementById('btn-der').addEventListener('click', ()=>approach(1));
+  document.getElementById('btn-reset').addEventListener('click', ()=>{
+    marker=null; log.innerHTML=''; drawSalto();
+  });
+
+  /* ---- widget 2: gráfico compuesto para lectura ---- */
+  const plot2 = new NotebookPlot(document.getElementById('plot-lectura'), {xMin:-1.4,xMax:6.4,yMin:0,yMax:5,xStep:1,yStep:1,cssHeight:380});
+  const seg1 = x => -0.6*x*x + 0.3*x + 1.4;
+  const seg2 = x => 0.5*x + 1.4;
+  const seg3 = x => -0.4*(x-3) + 4.2;
+  function drawLectura(){
+    plot2.clear(); plot2.drawGrid(); plot2.drawAxes();
+    plot2.plotFunction(seg1, {color:NB_INK.blue, lineWidth:3.2, domain:[-1,0]});
+    plot2.plotFunction(seg2, {color:NB_INK.blue, lineWidth:3.2, domain:[0,3]});
+    plot2.plotFunction(seg3, {color:NB_INK.blue, lineWidth:3.2, domain:[3,6]});
+    // x=0
+    plot2.point(0, seg1(0), {color:NB_INK.blue, r:6, hollow:true});
+    plot2.point(0, 0.6, {color:NB_INK.red, r:6, label:'g(0)=0,6', labelDx:10, labelDy:16});
+    // x=3
+    plot2.point(3, seg2(3), {color:NB_INK.blue, r:6, hollow:true, label:'2,9', labelDx:-26, labelDy:0});
+    plot2.point(3, seg3(3), {color:NB_INK.red, r:6, label:'g(3)=4,2', labelDx:8, labelDy:-10});
+    plot2.vLine(0,{color:'#bbb',dash:[3,4]});
+    plot2.vLine(3,{color:'#bbb',dash:[3,4]});
+  }
+  plot2.onRedraw(drawLectura);
+  drawLectura();
+
+  NBQuiz('quiz-container', {
+    moduleId:3,
+    passScore:0.7,
+    questions:[
+      {
+        type:'mcq',
+        prompt:'¿Qué significa la notación x → a⁻?',
+        options:[
+          'Que x se acerca a un número negativo.',
+          'Que x toma valores menores que a, acercándose a a.',
+          'Que x = −a.',
+          'Que la función es negativa cerca de a.'
+        ],
+        correct:1,
+        explain:'El signo indica desde qué lado nos acercamos: "⁻" es desde valores menores que a (por izquierda).'
+      },
+      {
+        type:'mcq',
+        prompt:'Para la función g(x) del primer gráfico (salto en x=1), ¿cuánto vale el límite de dos lados lim(x→1) g(x)?',
+        options:[
+          '4',
+          '5',
+          'No existe, porque los límites laterales son distintos (4 y 5).',
+          '4,5, el promedio de ambos.'
+        ],
+        correct:2,
+        explain:'El teorema dice que el límite de dos lados existe solo si ambos laterales coinciden. Acá 4≠5, así que no existe.'
+      },
+      {
+        type:'tf',
+        prompt:'En el gráfico de lectura, en x=0 el límite (de dos lados) existe aunque g(0) tenga un valor distinto.',
+        correct:true,
+        explain:'Correcto: ambos laterales valen 1,4, así que el límite existe y vale 1,4, sin importar que g(0)=0,6.'
+      },
+      {
+        type:'tf',
+        prompt:'En el gráfico de lectura, en x=3 el límite (de dos lados) existe.',
+        correct:false,
+        explain:'No existe: el límite lateral izquierdo es 2,9 y el derecho es 4,2 — no coinciden, hay un salto.'
+      },
+      {
+        type:'mcq',
+        prompt:'¿Cuál de estas afirmaciones es siempre verdadera?',
+        options:[
+          'Si f(a) está definida, entonces lim(x→a) f(x) existe.',
+          'Si lim(x→a⁻) f(x) y lim(x→a⁺) f(x) existen y son iguales, entonces lim(x→a) f(x) existe y es igual a ese valor.',
+          'Si lim(x→a) f(x) existe, entonces f(a) también está definida.',
+          'Los límites laterales siempre son iguales entre sí.'
+        ],
+        correct:1,
+        explain:'Esa es exactamente la equivalencia entre el límite de dos lados y los límites laterales.'
+      }
+    ]
+  });
+})();
+</script>
+</body>
+</html>
