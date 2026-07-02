@@ -18,6 +18,11 @@ cuaderno-limites/
 ├── modulo-4.html        → Límites infinitos y asíntotas verticales
 ├── modulo-5.html        → Definición formal (ε–δ)
 ├── modulo-6.html        → Límites al infinito, propiedades y técnicas de cálculo
+├── modulo-7.html        → Continuidad y discontinuidades
+├── modulo-8.html        → Derivada: introducción y definición
+├── modulo-9.html        → Reglas de derivación
+├── modulo-10.html       → Derivación implícita, logarítmica y derivadas superiores
+├── modulo-11.html       → Regla de L'Hospital
 ├── css/notebook.css     → Toda la identidad visual (papel, espiral, post-its, quiz, etc.)
 └── js/
     ├── notebook.js       → Índice deslizante, navegación entre módulos, progreso
@@ -50,11 +55,12 @@ vercel --prod
 - El progreso de los cuestionarios (✔ en el índice) se guarda con `localStorage`,
   **por navegador/dispositivo** — no es una base de datos compartida entre compañeros.
 - Todo el contenido matemático está basado en Stewart, J. (2012). *Cálculo. Trascendentes
-  tempranas*, Cap. 2, y en las guías de cátedra (Guía de estudio N.º 5, Guías de
-  Actividades Prácticas N.º 7 y 8) de Análisis Matemático I.
-- El módulo de **Continuidad** queda como "próximamente" en el índice — se puede sumar
-  después siguiendo el mismo esquema de archivos (copiar un `modulo-N.html`, ajustar
-  `MODULES` en `js/notebook.js` y sacarle `locked:true`).
+  tempranas*, Caps. 2, 3 y 4, y en las guías de cátedra (Guías de estudio N.º 5, 6, 7 y 8;
+  Guías de Actividades Prácticas N.º 7, 8, 10 y 11) de Análisis Matemático I.
+- Para agregar un módulo nuevo: copiar un `modulo-N.html` existente, ajustar su contenido,
+  y sumarlo al array `MODULES` en `js/notebook.js` (y a la tabla de contenidos de
+  `index.html`). Si el módulo todavía no está escrito, se lo puede dejar con
+  `file:null, locked:true` como placeholder "próximamente".
 - Para agregar más preguntas a un cuestionario, solo hay que sumar objetos al array
   `questions` que cada módulo pasa a `NBQuiz(...)` al final del archivo — soporta
   preguntas de opción múltiple (`mcq`), verdadero/falso (`tf`) y completar (`fill`).

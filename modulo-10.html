@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>10. Derivación implícita, logarítmica y derivadas superiores · Cuaderno de Límites</title>
+<link rel="stylesheet" href="css/notebook.css">
+</head>
+<body data-module="10">
+
+<button id="index-tab" class="index-tab">📑 Índice</button>
+<div id="drawer-overlay" class="drawer-overlay"></div>
+<aside id="index-drawer" class="index-drawer"></aside>
+
+<div class="desk">
+  <main class="notebook-page">
+    <div class="spiral" aria-hidden="true"></div>
+    <div class="margin-line" aria-hidden="true"></div>
+
+    <div class="page-content">
+
+      <header class="page-header">
+        <span class="module-badge"><span class="dot"></span>Módulo 10 de 11</span>
+        <div class="progress-strip"></div>
+        <h1 class="underline-draw">Derivación implícita, logarítmica y derivadas superiores
+          <svg viewBox="0 0 700 14" preserveAspectRatio="none"><path d="M4 9 Q 220 2, 696 8"/></svg>
+        </h1>
+        <p style="font-size:1.2rem;color:#4a453a;max-width:660px;">Cierra el bloque de reglas de derivación con tres ideas sueltas que se necesitan todo el tiempo: qué hacer cuando <strong>y no está despejada</strong>, qué hacer cuando <strong>base y exponente son ambos variables</strong>, y qué significa <strong>derivar dos (o más) veces seguidas</strong>.</p>
+      </header>
+
+      <h3>Derivación implícita</h3>
+      <p>Hasta ahora siempre tuvimos <span class="math">y = f(x)</span>, despejada. Pero muchas curvas se definen con una ecuación donde x e y están mezcladas, como la circunferencia:</p>
+      <div class="box formula">x² + y² = 25</div>
+      <p>Acá y <em>no</em> está despejada (de hecho, cerca de cada punto hay dos ramas posibles, arriba y abajo). Aun así, la ecuación define a y como función de x "por partes", y esa función tiene derivada. La idea de la <strong>derivación implícita</strong> es derivar ambos miembros de la ecuación respecto de x tal cual están, tratando a y como una función desconocida de x (así que cada vez que aparece y hay que aplicarle la regla de la cadena) y después despejar y′.</p>
+
+      <div class="box def">
+        <span class="box-tag">📖 Receta</span>
+        <ol style="margin:8px 0 0;padding-left:22px;">
+          <li>Derivar ambos miembros de la ecuación respecto de x.</li>
+          <li>Cada vez que aparezca y, aplicar la regla de la cadena: <span class="math">d/dx[y<sup>n</sup>] = n·y<sup>n−1</sup>·y′</span>.</li>
+          <li>Despejar y′ (agrupando todos los términos con y′ de un lado).</li>
+        </ol>
+      </div>
+
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplo: x² + y² = 25</span>
+        <div class="box formula" style="margin-top:8px;">2x + 2y·y′ = 0</div>
+        <div class="box formula" style="margin-top:8px;">y′ = −x/y</div>
+        <p style="margin-top:8px;">Es coherente con lo que ya sabíamos de la circunferencia: la tangente en un punto es siempre perpendicular al radio en ese punto, y −x/y es exactamente esa pendiente.</p>
+      </div>
+
+      <p>Movés el punto sobre la circunferencia y comprobás que la tangente siempre sale con pendiente −x/y:</p>
+
+      <div class="widget">
+        <div style="max-width:420px;margin:0 auto;">
+          <canvas id="plot-circ" cssHeight="420"></canvas>
+        </div>
+        <div class="widget-controls">
+          <label>x del punto: <input type="range" id="ctrl-xc" min="-4.9" max="4.9" step="0.01" value="3"></label>
+          <span>x = <span class="widget-readout" id="read-xcirc">3,00</span></span>
+          <span>y′ = −x/y = <span class="widget-readout" id="read-ycirc">—</span></span>
+        </div>
+        <p class="widget-caption" id="circ-note"></p>
+      </div>
+
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplo 2 (más elaborado): x³ + y³ = 6xy</span>
+        <p>Derivando término a término, usando la regla de la cadena en y³ y la regla del producto en 6xy:</p>
+        <div class="box formula" style="margin-top:8px;">3x² + 3y²·y′ = 6(y + x·y′) = 6y + 6xy′</div>
+        <p style="margin-top:8px;">Agrupando los términos con y′ de un lado:</p>
+        <div class="box formula" style="margin-top:8px;">y′(3y² − 6x) = 6y − 3x²</div>
+        <div class="box formula" style="margin-top:8px;">y′ = <span class="frac"><span class="num">6y − 3x²</span><span class="den">3y² − 6x</span></span> = <span class="frac"><span class="num">2y − x²</span><span class="den">y² − 2x</span></span></div>
+        <p style="margin-top:8px;">Sin derivación implícita, despejar y en función de x acá sería mucho más incómodo (o directamente inviable a mano). Ese es el punto fuerte del método: deriva la relación tal cual está, sin necesidad de despejar antes.</p>
+      </div>
+
+      <h3>Derivada del logaritmo natural</h3>
+      <p>La derivación implícita también sirve para justificar una derivada que veníamos usando sin demostrar. Si <span class="math">y = Ln(x)</span>, entonces <span class="math">e<sup>y</sup> = x</span>. Derivando ambos miembros respecto de x (con regla de la cadena en el miembro izquierdo):</p>
+      <div class="box formula" style="margin-top:8px;">e<sup>y</sup>·y′ = 1 &nbsp;⟹&nbsp; y′ = 1/e<sup>y</sup> = 1/x</div>
+      <div class="box formula">
+        <span class="box-tag">Logaritmo natural y logaritmo en base a</span>
+        (Ln x)′ = 1/x &nbsp;&nbsp;|&nbsp;&nbsp; (log<sub>a</sub> x)′ = <span class="frac"><span class="num">1</span><span class="den">x·Ln(a)</span></span>
+      </div>
+
+      <h3>Derivación logarítmica</h3>
+      <p>Hay funciones que ninguna regla de las anteriores cubre sola. Por ejemplo <span class="math">y = xˣ</span>: la base y el exponente son <em>los dos</em> variables. No es la regla de la potencia (el exponente no es constante) ni es la regla de la exponencial (la base no es constante). La salida es tomar logaritmo de ambos miembros para "bajar" el exponente y convertirlo en un producto, y después derivar implícitamente.</p>
+
+      <div class="box def">
+        <span class="box-tag">📖 Receta de derivación logarítmica</span>
+        <ol style="margin:8px 0 0;padding-left:22px;">
+          <li>Tomar logaritmo natural en ambos miembros: <span class="math">Ln y = Ln(...)</span>.</li>
+          <li>Usar propiedades del logaritmo para bajar exponentes y separar productos/cocientes.</li>
+          <li>Derivar implícitamente ambos miembros respecto de x (el miembro izquierdo da y′/y).</li>
+          <li>Despejar y′.</li>
+          <li>Reemplazar y por la expresión original.</li>
+        </ol>
+      </div>
+
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplo completo: y = (sen x)ˣ</span>
+        <p>Paso 1 y 2 — logaritmo y propiedades:</p>
+        <div class="box formula" style="margin-top:6px;">Ln y = Ln[(sen x)ˣ] = x·Ln(sen x)</div>
+        <p style="margin-top:8px;">Paso 3 — derivo implícitamente ambos miembros (derecha: regla del producto, con la cadena adentro de Ln(sen x)):</p>
+        <div class="box formula" style="margin-top:6px;"><span class="frac"><span class="num">y′</span><span class="den">y</span></span> = Ln(sen x) + x·<span class="frac"><span class="num">cos x</span><span class="den">sen x</span></span></div>
+        <p style="margin-top:8px;">Paso 4 y 5 — despejo y reemplazo y = (sen x)ˣ:</p>
+        <div class="box formula" style="margin-top:6px;">y′ = (sen x)ˣ · [Ln(sen x) + x·cotg(x)]</div>
+      </div>
+
+      <p>El mismo método, aplicado a casos más generales, da fórmulas que conviene tener a mano:</p>
+      <div class="box formula">
+        <span class="box-tag">Resultados generales (derivación logarítmica)</span>
+        <p style="margin:0;">y = a<sup>x</sup> &nbsp;⟹&nbsp; y′ = a<sup>x</sup>·Ln(a)</p>
+        <p style="margin-top:8px;">y = a<sup>g(x)</sup> &nbsp;⟹&nbsp; y′ = a<sup>g(x)</sup>·g′(x)·Ln(a)</p>
+        <p style="margin-top:8px;">y = [f(x)]<sup>n</sup> &nbsp;⟹&nbsp; y′ = n·[f(x)]<sup>n−1</sup>·f′(x) &nbsp;<span style="font-size:.9rem;color:#6b6252;">(la regla de la potencia, ahora válida para cualquier n real)</span></p>
+        <p style="margin-top:8px;">y = [f(x)]<sup>g(x)</sup> &nbsp;⟹&nbsp; y′ = [f(x)]<sup>g(x)</sup>·[ g′(x)·Ln(f(x)) + g(x)·<span class="frac"><span class="num">f′(x)</span><span class="den">f(x)</span></span> ]</p>
+      </div>
+      <p style="font-size:1rem;color:#4a453a;">No hace falta memorizar estas cuatro fórmulas de memoria: alcanza con recordar la receta de tres pasos (Ln, derivar implícitamente, despejar) y reconstruirlas cuando hagan falta.</p>
+
+      <div class="postit blue sm postit-float">
+        <b>¿Y la demostración de la potencia general?</b>
+        Con y=[f(x)]ⁿ: Ln y = n·Ln[f(x)]. Derivando: y′/y = n·f′(x)/f(x). Despejando y reemplazando y=[f(x)]ⁿ: y′ = [f(x)]ⁿ · n·f′(x)/f(x) = n·[f(x)]ⁿ⁻¹·f′(x). Así queda demostrado que la regla de la potencia vale para cualquier exponente real n, no solo enteros.
+      </div>
+
+      <h3>Derivadas de orden superior</h3>
+      <p>La función derivada f′ es, ella misma, una función — y como tal, se puede volver a derivar. Se obtiene así la <strong>derivada segunda</strong>, y repitiendo el proceso, la tercera, la cuarta, y así sucesivamente.</p>
+
+      <div class="box def">
+        <span class="box-tag">📖 Notaciones</span>
+        <p style="margin:0;">Derivada segunda: <span class="math">f′′(x) = (f′)′(x)</span>, también <span class="math">y′′</span>, <span class="math">d²y/dx²</span>, <span class="math">D²f(x)</span>.</p>
+        <p style="margin-top:8px;">Derivada n-ésima: <span class="math">f<sup>(n)</sup>(x)</span>, también <span class="math">y<sup>(n)</sup></span>, <span class="math">d<sup>n</sup>y/dx<sup>n</sup></span>.</p>
+      </div>
+
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplo: y = Ln(3x + 4)</span>
+        <div class="box formula" style="margin-top:8px;">y′ = <span class="frac"><span class="num">3</span><span class="den">3x + 4</span></span></div>
+        <p style="margin-top:8px;">Para y′′, derivo y′ = 3(3x+4)⁻¹ con regla de la cadena:</p>
+        <div class="box formula" style="margin-top:8px;">y′′ = 3·(−1)(3x+4)⁻²·3 = <span class="frac"><span class="num">−9</span><span class="den">(3x+4)²</span></span></div>
+      </div>
+
+      <div class="box def">
+        <span class="box-tag">📖 Interpretación física: posición, velocidad y aceleración</span>
+        <p style="margin:0;">Si <span class="math">s(t)</span> es la posición de un objeto en el instante t: la <strong>velocidad</strong> es <span class="math">v(t) = s′(t)</span>, y la <strong>aceleración</strong> es <span class="math">a(t) = v′(t) = s′′(t)</span>: la derivada segunda de la posición.</p>
+      </div>
+
+      <p>Retomamos la piedra del Módulo 8: <span class="math">S(t) = −4,9t² + 26t + 32</span>. Movés t y mirás las tres funciones a la vez — posición, velocidad y aceleración:</p>
+
+      <div class="widget">
+        <canvas id="plot-pos" cssHeight="220"></canvas>
+        <canvas id="plot-vel2" cssHeight="180" style="margin-top:8px;"></canvas>
+        <canvas id="plot-acc" cssHeight="150" style="margin-top:8px;"></canvas>
+        <div class="widget-controls">
+          <label>t: <input type="range" id="ctrl-tp" min="0" max="6.9" step="0.01" value="2"></label>
+          <span>t = <span class="widget-readout" id="read-tp">2,00</span></span>
+          <span>S′′(t) = <span class="widget-readout" id="read-acc">−9,80</span> m/s²</span>
+        </div>
+        <p class="widget-caption" id="pos-note"></p>
+      </div>
+
+      <div class="box warn">
+        <span class="box-tag">⚠️ La aceleración es constante</span>
+        <p style="margin:0;">S′′(t) = −9,8 siempre, sin importar t: es la aceleración de la gravedad, y por eso no cambia. Que la derivada segunda sea constante es señal de que la posición es una función cuadrática (parábola) — así como derivada segunda cero significa que la función original era lineal.</p>
+      </div>
+
+      <div class="postit-row">
+        <div class="postit green md">
+          <b>¿Por qué importa?</b>
+          Con implícita, logarítmica y derivadas superiores se cierra la caja de herramientas básica de derivación. De acá en más, cualquier función razonable —despejada o no, con exponentes variables o no— se puede derivar combinando estas reglas con las del Módulo 9.
+        </div>
+        <div class="postit pink md">
+          <b>Cierre del bloque</b>
+          Reglas de derivación, derivación implícita y logarítmica, y derivadas superiores completan la Unidad Temática N.º 3 de este cuaderno. Con esto alcanza para atacar problemas de rectas tangentes, razones de cambio y análisis de curvas.
+        </div>
+      </div>
+
+      <div class="reflect-box">
+        <b>🖊️ Para pensar</b>
+        <p style="margin:.4em 0 0;">¿Por qué ni la regla de la potencia ni la regla de la función exponencial alcanzan, cada una por separado, para derivar y=(sen x)ˣ? ¿Qué tienen en común esas dos reglas que acá no se cumple?</p>
+        <textarea placeholder="Escribí tu respuesta acá (no se guarda ni se envía a ningún lado, es solo para pensarlo)."></textarea>
+        <details>
+          <summary>Ver una posible respuesta</summary>
+          <p class="model-answer">La regla de la potencia (xⁿ)′=n·xⁿ⁻¹ necesita que el exponente sea constante (la base es la variable). La regla de la exponencial (aˣ)′=aˣ·Ln(a) necesita que la base sea constante (el exponente es la variable). En y=(sen x)ˣ, tanto la base (sen x) como el exponente (x) son funciones de x al mismo tiempo — ninguna de las dos reglas cubre ese caso. Por eso hace falta un método distinto (tomar logaritmo, que convierte el exponente en un factor) para poder aplicar las reglas que sí conocemos.</p>
+        </details>
+      </div>
+
+      <section class="quiz-section" id="quiz">
+        <div class="quiz-intro"><span class="pencil">📝</span><h2>Pon a prueba lo aprendido</h2></div>
+        <p class="quiz-progress">Respondé las preguntas y comprobá al toque. Podés reintentar las que falles.</p>
+        <div id="quiz-container"></div>
+      </section>
+
+      <nav class="page-nav">
+        <a class="corner prev" href="#"></a>
+        <a class="corner next" href="#"></a>
+      </nav>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/notebook.js"></script>
+<script src="js/plotter.js"></script>
+<script src="js/quiz.js"></script>
+<script>
+(function(){
+  /* ---- widget 1: circunferencia x^2+y^2=25, tangente con y'=-x/y ---- */
+  const plotCirc = new NotebookPlot(document.getElementById('plot-circ'), {xMin:-6.5,xMax:6.5,yMin:-6.5,yMax:6.5,xStep:1,yStep:1,aspect:1});
+  const R = 5;
+  const yUp = x => Math.sqrt(Math.max(0, R*R - x*x));
+  const yDown = x => -Math.sqrt(Math.max(0, R*R - x*x));
+  const ctrlXcRange = document.getElementById('ctrl-xc');
+  const readXcirc = document.getElementById('read-xcirc');
+  const readYcirc = document.getElementById('read-ycirc');
+  const circNote = document.getElementById('circ-note');
+  function drawCirc(){
+    const x = parseFloat(ctrlXcRange.value);
+    const y = yUp(x);
+    const slope = -x/y;
+
+    plotCirc.clear(); plotCirc.drawGrid(); plotCirc.drawAxes();
+    plotCirc.plotFunction(yUp, {color:NB_INK.blue, lineWidth:3, domain:[-R,R]});
+    plotCirc.plotFunction(yDown, {color:NB_INK.blue, lineWidth:3, domain:[-R,R]});
+    plotCirc.segment(x-2, y-2*slope, x+2, y+2*slope, {color:NB_INK.green, lineWidth:2.6});
+    plotCirc.segment(0, 0, x, y, {color:NB_INK.red, lineWidth:1.8, dash:[4,4]});
+    plotCirc.point(x, y, {color:NB_INK.black, r:6, label:`(${x.toFixed(2).replace('.',',')}; ${y.toFixed(2).replace('.',',')})`, labelDy:-12});
+
+    readXcirc.textContent = x.toFixed(2).replace('.',',').replace(/^-/,'−');
+    readYcirc.textContent = slope.toFixed(2).replace('.',',').replace(/^-/,'−');
+    circNote.innerHTML = 'La línea roja punteada es el radio; la verde, la tangente. Siempre salen perpendiculares — coherente con y′=−x/y.';
+  }
+  plotCirc.onRedraw(drawCirc);
+  ctrlXcRange.addEventListener('input', drawCirc);
+  drawCirc();
+
+  /* ---- widget 2: posición, velocidad y aceleración de la piedra ---- */
+  const plotPos = new NotebookPlot(document.getElementById('plot-pos'), {xMin:0,xMax:6.9,yMin:0,yMax:72,xStep:1,yStep:20,cssHeight:220});
+  const plotVel2 = new NotebookPlot(document.getElementById('plot-vel2'), {xMin:0,xMax:6.9,yMin:-42,yMax:28,xStep:1,yStep:20,cssHeight:180});
+  const plotAcc = new NotebookPlot(document.getElementById('plot-acc'), {xMin:0,xMax:6.9,yMin:-14,yMax:2,xStep:1,yStep:5,cssHeight:150});
+  const S = t => -4.9*t*t + 26*t + 32;
+  const V = t => -9.8*t + 26;
+  const A = t => -9.8;
+  const ctrlTp = document.getElementById('ctrl-tp');
+  const readTp = document.getElementById('read-tp');
+  const readAcc = document.getElementById('read-acc');
+  const posNote = document.getElementById('pos-note');
+  function drawPos(){
+    const t = parseFloat(ctrlTp.value);
+
+    plotPos.clear(); plotPos.drawGrid(); plotPos.drawAxes();
+    plotPos.plotFunction(S, {color:NB_INK.blue, lineWidth:3, domain:[0,6.9]});
+    plotPos.point(t, S(t), {color:NB_INK.black, r:5, label:'S(t)', labelDy:-10});
+
+    plotVel2.clear(); plotVel2.drawGrid(); plotVel2.drawAxes();
+    plotVel2.plotFunction(V, {color:NB_INK.purple, lineWidth:3, domain:[0,6.9]});
+    plotVel2.hLine(0, {color:'#999', dash:[3,4]});
+    plotVel2.point(t, V(t), {color:NB_INK.red, r:5, label:"S′(t)", labelDy:-10});
+
+    plotAcc.clear(); plotAcc.drawGrid(); plotAcc.drawAxes();
+    plotAcc.plotFunction(A, {color:NB_INK.green, lineWidth:3, domain:[0,6.9]});
+    plotAcc.point(t, A(t), {color:NB_INK.red, r:5, label:"S′′(t)", labelDy:12});
+
+    readTp.textContent = t.toFixed(2).replace('.',',');
+    readAcc.textContent = '−9,80';
+    if(V(t) > 0.3){
+      posNote.innerHTML = 'S′(t) &gt; 0: la piedra todavía sube. S′′(t) es negativa todo el tiempo — la gravedad la frena constantemente.';
+    } else if(V(t) < -0.3){
+      posNote.innerHTML = 'S′(t) &lt; 0: la piedra ya está cayendo. La aceleración sigue siendo la misma, −9,8 m/s²: no cambia, sólo cambia el signo de la velocidad.';
+    } else {
+      posNote.innerHTML = 'S′(t) ≈ 0: es el punto más alto. La aceleración nunca fue cero — la gravedad actúa todo el tiempo, incluso en el instante de altura máxima.';
+    }
+  }
+  plotPos.onRedraw(drawPos);
+  plotVel2.onRedraw(drawPos);
+  plotAcc.onRedraw(drawPos);
+  ctrlTp.addEventListener('input', drawPos);
+  drawPos();
+
+  NBQuiz('quiz-container', {
+    moduleId:10,
+    passScore:0.7,
+    questions:[
+      {
+        type:'mcq',
+        prompt:'En derivación implícita, al derivar y² respecto de x hay que escribir:',
+        options:['2y·y′', '2y', '2y²', 'y′'],
+        correct:0,
+        explain:'y es función de x, así que d/dx(y²) requiere la regla de la cadena: 2y·y′.'
+      },
+      {
+        type:'fill',
+        prompt:'Para la circunferencia x²+y²=25, derivando implícitamente se obtiene y′ = ______ (usá la barra / para la división, sin espacios).',
+        accept:['-x/y','−x/y'],
+        explain:'2x+2y·y′=0 ⟹ y′ = −x/y.'
+      },
+      {
+        type:'mcq',
+        prompt:'¿Por qué se necesita derivación logarítmica para y=(sen x)ˣ?',
+        options:[
+          'Porque sen(x) no tiene derivada conocida.',
+          'Porque ni la regla de la potencia (exponente constante) ni la regla de la exponencial (base constante) se aplican solas: acá base y exponente son ambos variables.',
+          'Porque x no es una función continua.',
+          'Porque la derivación logarítmica siempre da un resultado más simple.'
+        ],
+        correct:1,
+        explain:'Cuando base y exponente dependen los dos de x, hace falta "bajar" el exponente con un logaritmo antes de poder derivar con las reglas conocidas.'
+      },
+      {
+        type:'mcq',
+        prompt:'La derivada de y = Ln(x) es:',
+        options:['1/x', 'x', 'Ln(x)', '1/x²'],
+        correct:0,
+        explain:'Se demuestra escribiendo e^y=x y derivando implícitamente: e^y·y′=1 ⟹ y′=1/e^y=1/x.'
+      },
+      {
+        type:'tf',
+        prompt:'La derivada segunda f′′(x) es, por definición, la derivada de la función f′(x).',
+        correct:true,
+        explain:'Exacto: f′′ = (f′)′. Y así sucesivamente para las derivadas de orden 3, 4, etc.'
+      },
+      {
+        type:'mcq',
+        prompt:'Si s(t) es la posición de un objeto, s′′(t) representa:',
+        options:['la velocidad', 'la aceleración', 'la posición inicial', 'el desplazamiento total'],
+        correct:1,
+        explain:'v(t)=s′(t) es la velocidad; a(t)=v′(t)=s′′(t) es la aceleración: la derivada segunda de la posición.'
+      },
+      {
+        type:'mcq',
+        prompt:'Aplicando derivación logarítmica a y = aˣ (a constante), se obtiene:',
+        options:['y′ = aˣ·Ln(a)', 'y′ = x·a^(x−1)', 'y′ = aˣ', 'y′ = Ln(a)'],
+        correct:0,
+        explain:'Ln y = x·Ln(a); derivando: y′/y = Ln(a); despejando y reemplazando y=aˣ: y′ = aˣ·Ln(a).'
+      }
+    ]
+  });
+})();
+</script>
+</body>
+</html>

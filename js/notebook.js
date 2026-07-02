@@ -14,7 +14,9 @@
     { id:6, file:'modulo-6.html', title:'Límites al infinito y técnicas de cálculo',short:'Asíntotas horizontales, leyes y formas indeterminadas', color:'yellow' },
     { id:7, file:'modulo-7.html', title:'Continuidad y discontinuidades',          short:'Definición, clasificación de discontinuidades y los tres teoremas del intervalo cerrado', color:'pink' },
     { id:8, file:'modulo-8.html', title:'Derivada: introducción y definición',     short:'Razón de cambio, definición de derivada, interpretación geométrica y derivabilidad', color:'green' },
-    { id:9, file:null,           title:'Reglas de derivación',                    short:'Próximo capítulo del cuaderno', locked:true, color:'orange' },
+    { id:9, file:'modulo-9.html', title:'Reglas de derivación',                    short:'Constante, potencia, producto, cociente y regla de la cadena', color:'orange' },
+    { id:10, file:'modulo-10.html', title:'Derivación implícita, logarítmica y derivadas superiores', short:'Curvas sin despejar, exponentes variables y derivar dos veces', color:'yellow' },
+    { id:11, file:'modulo-11.html', title:'Regla de L\'Hospital', short:'Formas indeterminadas 0/0, ∞/∞, 0·∞, ∞−∞ y potencias', color:'blue' },
   ];
   window.NB_MODULES = MODULES;
 

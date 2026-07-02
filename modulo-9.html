@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>9. Reglas de derivación · Cuaderno de Límites</title>
+<link rel="stylesheet" href="css/notebook.css">
+</head>
+<body data-module="9">
+
+<button id="index-tab" class="index-tab">📑 Índice</button>
+<div id="drawer-overlay" class="drawer-overlay"></div>
+<aside id="index-drawer" class="index-drawer"></aside>
+
+<div class="desk">
+  <main class="notebook-page">
+    <div class="spiral" aria-hidden="true"></div>
+    <div class="margin-line" aria-hidden="true"></div>
+
+    <div class="page-content">
+
+      <header class="page-header">
+        <span class="module-badge"><span class="dot"></span>Módulo 9 de 10</span>
+        <div class="progress-strip"></div>
+        <h1 class="underline-draw">Reglas de derivación
+          <svg viewBox="0 0 480 14" preserveAspectRatio="none"><path d="M4 9 Q 160 2, 476 8"/></svg>
+        </h1>
+        <p style="font-size:1.2rem;color:#4a453a;max-width:660px;">En el Módulo 8 calculamos derivadas <strong>a fuerza de límite</strong>, uno por uno. Funciona, pero es lento. Acá aparece un pequeño arsenal de <strong>fórmulas</strong> —demostradas una sola vez, a partir de esa misma definición— que permiten derivar funciones complicadas en pocas líneas, sin volver a plantear ningún límite.</p>
+      </header>
+
+      <h3>Derivadas de funciones elementales</h3>
+      <p>Empezamos por las piezas más simples: derivar directamente desde la definición <span class="math">f′(x) = lim<sub>h→0</sub> [f(x+h) − f(x)] / h</span>.</p>
+
+      <div class="box def">
+        <span class="box-tag">📖 Función constante</span>
+        <p style="margin:0;">Si <span class="math">f(x) = c</span> (c constante), entonces <span class="math">f(x+h) − f(x) = c − c = 0</span> para todo h. El cociente incremental es siempre 0, así que:</p>
+        <p style="text-align:center;font-size:1.2rem;margin-top:8px;">(c)′ = 0</p>
+      </div>
+
+      <div class="box def">
+        <span class="box-tag">📖 Función potencia</span>
+        <p style="margin:0;">Para cualquier exponente real n (donde la expresión tenga sentido):</p>
+        <p style="text-align:center;font-size:1.2rem;margin-top:8px;">(x<sup>n</sup>)′ = n·x<sup>n−1</sup></p>
+        <p style="margin-top:8px;">Caso particular n=1: la función identidad, <span class="math">(x)′ = 1</span>. Y con n negativo, por ejemplo n=−1:</p>
+      </div>
+
+      <div class="box example">
+        <span class="box-tag">✏️ Demostración de (1/x)′ = −1/x² (Guía de Estudio N.º 8)</span>
+        <div class="box formula" style="margin-top:8px;">
+          f′(x) = <span class="lim"><span class="lim-word">lim</span><span class="lim-sub">h→0</span></span> <span class="frac"><span class="num">1/(x+h) − 1/x</span><span class="den">h</span></span>
+          = <span class="lim"><span class="lim-word">lim</span><span class="lim-sub">h→0</span></span> <span class="frac"><span class="num">x − (x+h)</span><span class="den">h·x·(x+h)</span></span>
+        </div>
+        <div class="box formula" style="margin-top:8px;">
+          = <span class="lim"><span class="lim-word">lim</span><span class="lim-sub">h→0</span></span> <span class="frac"><span class="num">−h</span><span class="den">h·x·(x+h)</span></span>
+          = <span class="lim"><span class="lim-word">lim</span><span class="lim-sub">h→0</span></span> <span class="frac"><span class="num">−1</span><span class="den">x·(x+h)</span></span>
+        </div>
+        <div class="box formula" style="margin-top:8px;">= −1/x²</div>
+        <p style="margin-top:8px;">Coincide con la regla de la potencia usando n=−1: <span class="math">(x⁻¹)′ = −1·x⁻²= −1/x²</span>. La regla general ahorra repetir esta cuenta cada vez.</p>
+      </div>
+
+      <div class="box formula">
+        <span class="box-tag">Función exponencial natural</span>
+        (e<sup>x</sup>)′ = e<sup>x</sup>
+      </div>
+      <p style="font-size:1rem;color:#4a453a;">Es la única función (salvo múltiplos) que es su propia derivada. La derivada de <span class="math">aˣ</span> con base cualquiera queda para el próximo módulo, con derivación logarítmica.</p>
+
+      <div class="box formula">
+        <span class="box-tag">Funciones trigonométricas</span>
+        (sen x)′ = cos x &nbsp;&nbsp;|&nbsp;&nbsp; (cos x)′ = −sen x &nbsp;&nbsp;|&nbsp;&nbsp; (tg x)′ = sec²x
+      </div>
+
+      <p>Movés x y comparás: arriba, la curva y=sen(x) con su tangente; abajo, la curva y=cos(x) con el valor de esa pendiente marcado. Vas a ver que <em>siempre</em> coinciden.</p>
+
+      <div class="widget">
+        <canvas id="plot-sen" cssHeight="260"></canvas>
+        <canvas id="plot-cos" cssHeight="220" style="margin-top:10px;"></canvas>
+        <div class="widget-controls">
+          <label>x: <input type="range" id="ctrl-xs" min="-6.2" max="6.2" step="0.01" value="-3"></label>
+          <span>x = <span class="widget-readout" id="read-xs">−3,00</span></span>
+          <span>pendiente = cos(x) = <span class="widget-readout" id="read-cx">—</span></span>
+        </div>
+        <p class="widget-caption" id="sen-note"></p>
+      </div>
+
+      <h3>Reglas algebraicas: constante, suma y resta</h3>
+      <div class="box formula">
+        <span class="box-tag">Múltiplo constante, suma y diferencia</span>
+        [c·f(x)]′ = c·f′(x) &nbsp;&nbsp;|&nbsp;&nbsp; [f(x)+g(x)]′ = f′(x)+g′(x) &nbsp;&nbsp;|&nbsp;&nbsp; [f(x)−g(x)]′ = f′(x)−g′(x)
+      </div>
+      <p style="font-size:1rem;color:#4a453a;">En criollo: la derivada "se reparte" en cada sumando, y las constantes que multiplican salen afuera sin tocarse. Estas reglas también se demuestran directamente desde la definición de derivada como límite de un cociente incremental.</p>
+
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplo (Guía de cátedra)</span>
+        <p>Hallar f′(x) siendo <span class="math">f(x) = 3x³ − 2x − 2/x²</span>.</p>
+        <div class="box formula" style="margin-top:10px;">
+          f′(x) = 3(x³)′ − 2(x)′ − 2(x⁻²)′ = 3·3x² − 2·1 − 2·(−2)x⁻³
+        </div>
+        <div class="box formula" style="margin-top:8px;">f′(x) = 9x² − 2 + 4/x³</div>
+      </div>
+
+      <h3>Regla del producto y del cociente</h3>
+      <p>Ojo con un error frecuente: la derivada de un producto <strong>no</strong> es el producto de las derivadas. La regla correcta "reparte" el trabajo entre las dos funciones:</p>
+      <div class="box formula">
+        <span class="box-tag">Regla del producto</span>
+        [f(x)·g(x)]′ = f′(x)·g(x) + f(x)·g′(x)
+      </div>
+      <p style="font-size:1rem;color:#4a453a;">En criollo: "derivada de la primera por la segunda sin derivar, más la primera sin derivar por la derivada de la segunda".</p>
+      <div class="box formula">
+        <span class="box-tag">Regla del cociente</span>
+        <span class="frac"><span class="num">f(x)</span><span class="den">g(x)</span></span>′ &nbsp;=&nbsp; <span class="frac"><span class="num">f′(x)·g(x) − f(x)·g′(x)</span><span class="den">[g(x)]²</span></span>
+      </div>
+      <p style="font-size:1rem;color:#4a453a;">"Derivada del numerador por el denominador, menos el numerador por la derivada del denominador, todo sobre el denominador al cuadrado". El orden de la resta en el numerador importa.</p>
+
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplo — producto</span>
+        <p style="margin:0;">Con <span class="math">h(x) = x²·sen(x)</span>: <span class="math">h′(x) = 2x·sen(x) + x²·cos(x)</span>.</p>
+      </div>
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplo — cociente</span>
+        <p style="margin:0;">Con <span class="math">h(x) = (x² − 1)/(x + 2)</span>: <span class="math">h′(x) = [2x(x+2) − (x²−1)·1] / (x+2)² = (x² + 4x + 1)/(x+2)²</span>.</p>
+      </div>
+
+      <p>Probalo con <span class="math">h(x) = x·sen(x)</span>: movés a y comparás la pendiente de la tangente con el valor que da la fórmula del producto, <span class="math">h′(a) = sen(a) + a·cos(a)</span>.</p>
+
+      <div class="widget">
+        <canvas id="plot-prod" cssHeight="360"></canvas>
+        <div class="widget-controls">
+          <label>a: <input type="range" id="ctrl-ap" min="-6" max="6" step="0.05" value="2"></label>
+          <span>a = <span class="widget-readout" id="read-ap">2,00</span></span>
+          <span>h′(a) = sen(a)+a·cos(a) = <span class="widget-readout" id="read-hpa">—</span></span>
+        </div>
+        <p class="widget-caption" id="prod-note"></p>
+      </div>
+
+      <div class="postit orange sm postit-float">
+        <b>Ojo con esto</b>
+        (f·g)′ ≠ f′·g′, y (f/g)′ ≠ f′/g′. Son los dos errores más comunes al empezar con estas reglas — probalos con cualquier ejemplo numérico y vas a ver que no dan lo mismo.
+      </div>
+
+      <h3>Regla de la cadena: derivar funciones compuestas</h3>
+      <p>Muchas funciones son "una función adentro de otra". Por ejemplo, <span class="math">y = sen(x³)</span> es <span class="math">y = f(g(x))</span> con <span class="math">f(u) = sen(u)</span> y <span class="math">g(x) = x³</span>. Ninguna regla de las anteriores alcanza sola para derivar esto — hace falta la <strong>regla de la cadena</strong>.</p>
+
+      <div class="box def">
+        <span class="box-tag">📖 Regla de la cadena</span>
+        <p style="margin:0;">Si g es derivable en x y f es derivable en g(x), la función compuesta <span class="math">y = f(g(x))</span> es derivable en x, y:</p>
+        <p style="text-align:center;font-size:1.2rem;margin-top:8px;">y′(x) = f′(g(x))·g′(x)</p>
+        <p style="margin-top:8px;">En notación de Leibniz, llamando <span class="math">u = g(x)</span>, se escribe de forma que casi "se simplifica sola":</p>
+        <p style="text-align:center;font-size:1.2rem;margin-top:8px;"><span class="frac"><span class="num">dy</span><span class="den">dx</span></span> = <span class="frac"><span class="num">dy</span><span class="den">du</span></span> · <span class="frac"><span class="num">du</span><span class="den">dx</span></span></p>
+      </div>
+
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplo: y = sen(x³)</span>
+        <p style="margin:0;">Llamando <span class="math">u = x³</span>, queda <span class="math">y = sen(u)</span>. Entonces <span class="math">dy/du = cos(u)</span> y <span class="math">du/dx = 3x²</span>. Multiplicando y volviendo a escribir todo en términos de x:</p>
+        <p style="text-align:center;font-size:1.15rem;margin-top:8px;">y′ = cos(u)·3x² = 3x²·cos(x³)</p>
+      </div>
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplo: y = sen²(x)</span>
+        <p style="margin:0;">Es <span class="math">y = [sen(x)]²</span>, o sea <span class="math">u = sen(x)</span>, <span class="math">y = u²</span>. Entonces <span class="math">dy/du = 2u</span> y <span class="math">du/dx = cos(x)</span>, así que <span class="math">y′ = 2·sen(x)·cos(x)</span>.</p>
+      </div>
+
+      <p>Con <span class="math">y = sen(x²)</span>: arriba la función, abajo su derivada <span class="math">y′ = 2x·cos(x²)</span>. Movés x y ves que el signo y el tamaño de abajo controlan cómo sube o baja la curva de arriba.</p>
+
+      <div class="widget">
+        <canvas id="plot-comp" cssHeight="260"></canvas>
+        <canvas id="plot-compd" cssHeight="220" style="margin-top:10px;"></canvas>
+        <div class="widget-controls">
+          <label>x: <input type="range" id="ctrl-xcc" min="-2.5" max="2.5" step="0.01" value="1.4"></label>
+          <span>x = <span class="widget-readout" id="read-xcc">1,40</span></span>
+          <span>y′ = 2x·cos(x²) = <span class="widget-readout" id="read-ycc">—</span></span>
+        </div>
+        <p class="widget-caption" id="comp-note"></p>
+      </div>
+
+      <div class="postit-row">
+        <div class="postit green md">
+          <b>¿Por qué importa?</b>
+          Casi ninguna función "de verdad" es tan simple como x³ o sen(x) solas: son composiciones. La regla de la cadena es la herramienta que se usa constantemente, encadenada varias veces, para derivar cualquier cosa razonable.
+        </div>
+        <div class="postit pink md">
+          <b>Lo que viene</b>
+          Hay curvas que no vienen despejadas como y=f(x), y funciones como y=xˣ donde ni la regla de la potencia ni la de la exponencial alcanzan solas. El próximo módulo resuelve ambos casos: derivación implícita y derivación logarítmica.
+        </div>
+      </div>
+
+      <div class="reflect-box">
+        <b>🖊️ Para pensar</b>
+        <p style="margin:.4em 0 0;">¿Por qué la regla del producto no es simplemente "multiplicar las derivadas"? Pensalo con un ejemplo numérico chico: si f(x)=x y g(x)=x, entonces f(x)·g(x)=x². ¿Coincide (f′·g′) con la derivada real de x²?</p>
+        <textarea placeholder="Escribí tu respuesta acá (no se guarda ni se envía a ningún lado, es solo para pensarlo)."></textarea>
+        <details>
+          <summary>Ver una posible respuesta</summary>
+          <p class="model-answer">Con f(x)=g(x)=x, f′(x)=g′(x)=1, así que f′·g′=1. Pero la derivada real de f·g=x² es 2x, que no es constante y casi nunca vale 1. La regla "multiplicar las derivadas" falla porque un producto cambia por dos motivos a la vez —cambia f y cambia g— y hay que sumar el efecto de ambos cambios, no multiplicarlos entre sí. Por eso la regla correcta es f′g + fg′: un término por cada factor que varía.</p>
+        </details>
+      </div>
+
+      <section class="quiz-section" id="quiz">
+        <div class="quiz-intro"><span class="pencil">📝</span><h2>Pon a prueba lo aprendido</h2></div>
+        <p class="quiz-progress">Respondé las preguntas y comprobá al toque. Podés reintentar las que falles.</p>
+        <div id="quiz-container"></div>
+      </section>
+
+      <nav class="page-nav">
+        <a class="corner prev" href="#"></a>
+        <a class="corner next" href="#"></a>
+      </nav>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/notebook.js"></script>
+<script src="js/plotter.js"></script>
+<script src="js/quiz.js"></script>
+<script>
+(function(){
+  /* ---- widget 1: sen(x) y su derivada cos(x) ---- */
+  const plotSen = new NotebookPlot(document.getElementById('plot-sen'), {xMin:-6.2,xMax:6.2,yMin:-1.6,yMax:1.6,xStep:1.57,yStep:0.5,cssHeight:260});
+  const plotCos = new NotebookPlot(document.getElementById('plot-cos'), {xMin:-6.2,xMax:6.2,yMin:-1.6,yMax:1.6,xStep:1.57,yStep:0.5,cssHeight:220});
+  const ctrlXs = document.getElementById('ctrl-xs');
+  const readXs = document.getElementById('read-xs');
+  const readCx = document.getElementById('read-cx');
+  const senNote = document.getElementById('sen-note');
+  function drawSen(){
+    const x = parseFloat(ctrlXs.value);
+    const fx = Math.sin(x), fpx = Math.cos(x);
+
+    plotSen.clear(); plotSen.drawGrid(); plotSen.drawAxes();
+    plotSen.plotFunction(Math.sin, {color:NB_INK.blue, lineWidth:3});
+    plotSen.segment(x-0.9, fx-0.9*fpx, x+0.9, fx+0.9*fpx, {color:NB_INK.green, lineWidth:2.6});
+    plotSen.point(x, fx, {color:NB_INK.black, r:6, label:'sen(x)', labelDy:-12});
+
+    plotCos.clear(); plotCos.drawGrid(); plotCos.drawAxes();
+    plotCos.plotFunction(Math.cos, {color:NB_INK.purple, lineWidth:3});
+    plotCos.point(x, fpx, {color:NB_INK.red, r:6, label:'cos(x)', labelDy:-12});
+
+    readXs.textContent = x.toFixed(2).replace('.',',').replace(/^-/,'−');
+    readCx.textContent = fpx.toFixed(2).replace('.',',').replace(/^-/,'−');
+    if(Math.abs(fpx) < 0.05){
+      senNote.innerHTML = 'cos(x) ≈ 0: la tangente de arriba está casi horizontal — un máximo o mínimo local de sen(x).';
+    } else if(fpx > 0){
+      senNote.innerHTML = 'cos(x) &gt; 0 (curva de abajo por encima del eje): sen(x) es creciente acá — la tangente de arriba "sube".';
+    } else {
+      senNote.innerHTML = 'cos(x) &lt; 0 (curva de abajo por debajo del eje): sen(x) es decreciente acá — la tangente de arriba "baja".';
+    }
+  }
+  plotSen.onRedraw(drawSen);
+  plotCos.onRedraw(drawSen);
+  ctrlXs.addEventListener('input', drawSen);
+  drawSen();
+
+  /* ---- widget 2: regla del producto, h(x)=x*sen(x) ---- */
+  const plotProd = new NotebookPlot(document.getElementById('plot-prod'), {xMin:-6.3,xMax:6.3,yMin:-6.5,yMax:6.5,xStep:1.57,yStep:2,cssHeight:360});
+  const hProd = x => x*Math.sin(x);
+  const hpProd = x => Math.sin(x) + x*Math.cos(x);
+  const ctrlAp = document.getElementById('ctrl-ap');
+  const readAp = document.getElementById('read-ap');
+  const readHpa = document.getElementById('read-hpa');
+  const prodNote = document.getElementById('prod-note');
+  function drawProd(){
+    const a = parseFloat(ctrlAp.value);
+    const ha = hProd(a), hpa = hpProd(a);
+    plotProd.clear(); plotProd.drawGrid(); plotProd.drawAxes();
+    plotProd.plotFunction(hProd, {color:NB_INK.blue, lineWidth:3});
+    plotProd.segment(a-1.1, ha-1.1*hpa, a+1.1, ha+1.1*hpa, {color:NB_INK.green, lineWidth:2.8});
+    plotProd.point(a, ha, {color:NB_INK.black, r:6, label:'h(a)', labelDy:-12});
+
+    readAp.textContent = a.toFixed(2).replace('.',',').replace(/^-/,'−');
+    readHpa.textContent = hpa.toFixed(2).replace('.',',').replace(/^-/,'−');
+    prodNote.innerHTML = `La recta verde es la tangente real (pendiente medida en el gráfico); su pendiente coincide con h′(a) calculada por la regla del producto: sen(${a.toFixed(2).replace('.',',')}) + ${a.toFixed(2).replace('.',',')}·cos(${a.toFixed(2).replace('.',',')}) = ${hpa.toFixed(2).replace('.',',').replace(/^-/,'−')}.`;
+  }
+  plotProd.onRedraw(drawProd);
+  ctrlAp.addEventListener('input', drawProd);
+  drawProd();
+
+  /* ---- widget 3: regla de la cadena, y=sen(x^2) ---- */
+  const plotComp = new NotebookPlot(document.getElementById('plot-comp'), {xMin:-2.5,xMax:2.5,yMin:-1.6,yMax:1.6,xStep:0.5,yStep:0.5,cssHeight:260});
+  const plotCompd = new NotebookPlot(document.getElementById('plot-compd'), {xMin:-2.5,xMax:2.5,yMin:-5.5,yMax:5.5,xStep:0.5,yStep:2,cssHeight:220});
+  const yComp = x => Math.sin(x*x);
+  const ypComp = x => 2*x*Math.cos(x*x);
+  const ctrlXcc = document.getElementById('ctrl-xcc');
+  const readXcc = document.getElementById('read-xcc');
+  const readYcc = document.getElementById('read-ycc');
+  const compNote = document.getElementById('comp-note');
+  function drawComp(){
+    const x = parseFloat(ctrlXcc.value);
+    const yx = yComp(x), ypx = ypComp(x);
+
+    plotComp.clear(); plotComp.drawGrid(); plotComp.drawAxes();
+    plotComp.plotFunction(yComp, {color:NB_INK.blue, lineWidth:3});
+    plotComp.segment(x-0.5, yx-0.5*ypx, x+0.5, yx+0.5*ypx, {color:NB_INK.green, lineWidth:2.6});
+    plotComp.point(x, yx, {color:NB_INK.black, r:6, label:'y', labelDy:-12});
+
+    plotCompd.clear(); plotCompd.drawGrid(); plotCompd.drawAxes();
+    plotCompd.plotFunction(ypComp, {color:NB_INK.purple, lineWidth:3});
+    plotCompd.hLine(0, {color:'#999', dash:[3,4]});
+    plotCompd.point(x, ypx, {color:NB_INK.red, r:6, label:"y′", labelDy:-12});
+
+    readXcc.textContent = x.toFixed(2).replace('.',',').replace(/^-/,'−');
+    readYcc.textContent = ypx.toFixed(2).replace('.',',').replace(/^-/,'−');
+    if(Math.abs(ypx) < 0.08){
+      compNote.innerHTML = 'y′ ≈ 0: la tangente de arriba está casi horizontal.';
+    } else if(ypx > 0){
+      compNote.innerHTML = 'y′ &gt; 0: y=sen(x²) es creciente en este punto.';
+    } else {
+      compNote.innerHTML = 'y′ &lt; 0: y=sen(x²) es decreciente en este punto.';
+    }
+  }
+  plotComp.onRedraw(drawComp);
+  plotCompd.onRedraw(drawComp);
+  ctrlXcc.addEventListener('input', drawComp);
+  drawComp();
+
+  NBQuiz('quiz-container', {
+    moduleId:9,
+    passScore:0.7,
+    questions:[
+      {
+        type:'mcq',
+        prompt:'La derivada de la función constante y = 7 es:',
+        options:['0', '7', 'x', 'no existe'],
+        correct:0,
+        explain:'El cociente incremental de una función constante es siempre 0/h = 0, sin importar h. Por eso (c)′ = 0.'
+      },
+      {
+        type:'mcq',
+        prompt:'Según la regla de la potencia, la derivada de x⁵ es:',
+        options:['5x⁴', 'x⁴', '5x⁶', '4x⁴'],
+        correct:0,
+        explain:'(xⁿ)′ = n·xⁿ⁻¹. Con n=5: 5·x⁵⁻¹ = 5x⁴.'
+      },
+      {
+        type:'mcq',
+        prompt:'La regla del producto establece que [f(x)·g(x)]′ es igual a:',
+        options:['f′(x)·g(x) + f(x)·g′(x)', 'f′(x)·g′(x)', 'f′(x)/g′(x)', 'f(x)·g(x) − f′(x)·g′(x)'],
+        correct:0,
+        explain:'Ni f′·g′ ni ningún otro atajo funciona: hay que sumar el efecto de derivar cada factor por separado, dejando el otro sin derivar.'
+      },
+      {
+        type:'mcq',
+        prompt:'En la regla del cociente, (f/g)′ = [f′g − fg′] / g², el denominador es:',
+        options:['g²', 'g', 'f²', 'f·g'],
+        correct:0,
+        explain:'El denominador siempre queda elevado al cuadrado: [g(x)]².'
+      },
+      {
+        type:'tf',
+        prompt:'La derivada de eˣ es ella misma, eˣ.',
+        correct:true,
+        explain:'Es la propiedad que hace tan especial a la función exponencial natural: (eˣ)′ = eˣ.'
+      },
+      {
+        type:'mcq',
+        prompt:'Aplicando la regla de la cadena, la derivada de y = sen(x³) es:',
+        options:['cos(x³)·3x²', 'cos(3x²)', '3x²·cos(x)', 'cos(x³)'],
+        correct:0,
+        explain:'Con u=x³: dy/du=cos(u), du/dx=3x². Multiplicando y reemplazando u=x³: y′ = 3x²·cos(x³).'
+      },
+      {
+        type:'fill',
+        prompt:'Completá el nombre: la regla para derivar funciones compuestas se llama regla de la ______.',
+        accept:['cadena','la cadena'],
+        explain:'La regla de la cadena: si y=f(g(x)), entonces y′(x) = f′(g(x))·g′(x).'
+      }
+    ]
+  });
+})();
+</script>
+</body>
+</html>

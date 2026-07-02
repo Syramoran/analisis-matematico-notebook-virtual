@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>11. Regla de L'Hospital · Cuaderno de Límites</title>
+<link rel="stylesheet" href="css/notebook.css">
+</head>
+<body data-module="11">
+
+<button id="index-tab" class="index-tab">📑 Índice</button>
+<div id="drawer-overlay" class="drawer-overlay"></div>
+<aside id="index-drawer" class="index-drawer"></aside>
+
+<div class="desk">
+  <main class="notebook-page">
+    <div class="spiral" aria-hidden="true"></div>
+    <div class="margin-line" aria-hidden="true"></div>
+
+    <div class="page-content">
+
+      <header class="page-header">
+        <span class="module-badge"><span class="dot"></span>Módulo 11 de 11</span>
+        <div class="progress-strip"></div>
+        <h1 class="underline-draw">Regla de L'Hospital
+          <svg viewBox="0 0 700 14" preserveAspectRatio="none"><path d="M4 9 Q 220 2, 696 8"/></svg>
+        </h1>
+        <p style="font-size:1.2rem;color:#4a453a;max-width:660px;">Con las reglas de derivación ya en la mochila, se puede resolver de una vez por todas el problema que quedó pendiente desde el Módulo 6: qué hacer con los límites que dan <strong>0/0</strong> o <strong>∞/∞</strong>, sin depender de factorizar, racionalizar o de la calculadora.</p>
+      </header>
+
+      <h3>El problema: formas que no dicen nada</h3>
+      <p>Pensá en <span class="math">f(x) = ln(x)/(x−1)</span> cerca de <span class="math">x = 1</span>. Al evaluar el límite:</p>
+      <div class="box formula">lim<sub>x→1</sub> ln(x)/(x−1)</div>
+      <p>tanto el numerador como el denominador tienden a 0. Escribir "0/0" no responde nada: ese cociente podría dar cualquier número, o no existir. Lo mismo pasa si en cambio se busca la asíntota horizontal de la misma función:</p>
+      <div class="box formula">lim<sub>x→∞</sub> ln(x)/(x−1)</div>
+      <p>acá numerador y denominador tienden los dos a ∞. De nuevo, "∞/∞" no es una respuesta: es el nombre de una <strong>forma indeterminada</strong>. Las técnicas algebraicas del Módulo 6 (factorizar, racionalizar) a veces destraban estos límites, pero no siempre son prácticas. La regla de L'Hospital ataca directamente el problema usando derivadas.</p>
+
+      <div class="box def">
+        <span class="box-tag">📖 Regla de L'Hospital</span>
+        <p style="margin:0;">Supongamos que <span class="math">f</span> y <span class="math">g</span> son derivables y <span class="math">g′(x) ≠ 0</span> cerca de <span class="math">a</span> (excepto posiblemente en <span class="math">a</span>). Si se da uno de estos dos casos:</p>
+        <p style="margin-top:8px;">lim<sub>x→a</sub> f(x) = 0 &nbsp;y&nbsp; lim<sub>x→a</sub> g(x) = 0 &nbsp;&nbsp;(forma 0/0)</p>
+        <p style="margin-top:4px;">lim<sub>x→a</sub> f(x) = ±∞ &nbsp;y&nbsp; lim<sub>x→a</sub> g(x) = ±∞ &nbsp;&nbsp;(forma ∞/∞)</p>
+        <p style="margin-top:8px;">entonces</p>
+        <div class="box formula" style="margin-top:6px;">lim<sub>x→a</sub> <span class="frac"><span class="num">f(x)</span><span class="den">g(x)</span></span> = lim<sub>x→a</sub> <span class="frac"><span class="num">f′(x)</span><span class="den">g′(x)</span></span></div>
+        <p style="margin-top:8px;">siempre que este último límite exista (o sea ∞ o −∞). La regla vale igual para <span class="math">x→a⁺</span>, <span class="math">x→a⁻</span> y <span class="math">x→±∞</span>.</p>
+      </div>
+
+      <div class="box warn">
+        <span class="box-tag">⚠️ Antes de derivar, verificá</span>
+        <p style="margin:0;">L'Hospital <strong>no</strong> es "derivar numerador y denominador de cualquier cociente". Solo se puede aplicar si, evaluando el límite tal cual está, se obtiene 0/0 o ∞/∞. Si no es una de esas dos formas, derivar arriba y abajo da un resultado distinto (y equivocado). El primer paso, siempre, es comprobar la indeterminación.</p>
+      </div>
+
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplo 1 (forma 0/0): lim<sub>x→1</sub> ln(x)/(x−1)</span>
+        <p>Como lim<sub>x→1</sub> ln(x) = ln(1) = 0 y lim<sub>x→1</sub> (x−1) = 0, es forma 0/0: se puede aplicar L'Hospital.</p>
+        <div class="box formula" style="margin-top:8px;">lim<sub>x→1</sub> <span class="frac"><span class="num">ln(x)</span><span class="den">x−1</span></span> = lim<sub>x→1</sub> <span class="frac"><span class="num">1/x</span><span class="den">1</span></span> = lim<sub>x→1</sub> 1/x = 1</div>
+      </div>
+
+      <p>Movés x cerca de 1 y comparás f(x) con el cociente de derivadas f′(x)/g′(x) = 1/x: los dos se acercan al mismo número, aunque f(1) ni siquiera esté definido.</p>
+
+      <div class="widget">
+        <canvas id="plot-lhop1" cssHeight="360"></canvas>
+        <div class="widget-controls">
+          <label>x: <input type="range" id="ctrl-xlh1" min="0.15" max="3.85" step="0.01" value="0.4"></label>
+          <span>f(x) = <span class="widget-readout" id="read-flh1">—</span></span>
+          <span>f′(x)/g′(x) = 1/x = <span class="widget-readout" id="read-dlh1">—</span></span>
+        </div>
+        <p class="widget-caption" id="lh1-note"></p>
+      </div>
+
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplo 2 (forma ∞/∞, dos veces): lim<sub>x→∞</sub> eˣ/x²</span>
+        <p>eˣ→∞ y x²→∞: es forma ∞/∞. Aplico L'Hospital:</p>
+        <div class="box formula" style="margin-top:8px;">lim<sub>x→∞</sub> <span class="frac"><span class="num">eˣ</span><span class="den">x²</span></span> = lim<sub>x→∞</sub> <span class="frac"><span class="num">eˣ</span><span class="den">2x</span></span></div>
+        <p style="margin-top:8px;">Sigue siendo ∞/∞ (eˣ→∞ y 2x→∞), así que se puede volver a aplicar la regla:</p>
+        <div class="box formula" style="margin-top:8px;">lim<sub>x→∞</sub> <span class="frac"><span class="num">eˣ</span><span class="den">2x</span></span> = lim<sub>x→∞</sub> <span class="frac"><span class="num">eˣ</span><span class="den">2</span></span> = ∞</div>
+        <p style="margin-top:8px;">Nada raro: la exponencial le gana a cualquier potencia de x, así que el cociente crece sin cota. No hay problema en aplicar L'Hospital más de una vez, siempre que en <em>cada</em> paso se vuelva a verificar que la forma sigue siendo 0/0 o ∞/∞.</p>
+      </div>
+
+      <p>Con el slider vas subiendo x y mirás cómo eˣ/x² se dispara — que el cociente arranque en forma ∞/∞ no significa que el límite valga 1 ni ningún número finito:</p>
+
+      <div class="widget">
+        <canvas id="plot-lhop2" cssHeight="300"></canvas>
+        <div class="widget-controls">
+          <label>x: <input type="range" id="ctrl-xlh2" min="0.5" max="5.8" step="0.01" value="1.5"></label>
+          <span>eˣ/x² = <span class="widget-readout" id="read-flh2">—</span></span>
+        </div>
+        <p class="widget-caption" id="lh2-note"></p>
+      </div>
+
+      <div class="box warn">
+        <span class="box-tag">⚠️ Formas que NO son indeterminadas</span>
+        <p style="margin:0;">No toda combinación de ceros e infinitos es problemática. Si lim f(x)=0, lim p(x)=∞ y lim h(x)=1:</p>
+        <ul style="margin:8px 0 0;padding-left:22px;">
+          <li><span class="math">f(x)/p(x)</span> es 0/∞: <strong>no</strong> es indeterminada, el límite es directamente 0.</li>
+          <li><span class="math">p(x) + p(x)</span> es ∞+∞: <strong>no</strong> es indeterminada, el límite es ∞.</li>
+          <li><span class="math">h(x)·p(x)</span> es 1·∞: <strong>no</strong> es indeterminada, el límite es ∞.</li>
+        </ul>
+        <p style="margin-top:8px;">En estos casos no hace falta (ni corresponde) usar L'Hospital: se evalúa directamente.</p>
+      </div>
+
+      <h3>Otras formas indeterminadas</h3>
+      <p>L'Hospital solo se aplica directamente a 0/0 o ∞/∞. Pero hay otras cinco formas indeterminadas — <span class="math">0·∞</span>, <span class="math">∞−∞</span>, <span class="math">0⁰</span>, <span class="math">∞⁰</span> y <span class="math">1<sup>∞</sup></span> — que se pueden <strong>transformar</strong> en 0/0 o ∞/∞ y ahí sí atacarlas con la regla.</p>
+
+      <div class="box def">
+        <span class="box-tag">📖 Cómo transformar cada forma</span>
+        <ul style="margin:0;padding-left:22px;">
+          <li><strong>Producto 0·∞:</strong> f·g se reescribe como <span class="math">f/(1/g)</span> o <span class="math">g/(1/f)</span> — da 0/0 o ∞/∞.</li>
+          <li><strong>Diferencia ∞−∞:</strong> f−g se lleva a un cociente con común denominador (o racionalizando/factorizando) — da 0/0.</li>
+          <li><strong>Potencias 0⁰, ∞⁰, 1<sup>∞</sup>:</strong> si <span class="math">y = f(x)<sup>g(x)</sup></span>, se toma logaritmo: <span class="math">Ln y = g(x)·Ln f(x)</span>, que siempre es forma 0·∞ — se transforma otra vez a cociente, se aplica L'Hospital, y al final se deshace con <span class="math">y = e<sup>Ln y</sup></span>.</li>
+        </ul>
+      </div>
+
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplo 3 (forma 0·∞): lim<sub>x→0⁺</sub> x·ln(x)</span>
+        <p>x→0 y ln(x)→−∞: forma 0·(−∞). Reescribo x como 1/(1/x) para que quede ∞/∞:</p>
+        <div class="box formula" style="margin-top:8px;">lim<sub>x→0⁺</sub> x·ln(x) = lim<sub>x→0⁺</sub> <span class="frac"><span class="num">ln(x)</span><span class="den">1/x</span></span> = lim<sub>x→0⁺</sub> <span class="frac"><span class="num">1/x</span><span class="den">−1/x²</span></span> = lim<sub>x→0⁺</sub> (−x) = 0</div>
+      </div>
+
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplo 4 (forma ∞−∞): lim<sub>x→1⁺</sub> [1/ln(x) − 1/(x−1)]</span>
+        <p>Ambos términos tienden a ∞: forma ∞−∞. Uso común denominador:</p>
+        <div class="box formula" style="margin-top:8px;">lim<sub>x→1⁺</sub> <span class="frac"><span class="num">x − 1 − ln(x)</span><span class="den">(x−1)·ln(x)</span></span></div>
+        <p style="margin-top:8px;">Numerador y denominador tienden los dos a 0: aplico L'Hospital una vez, simplifico, y me vuelve a quedar 0/0 — aplico L'Hospital una segunda vez:</p>
+        <div class="box formula" style="margin-top:8px;">= lim<sub>x→1⁺</sub> <span class="frac"><span class="num">x − 1</span><span class="den">x − 1 + x·ln(x)</span></span> = lim<sub>x→1⁺</sub> <span class="frac"><span class="num">1</span><span class="den">2 + ln(x)</span></span> = 1/2</div>
+      </div>
+
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplo 5 (forma 1<sup>∞</sup>): lim<sub>x→0⁺</sub> (1 + sen(4x))<sup>cotg(x)</sup></span>
+        <p>1 + sen(4x)→1 y cotg(x)→∞: forma 1<sup>∞</sup>. Sea y la expresión completa; tomo logaritmo:</p>
+        <div class="box formula" style="margin-top:8px;">Ln y = cotg(x)·Ln(1+sen 4x) = <span class="frac"><span class="num">Ln(1+sen 4x)</span><span class="den">tan(x)</span></span> &nbsp;&nbsp;(forma 0/0)</div>
+        <p style="margin-top:8px;">Aplico L'Hospital:</p>
+        <div class="box formula" style="margin-top:8px;">lim<sub>x→0⁺</sub> Ln y = lim<sub>x→0⁺</sub> <span class="frac"><span class="num">4cos(4x)/(1+sen 4x)</span><span class="den">sec²(x)</span></span> = 4</div>
+        <p style="margin-top:8px;">Ese 4 es el límite de <em>Ln y</em>, no el de y. Para volver a y se usa <span class="math">y = e<sup>Ln y</sup></span>:</p>
+        <div class="box formula" style="margin-top:8px;">lim<sub>x→0⁺</sub> (1 + sen 4x)<sup>cotg(x)</sup> = e⁴</div>
+      </div>
+
+      <div class="postit blue sm postit-float">
+        <b>¿Por qué el paso final e^(Ln y)?</b>
+        Tomar logaritmo cambia el límite que se está calculando: de "el límite de y" pasamos a "el límite de Ln y". Son números distintos, así que hay que deshacer el logaritmo al final con la exponencial para volver a lo que realmente se pedía.
+      </div>
+
+      <div class="postit-row">
+        <div class="postit green md">
+          <b>¿Por qué importa?</b>
+          L'Hospital no reemplaza las técnicas del Módulo 6: las complementa. Cuando factorizar o racionalizar es incómodo o imposible, derivar arriba y abajo suele ser el camino más corto — siempre que la forma sea, de verdad, 0/0 o ∞/∞.
+        </div>
+        <div class="postit pink md">
+          <b>Requisito: la función tiene que ser derivable</b>
+          La regla exige que f y g sean derivables cerca de a. Todo lo que se armó en los Módulos 8, 9 y 10 —definición de derivada, reglas de derivación, derivación implícita y logarítmica— es lo que hace posible aplicar L'Hospital en la práctica.
+        </div>
+      </div>
+
+      <div class="reflect-box">
+        <b>🖊️ Para pensar</b>
+        <p style="margin:.4em 0 0;">¿Por qué lim<sub>x→0</sub> (x+1)/x <strong>no</strong> se puede resolver aplicando L'Hospital? ¿Qué pasa si igual se deriva arriba y abajo, y qué da eso comparado con el valor real del límite?</p>
+        <textarea placeholder="Escribí tu respuesta acá (no se guarda ni se envía a ningún lado, es solo para pensarlo)."></textarea>
+        <details>
+          <summary>Ver una posible respuesta</summary>
+          <p class="model-answer">lim<sub>x→0</sub> (x+1) = 1, no 0 ni ∞ — así que el cociente no es una forma indeterminada: no se cumple la hipótesis de la regla. El límite real es ∞ (o −∞ según el lado), porque el numerador tiende a 1 mientras el denominador tiende a 0. Si igual se derivara arriba y abajo se obtendría lim<sub>x→0</sub> 1/1 = 1, que es un resultado completamente distinto (y falso). Por eso el primer paso siempre tiene que ser verificar la indeterminación, nunca derivar por costumbre.</p>
+        </details>
+      </div>
+
+      <section class="quiz-section" id="quiz">
+        <div class="quiz-intro"><span class="pencil">📝</span><h2>Pon a prueba lo aprendido</h2></div>
+        <p class="quiz-progress">Respondé las preguntas y comprobá al toque. Podés reintentar las que falles.</p>
+        <div id="quiz-container"></div>
+      </section>
+
+      <nav class="page-nav">
+        <a class="corner prev" href="#"></a>
+        <a class="corner next" href="#"></a>
+      </nav>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/notebook.js"></script>
+<script src="js/plotter.js"></script>
+<script src="js/quiz.js"></script>
+<script>
+(function(){
+  /* ---- widget 1: ln(x)/(x-1) cerca de x=1, comparando f(x) con 1/x ---- */
+  const plotLh1 = new NotebookPlot(document.getElementById('plot-lhop1'), {xMin:0,xMax:4,yMin:-1.5,yMax:2.5,xStep:1,yStep:1,cssHeight:360});
+  const fLh1 = x => (Math.abs(x-1) < 1e-9) ? 1 : Math.log(x)/(x-1);
+  const dLh1 = x => 1/x;
+  const ctrlXlh1 = document.getElementById('ctrl-xlh1');
+  const readFlh1 = document.getElementById('read-flh1');
+  const readDlh1 = document.getElementById('read-dlh1');
+  const lh1Note = document.getElementById('lh1-note');
+  function fmt(n){ return n.toFixed(3).replace('.',',').replace(/^-/,'−').replace('−0,000','0,000'); }
+  function drawLh1(){
+    const x = parseFloat(ctrlXlh1.value);
+    const y = fLh1(x);
+    const d = dLh1(x);
+
+    plotLh1.clear(); plotLh1.drawGrid(); plotLh1.drawAxes();
+    plotLh1.hLine(1, {color:'#999', dash:[3,4]});
+    plotLh1.plotFunction(fLh1, {color:NB_INK.blue, lineWidth:3, domain:[0.05,4], asymptoteAt:[]});
+    plotLh1.point(1, 1, {color:NB_INK.green, r:5, hollow:true, label:'límite = 1', labelDy:-12});
+    plotLh1.point(x, y, {color:NB_INK.red, r:6, label:`x=${x.toFixed(2).replace('.',',')}`, labelDy:-12});
+
+    readFlh1.textContent = fmt(y);
+    readDlh1.textContent = fmt(d);
+    if(Math.abs(x-1) < 0.05){
+      lh1Note.innerHTML = 'Muy cerca de x=1: tanto f(x) como el cociente de derivadas 1/x están prácticamente en 1 — el valor del límite, aunque f no esté definida en x=1.';
+    } else {
+      lh1Note.innerHTML = 'A medida que x se acerca a 1 (línea verde punteada), f(x) y 1/x se acercan los dos al mismo número: 1.';
+    }
+  }
+  plotLh1.onRedraw(drawLh1);
+  ctrlXlh1.addEventListener('input', drawLh1);
+  drawLh1();
+
+  /* ---- widget 2: e^x/x^2, forma ∞/∞ que diverge (no da 1) ---- */
+  const plotLh2 = new NotebookPlot(document.getElementById('plot-lhop2'), {xMin:0,xMax:6,yMin:0,yMax:20,xStep:1,yStep:5,cssHeight:300});
+  const fLh2 = x => Math.exp(x)/(x*x);
+  const ctrlXlh2 = document.getElementById('ctrl-xlh2');
+  const readFlh2 = document.getElementById('read-flh2');
+  const lh2Note = document.getElementById('lh2-note');
+  function drawLh2(){
+    const x = parseFloat(ctrlXlh2.value);
+    const y = fLh2(x);
+
+    plotLh2.clear(); plotLh2.drawGrid(); plotLh2.drawAxes();
+    plotLh2.plotFunction(fLh2, {color:NB_INK.purple, lineWidth:3, domain:[0.3,6]});
+    plotLh2.point(x, Math.min(y,20), {color:NB_INK.red, r:6, label:`eˣ/x² = ${y.toFixed(2).replace('.',',')}`, labelDy:-12});
+
+    readFlh2.textContent = y.toFixed(2).replace('.',',');
+    if(x > 4.5){
+      lh2Note.innerHTML = 'El cociente sigue creciendo sin cota: aplicar L\'Hospital dos veces da eˣ/2, que también tiende a ∞. La forma ∞/∞ no garantiza un límite finito.';
+    } else {
+      lh2Note.innerHTML = 'Aunque numerador y denominador tienden los dos a ∞ (forma ∞/∞), el cociente no se estabiliza en ningún valor: crece sin límite.';
+    }
+  }
+  plotLh2.onRedraw(drawLh2);
+  ctrlXlh2.addEventListener('input', drawLh2);
+  drawLh2();
+
+  NBQuiz('quiz-container', {
+    moduleId:11,
+    passScore:0.7,
+    questions:[
+      {
+        type:'mcq',
+        prompt:'¿Cuáles son las dos formas a las que se puede aplicar la regla de L\'Hospital directamente?',
+        options:['0/0 y ∞/∞', '0·∞ y ∞−∞', '0⁰ y 1^∞', 'Cualquier cociente de funciones'],
+        correct:0,
+        explain:'L\'Hospital se aplica directamente solo a 0/0 o ∞/∞. Las otras formas indeterminadas hay que transformarlas primero a una de estas dos.'
+      },
+      {
+        type:'tf',
+        prompt:'Antes de aplicar L\'Hospital a un cociente f(x)/g(x), hay que verificar que el límite da forma 0/0 o ∞/∞.',
+        correct:true,
+        explain:'Es el paso obligatorio: si no es una forma indeterminada, derivar arriba y abajo da un resultado incorrecto.'
+      },
+      {
+        type:'fill',
+        prompt:'lim x→1 de ln(x)/(x−1) = ______ (solo el número)',
+        accept:['1'],
+        explain:'Es forma 0/0. Derivando: (1/x)/1, que en x=1 vale 1.'
+      },
+      {
+        type:'mcq',
+        prompt:'Si lim f(x)=0 y lim g(x)=∞, el límite de f(x)/g(x):',
+        options:[
+          'No es indeterminado: vale 0 directamente.',
+          'Es indeterminado, forma 0/0.',
+          'Es indeterminado, forma ∞/∞.',
+          'No existe.'
+        ],
+        correct:0,
+        explain:'0/∞ no es una forma indeterminada: el numerador se achica y el denominador crece, así que el cociente tiende a 0 sin necesidad de L\'Hospital.'
+      },
+      {
+        type:'mcq',
+        prompt:'Para resolver un límite de forma 0·∞, como x·ln(x) cuando x→0⁺, conviene:',
+        options:[
+          'Aplicar L\'Hospital directamente al producto.',
+          'Reescribir el producto como un cociente (f/(1/g)) para obtener 0/0 o ∞/∞.',
+          'Tomar logaritmo de toda la expresión.',
+          'El límite no se puede calcular.'
+        ],
+        correct:1,
+        explain:'0·∞ no es una de las dos formas que acepta L\'Hospital directamente; hay que convertirla primero en un cociente.'
+      },
+      {
+        type:'mcq',
+        prompt:'Para una potencia indeterminada como (1+sen4x)^cotg(x) (forma 1^∞), el primer paso es:',
+        options:[
+          'Aplicar L\'Hospital al exponente solo.',
+          'Tomar logaritmo natural de toda la expresión (Ln y = g(x)·Ln f(x)).',
+          'Reemplazar la base por su límite.',
+          'Elevar ambos miembros al cuadrado.'
+        ],
+        correct:1,
+        explain:'Tomando Ln se convierte la potencia en un producto g(x)·Ln f(x), que es forma 0·∞ y de ahí se puede pasar a 0/0 o ∞/∞.'
+      },
+      {
+        type:'tf',
+        prompt:'Al calcular una forma 0⁰, ∞⁰ o 1^∞ tomando logaritmo, el valor final del límite original es e elevado al límite de Ln y.',
+        correct:true,
+        explain:'Como y = e^(Ln y), una vez calculado lim Ln y = L, el límite de y es e^L.'
+      },
+      {
+        type:'mcq',
+        prompt:'Si lim f(x)=1 y lim p(x)=∞, el límite de f(x)·p(x):',
+        options:[
+          'Es indeterminado, forma 1·∞.',
+          'No es indeterminado: vale ∞.',
+          'Es indeterminado, forma 0·∞.',
+          'Vale siempre 1.'
+        ],
+        correct:1,
+        explain:'1·∞ no figura entre las formas indeterminadas: una cantidad que tiende a 1 multiplicada por otra que crece sin cota, tiende a ∞.'
+      }
+    ]
+  });
+})();
+</script>
+</body>
+</html>
