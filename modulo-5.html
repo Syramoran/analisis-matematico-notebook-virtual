@@ -28,6 +28,42 @@
         <p style="font-size:1.2rem;color:#4a453a;max-width:660px;">"Se acerca tanto como queramos" suena claro, pero es informal. Acá le ponemos números precisos a esa idea.</p>
       </header>
 
+      <h3>La definición formal</h3>
+      <div class="box def">
+        <span class="box-tag">📖 Definición (ε – δ)</span>
+        <p>Sea f definida en un intervalo abierto que contiene a a, excepto posiblemente en a. Decimos que</p>
+        <p style="text-align:center;font-size:1.3rem;"><span class="lim"><span class="lim-word">lim</span><span class="lim-sub">x→a</span></span> f(x) = L</p>
+        <p>si <strong>para todo número ε &gt; 0</strong> existe <strong>un número δ &gt; 0</strong> tal que</p>
+        <p style="text-align:center;font-size:1.2rem;">si &nbsp;0 &lt; |x − a| &lt; δ &nbsp;&nbsp;entonces&nbsp;&nbsp; |f(x) − L| &lt; ε</p>
+      </div>
+
+      <p>En criollo: <mark class="hl">vos elegís qué tan cerca de L querés estar (ε)</mark>, y la definición te garantiza que <mark class="hl green">existe una cercanía a a (δ) que lo logra</mark> — <strong>para cualquier ε que hayas elegido, no solo para uno</strong>.</p>
+
+      <h3>Recorrámosla paso a paso</h3>
+      <p>Los mismos elementos —franja de ε, franja de δ, el punto (a, L), la curva f(x)— aparecen siempre. Elegí un caso y andá avanzando para ver cómo se arman, y qué pasa cuando la definición <strong>no</strong> se cumple.</p>
+
+      <div class="widget">
+        <div class="widget-controls" style="justify-content:center;">
+          <button class="btn secondary" id="case-a-btn">✅ Caso 1: el límite existe</button>
+          <button class="btn secondary" id="case-b-btn">❌ Caso 2: el límite NO existe</button>
+        </div>
+        <canvas id="plot-stepper" cssHeight="440"></canvas>
+        <div class="widget-controls" id="stepper-x-row" style="display:none;">
+          <label>Elegí x: <input type="range" id="ctrl-stepper-x" min="-0.5" max="5.5" step="0.02" value="2.5"></label>
+          <span>x = <span class="widget-readout" id="read-stepper-x">2,50</span></span>
+          <span id="status-stepper" style="font-family:var(--font-title);font-size:1.1rem;"></span>
+        </div>
+        <div class="step-nav">
+          <button class="btn" id="step-prev">← Anterior</button>
+          <div class="step-dots" id="step-dots"></div>
+          <button class="btn" id="step-next">Siguiente →</button>
+        </div>
+        <div class="box def" id="step-explain" style="margin-top:14px;">
+          <span class="box-tag" id="step-tag">Paso 1</span>
+          <p id="step-text" style="margin:0;"></p>
+        </div>
+      </div>
+
       <h3>Motivación: el fabricante de piezas cuadradas</h3>
       <p>Un fabricante pide piezas cuadradas de <strong>100 cm²</strong> de área, con una tolerancia de <strong>± 4 cm²</strong>. ¿Qué largos de lado <span class="math">x</span> son aceptables?</p>
 
@@ -56,16 +92,7 @@
         Si tomo un ε más chico, voy a necesitar un δ más chico. <br>Esa relación — "para cada ε existe un δ" — es exactamente la definición formal.
       </div>
 
-      <h3>La definición formal</h3>
-      <div class="box def">
-        <span class="box-tag">📖 Definición (ε – δ)</span>
-        <p>Sea f definida en un intervalo abierto que contiene a a, excepto posiblemente en a. Decimos que</p>
-        <p style="text-align:center;font-size:1.3rem;"><span class="lim"><span class="lim-word">lim</span><span class="lim-sub">x→a</span></span> f(x) = L</p>
-        <p>si <strong>para todo número ε &gt; 0</strong> existe <strong>un número δ &gt; 0</strong> tal que</p>
-        <p style="text-align:center;font-size:1.2rem;">si &nbsp;0 &lt; |x − a| &lt; δ &nbsp;&nbsp;entonces&nbsp;&nbsp; |f(x) − L| &lt; ε</p>
-      </div>
-
-      <p>En criollo: <mark class="hl">vos elegís qué tan cerca de L querés estar (ε)</mark>, y la definición te garantiza que <mark class="hl green">existe una cercanía a a (δ) que lo logra</mark>. Jugá con los controles:</p>
+      <p>Volviendo al gráfico general: jugá con los controles para confirmar la relación entre ε y δ.</p>
 
       <div class="widget">
         <canvas id="plot-epsdelta" cssHeight="400"></canvas>
@@ -157,6 +184,234 @@
 <script src="js/quiz.js"></script>
 <script>
 (function(){
+  /* ---- widget stepper (definición formal, paso a paso, al estilo del video) ---- */
+  const plotS = new NotebookPlot(document.getElementById('plot-stepper'), {xMin:-2.6,xMax:5.5,yMin:-2.4,yMax:10,xStep:1,yStep:2,cssHeight:440});
+  const aS = 2.5;
+  const curveA = x => 0.4*(x-1)*(x-4)+3.6;
+  const LA = curveA(aS);
+  const curveBBase = x => 0.4*(x-1)*(x-4)+3.6;
+  const curveB = x => x < aS ? curveBBase(x) : curveBBase(x)+2;
+  const leftJumpVal = curveBBase(aS);
+  const LB = curveBBase(aS)+2;
+  const AMBER = 'rgba(255,196,64,.85)', AMBER_LINE = '#b8860b', ORANGE='#c9781f';
+
+  /* franja/"pastilla" horizontal sobre el eje x, con puntos verdes en los extremos,
+     naranja en el centro (a), y etiqueta δ repetida a cada lado */
+  function xBracket(p, a, delta){
+    const ctx = p.ctx;
+    const y0 = p.toPx(0,0).y;
+    const xL = p.toPx(a-delta,0).x, xR = p.toPx(a+delta,0).x;
+    const th = 7;
+    ctx.save();
+    ctx.fillStyle = AMBER; ctx.strokeStyle = AMBER_LINE; ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    if(ctx.roundRect) ctx.roundRect(xL, y0-th, xR-xL, th*2, th); else ctx.rect(xL, y0-th, xR-xL, th*2);
+    ctx.fill(); ctx.stroke();
+    ctx.restore();
+    p.point(a-delta,0,{color:NB_INK.green,r:5});
+    p.point(a+delta,0,{color:NB_INK.green,r:5});
+    p.point(a,0,{color:ORANGE,r:5});
+    p.text(a-delta/2, -0.85, 'δ', {align:'center', color:AMBER_LINE, size:19});
+    p.text(a+delta/2, -0.85, 'δ', {align:'center', color:AMBER_LINE, size:19});
+    p.text(a, -1.55, 'a', {align:'center', color:'#333', size:14});
+  }
+  /* franja/"pastilla" vertical junto al eje y, análoga, con ε repetida arriba y abajo */
+  function yBracket(p, L, eps){
+    const ctx = p.ctx;
+    const x0 = p.toPx(0,0).x;
+    const yT = p.toPx(0,L+eps).y, yB = p.toPx(0,L-eps).y;
+    const th = 7;
+    ctx.save();
+    ctx.fillStyle = AMBER; ctx.strokeStyle = AMBER_LINE; ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    if(ctx.roundRect) ctx.roundRect(x0-th, yT, th*2, yB-yT, th); else ctx.rect(x0-th, yT, th*2, yB-yT);
+    ctx.fill(); ctx.stroke();
+    ctx.restore();
+    p.point(0,L+eps,{color:NB_INK.green,r:5});
+    p.point(0,L-eps,{color:NB_INK.green,r:5});
+    p.point(0,L,{color:ORANGE,r:5});
+    p.text(-1.05, L+eps/2, 'ε', {align:'center', color:AMBER_LINE, size:19});
+    p.text(-1.05, L-eps/2, 'ε', {align:'center', color:AMBER_LINE, size:19});
+    p.text(-1.75, L, 'L', {align:'center', color:'#333', size:14});
+  }
+  /* líneas punteadas celestes que "proyectan" un x elegido hasta f(x) y hasta el eje y */
+  function projection(p, fn, x){
+    const y = fn(x);
+    p.segment(x,0,x,y,{color:NB_INK.blueSoft,dash:[3,4],lineWidth:2});
+    p.segment(x,y,0,y,{color:NB_INK.blueSoft,dash:[3,4],lineWidth:2});
+    p.point(x,0,{color:NB_INK.blueSoft,r:5,label:'x',labelDy:16});
+    p.point(x,y,{color:NB_INK.blueSoft,r:6});
+    p.point(0,y,{color:NB_INK.blueSoft,r:5,label:'f(x)',labelDx:8,labelDy:-8});
+    return y;
+  }
+
+  const DELTA_A = 0.9, EPS_A = 1.3;
+  const DELTA_B = 0.6, EPS_B = 1.0;
+
+  const stepsA = [
+    { tag:'Paso 1 · a y L', text:'Ubicamos primero <strong>a</strong> en el eje x. Su imagen por f nos da <strong>L</strong> en el eje y — el candidato a límite.',
+      needsX:false,
+      draw(p){
+        p.plotFunction(curveA,{color:NB_INK.blue,lineWidth:3.2,domain:[-0.5,5.5]});
+        p.segment(aS,0,aS,LA,{color:'#999',dash:[3,4]});
+        p.segment(aS,LA,0,LA,{color:'#999',dash:[3,4]});
+        p.point(aS,0,{color:ORANGE,r:5,label:'a',labelDy:16});
+        p.point(0,LA,{color:ORANGE,r:5,label:'L',labelDx:8,labelDy:-8});
+        p.point(aS,LA,{color:NB_INK.black,r:5});
+      }},
+    { tag:'Paso 2 · región δ', text:'Alrededor de a armamos un entorno de radio δ hacia cada lado: <strong>2δ en total</strong> — δ a la izquierda y δ a la derecha.',
+      needsX:false,
+      draw(p){
+        p.plotFunction(curveA,{color:NB_INK.blue,lineWidth:3.2,domain:[-0.5,5.5]});
+        p.segment(aS,0,aS,LA,{color:'#999',dash:[3,4]});
+        p.segment(aS,LA,0,LA,{color:'#999',dash:[3,4]});
+        p.point(0,LA,{color:ORANGE,r:5,label:'L',labelDx:8,labelDy:-8});
+        p.point(aS,LA,{color:NB_INK.black,r:5});
+        xBracket(p,aS,DELTA_A);
+      }},
+    { tag:'Paso 3 · región ε', text:'De la misma forma, armamos un entorno de radio ε alrededor de L: <strong>2ε en total</strong> — ε hacia arriba y ε hacia abajo.',
+      needsX:false,
+      draw(p){
+        p.plotFunction(curveA,{color:NB_INK.blue,lineWidth:3.2,domain:[-0.5,5.5]});
+        p.segment(aS,0,aS,LA,{color:'#999',dash:[3,4]});
+        p.point(aS,LA,{color:NB_INK.black,r:5});
+        xBracket(p,aS,DELTA_A);
+        yBracket(p,LA,EPS_A);
+      }},
+    { tag:'Paso 4 · elegí un x', text:'Movete con el control "Elegí x". Si x cae <strong>dentro</strong> de (a−δ, a+δ), su imagen f(x) siempre cae dentro de (L−ε, L+ε). Si x cae <strong>afuera</strong>, no hay ninguna garantía.',
+      needsX:true,
+      draw(p, x){
+        p.plotFunction(curveA,{color:NB_INK.blue,lineWidth:3.2,domain:[-0.5,5.5]});
+        xBracket(p,aS,DELTA_A);
+        yBracket(p,LA,EPS_A);
+        const y = projection(p,curveA,x);
+        return {insideDelta: Math.abs(x-aS)>1e-9 && Math.abs(x-aS)<DELTA_A, insideEps: Math.abs(y-LA)<EPS_A};
+      }},
+    { tag:'Paso 5 · la conclusión', text:'Esto vale <strong>para cualquier ε</strong> que elijamos (achicando δ si hace falta). Por eso escribimos: si 0&lt;|x−a|&lt;δ entonces |f(x)−L|&lt;ε, y decimos que el límite de f(x) cuando x→a es L.',
+      needsX:false,
+      draw(p){
+        p.plotFunction(curveA,{color:NB_INK.blue,lineWidth:3.2,domain:[-0.5,5.5]});
+        xBracket(p,aS,DELTA_A*0.45);
+        yBracket(p,LA,EPS_A*0.45);
+        p.point(aS,LA,{color:NB_INK.black,r:5});
+      }}
+  ];
+
+  const stepsB = [
+    { tag:'Paso 1 · un salto', text:'Esta f(x) tiene un <strong>salto</strong> en x = a: por izquierda se acerca a un valor, y por derecha a otro distinto.',
+      needsX:false,
+      draw(p){
+        p.plotFunction(curveB,{color:NB_INK.black,lineWidth:3.2,domain:[-0.5,5.5],asymptoteAt:[aS]});
+        p.point(aS,0,{color:ORANGE,r:5,label:'a',labelDy:16});
+        p.point(aS,leftJumpVal,{color:NB_INK.blueSoft,hollow:true,r:5});
+        p.point(aS,LB,{color:NB_INK.blueSoft,hollow:true,r:5});
+      }},
+    { tag:'Paso 2 · región δ y candidato L', text:'Probamos con L = el valor al que se acerca por la derecha, y armamos el entorno δ alrededor de a (2δ en total).',
+      needsX:false,
+      draw(p){
+        p.plotFunction(curveB,{color:NB_INK.black,lineWidth:3.2,domain:[-0.5,5.5],asymptoteAt:[aS]});
+        p.point(aS,leftJumpVal,{color:NB_INK.blueSoft,hollow:true,r:5});
+        p.point(aS,LB,{color:NB_INK.blueSoft,hollow:true,r:5});
+        xBracket(p,aS,DELTA_B);
+      }},
+    { tag:'Paso 3 · región ε', text:'Armamos también el entorno ε alrededor de L (2ε en total) — la franja que f(x) debería respetar.',
+      needsX:false,
+      draw(p){
+        p.plotFunction(curveB,{color:NB_INK.black,lineWidth:3.2,domain:[-0.5,5.5],asymptoteAt:[aS]});
+        p.point(aS,leftJumpVal,{color:NB_INK.blueSoft,hollow:true,r:5});
+        p.point(aS,LB,{color:NB_INK.blueSoft,hollow:true,r:5});
+        xBracket(p,aS,DELTA_B);
+        yBracket(p,LB,EPS_B);
+      }},
+    { tag:'Paso 4 · elegí un x', text:'Probá mover x <strong>desde la izquierda</strong> de a, cada vez más cerca. Por más chico que sea δ, ese x sigue dentro de (a−δ, a+δ) pero f(x) queda <mark class="hl">afuera</mark> de (L−ε, L+ε). A la derecha, en cambio, sí funciona.',
+      needsX:true,
+      draw(p, x){
+        p.plotFunction(curveB,{color:NB_INK.black,lineWidth:3.2,domain:[-0.5,5.5],asymptoteAt:[aS]});
+        xBracket(p,aS,DELTA_B);
+        yBracket(p,LB,EPS_B);
+        const y = projection(p,curveB,x);
+        return {insideDelta: Math.abs(x-aS)>1e-9 && Math.abs(x-aS)<DELTA_B, insideEps: Math.abs(y-LB)<EPS_B};
+      }},
+    { tag:'Paso 5 · la conclusión', text:'No importa qué tan chico hagamos δ: siempre va a haber puntos x dentro de (a−δ, a+δ) cuya imagen f(x) queda afuera de (L−ε, L+ε). <strong>No existe ese δ</strong> — el límite no es L (de hecho, no existe).',
+      needsX:false,
+      draw(p){
+        p.plotFunction(curveB,{color:NB_INK.black,lineWidth:3.2,domain:[-0.5,5.5],asymptoteAt:[aS]});
+        xBracket(p,aS,0.15);
+        yBracket(p,LB,EPS_B);
+        p.point(aS,leftJumpVal,{color:NB_INK.red,hollow:true,r:6});
+        p.point(aS,LB,{color:NB_INK.blueSoft,hollow:true,r:5});
+      }}
+  ];
+
+  let curCase='A', curStep=0;
+  const caseABtn = document.getElementById('case-a-btn');
+  const caseBBtn = document.getElementById('case-b-btn');
+  const stepPrev = document.getElementById('step-prev');
+  const stepNext = document.getElementById('step-next');
+  const stepDots = document.getElementById('step-dots');
+  const stepTag = document.getElementById('step-tag');
+  const stepText = document.getElementById('step-text');
+  const xRow = document.getElementById('stepper-x-row');
+  const xCtrl = document.getElementById('ctrl-stepper-x');
+  const xRead = document.getElementById('read-stepper-x');
+  const xStatus = document.getElementById('status-stepper');
+
+  function steps(){ return curCase==='A' ? stepsA : stepsB; }
+
+  function renderDots(){
+    stepDots.innerHTML='';
+    steps().forEach((_,i)=>{
+      const d=document.createElement('span');
+      d.className='dot'+(i===curStep?' active':'');
+      d.addEventListener('click', ()=>{ curStep=i; render(); });
+      stepDots.appendChild(d);
+    });
+  }
+
+  function render(){
+    const list = steps();
+    curStep = Math.max(0, Math.min(list.length-1, curStep));
+    const step = list[curStep];
+    plotS.clear(); plotS.drawGrid(); plotS.drawAxes();
+
+    xRow.style.display = step.needsX ? 'flex' : 'none';
+    if(step.needsX){
+      const x = parseFloat(xCtrl.value);
+      xRead.textContent = x.toFixed(2).replace('.',',');
+      const res = step.draw(plotS, x);
+      if(res){
+        if(res.insideDelta && res.insideEps){
+          xStatus.textContent = '✅ x está en (a−δ, a+δ) y f(x) cae en (L−ε, L+ε): la implicación se cumple.';
+          xStatus.style.color = 'var(--ink-green)';
+        } else if(res.insideDelta && !res.insideEps){
+          xStatus.textContent = '❌ x está en (a−δ, a+δ) pero f(x) se escapa de (L−ε, L+ε): este δ no alcanza.';
+          xStatus.style.color = 'var(--ink-red)';
+        } else {
+          xStatus.textContent = '➖ x está fuera de (a−δ, a+δ): la definición no exige nada para este x.';
+          xStatus.style.color = '#6b6252';
+        }
+      }
+    } else {
+      step.draw(plotS);
+    }
+
+    stepTag.textContent = step.tag;
+    stepText.innerHTML = step.text;
+    renderDots();
+    stepPrev.disabled = curStep===0;
+    stepNext.disabled = curStep===list.length-1;
+    caseABtn.classList.toggle('correct', curCase==='A');
+    caseBBtn.classList.toggle('wrong', curCase==='B');
+  }
+  plotS.onRedraw(render);
+
+  caseABtn.addEventListener('click', ()=>{ curCase='A'; curStep=0; xCtrl.value=aS; render(); });
+  caseBBtn.addEventListener('click', ()=>{ curCase='B'; curStep=0; xCtrl.value=aS-1; render(); });
+  stepPrev.addEventListener('click', ()=>{ curStep--; render(); });
+  stepNext.addEventListener('click', ()=>{ curStep++; render(); });
+  xCtrl.addEventListener('input', render);
+  render();
+
   /* ---- widget fabricante ---- */
   const plotF = new NotebookPlot(document.getElementById('plot-fabricante'), {xMin:6,xMax:14,yMin:30,yMax:170,xStep:1,yStep:20,cssHeight:380});
   const area = x => x*x;

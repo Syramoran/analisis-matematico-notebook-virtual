@@ -462,6 +462,21 @@ sup.mexp{ font-size:.68em; position:relative; top:-.55em; }
 }
 .widget-caption{ font-family:var(--font-note); font-size:.9rem; color:#6b6252; margin-top:8px; }
 
+.step-nav{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:14px; margin-top:14px; padding-top:14px; border-top:1.5px dashed #ccc2a6;
+}
+.step-dots{ display:flex; gap:8px; }
+.step-dots .dot{
+  width:11px; height:11px; border-radius:50%;
+  background:var(--paper-edge); border:2px solid var(--ink-blue-soft);
+  cursor:pointer; transition:transform .15s;
+}
+.step-dots .dot.active{ background:var(--ink-blue); transform:scale(1.25); }
+@media (max-width:640px){
+  .step-nav{ flex-wrap:wrap; justify-content:center; }
+}
+
 /* ============================================================
    QUIZ
    ============================================================ */
