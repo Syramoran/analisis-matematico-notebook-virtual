@@ -17,6 +17,7 @@
     { id:9, file:'modulo-9.html', title:'Reglas de derivación',                    short:'Constante, potencia, producto, cociente y regla de la cadena', color:'orange' },
     { id:10, file:'modulo-10.html', title:'Derivación implícita, logarítmica y derivadas superiores', short:'Curvas sin despejar, exponentes variables y derivar dos veces', color:'yellow' },
     { id:11, file:'modulo-11.html', title:'Regla de L\'Hospital', short:'Formas indeterminadas 0/0, ∞/∞, 0·∞, ∞−∞ y potencias', color:'blue' },
+    { id:12, file:'modulo-12.html', title:'Resumen de límites', short:'Guías rápidas para resolver cualquier actividad de límites', color:'pink' },
   ];
   window.NB_MODULES = MODULES;
 

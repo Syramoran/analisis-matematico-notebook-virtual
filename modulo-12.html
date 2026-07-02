@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>12. Resumen de límites · Cuaderno de Límites</title>
+<link rel="stylesheet" href="css/notebook.css">
+</head>
+<body data-module="12">
+
+<button id="index-tab" class="index-tab">📑 Índice</button>
+<div id="drawer-overlay" class="drawer-overlay"></div>
+<aside id="index-drawer" class="index-drawer"></aside>
+
+<div class="desk">
+  <main class="notebook-page">
+    <div class="spiral" aria-hidden="true"></div>
+    <div class="margin-line" aria-hidden="true"></div>
+
+    <div class="page-content">
+
+      <header class="page-header">
+        <span class="module-badge"><span class="dot"></span>Módulo 12 de 12</span>
+        <div class="progress-strip"></div>
+        <h1 class="underline-draw">Resumen de límites
+          <svg viewBox="0 0 700 14" preserveAspectRatio="none"><path d="M4 9 Q 220 2, 696 8"/></svg>
+        </h1>
+        <p style="font-size:1.2rem;color:#4a453a;max-width:660px;">Esta página no enseña nada nuevo: es una libreta de bolsillo con guías cortas para cuando una actividad te deja trabado. Se va a ir completando de a poco, así que no hace falta leerla toda de una — volvé cuando la necesites.</p>
+      </header>
+
+      <h3>¿Qué hacer si una actividad te pide calcular un límite?</h3>
+      <p>Depende de qué te dan: una <strong>gráfica</strong> o una <strong>fórmula</strong>. El razonamiento de fondo es el mismo (ver qué pasa "cerca de" un punto), pero las herramientas para leerlo cambian.</p>
+
+      <div class="box def">
+        <span class="box-tag">📈 Si tenés la gráfica</span>
+        <p style="margin:0;">Para <span class="math">lim<sub>x→a</sub> f(x)</span>, poné el dedo sobre la curva y recorrela hacia <span class="math">a</span> desde los dos lados:</p>
+        <ol style="margin:8px 0 0;padding-left:22px;">
+          <li>Recorré la curva <strong>desde la izquierda</strong> (x&nbsp;&lt;&nbsp;a). ¿A qué altura (y) llega el trazo justo antes de x=a? Ese es <span class="math">lim<sub>x→a⁻</sub></span>.</li>
+          <li>Recorré la curva <strong>desde la derecha</strong> (x&nbsp;&gt;&nbsp;a). Repetí lo mismo: ese valor es <span class="math">lim<sub>x→a⁺</sub></span>.</li>
+          <li>Si los dos coinciden, ese número es <span class="math">lim<sub>x→a</sub> f(x)</span>. Si no coinciden (o alguno se va a ±∞), el límite <strong>no existe</strong> como número.</li>
+        </ol>
+        <p style="margin-top:8px;">El valor de <span class="math">f(a)</span> (el punto relleno, si lo hay) <strong>no importa</strong> para el límite — importa sólo hacia dónde se acerca la curva, no dónde "aterriza" en a. Círculos huecos, saltos o puntos sueltos son justamente lo que hay que ignorar al leer el límite y lo que sí importa al leer <span class="math">f(a)</span>. Repaso completo en <a class="btn ghost" style="font-size:.92rem;padding:5px 12px;" href="modulo-3.html">Módulo 3: Límites laterales →</a>.</p>
+      </div>
+
+      <div class="box def">
+        <span class="box-tag">🧮 Si tenés la fórmula (sin gráfica)</span>
+        <p style="margin:0;">Acá no hay dedo que recorra nada: se razona en pasos. Para <span class="math">lim<sub>x→a</sub> f(x)</span>:</p>
+        <ol style="margin:8px 0 0;padding-left:22px;">
+          <li><strong>Probá sustitución directa.</strong> Reemplazá x=a en f(x). Si f es una combinación de polinomios, raíces, trigonométricas, exponenciales o logaritmos definida en a, es continua ahí y el límite es directamente <span class="math">f(a)</span>. Fin del ejercicio. (Por qué funciona esto: <a class="btn ghost" style="font-size:.92rem;padding:5px 12px;" href="modulo-7.html">Módulo 7: Continuidad →</a>).</li>
+          <li><strong>Si te da un número real:</strong> listo, ese es el límite.</li>
+          <li><strong>Si te da k/0 con k≠0:</strong> no es un número — es un límite infinito. Mirá el signo de k y del denominador acercándose por izquierda y derecha para saber si tiende a +∞ o −∞ (puede ser distinto de cada lado). Guía completa: <a class="btn ghost" style="font-size:.92rem;padding:5px 12px;" href="modulo-4.html">Módulo 4: Límites infinitos →</a> o la <a class="btn ghost" style="font-size:.92rem;padding:5px 12px;" href="guia-asintotas-verticales.html">guía de asíntotas verticales →</a>.</li>
+          <li><strong>Si te da 0/0 (o x→∞ y queda ∞/∞):</strong> es una forma indeterminada, no una respuesta. Probá, en este orden: factorizar y simplificar, racionalizar (si hay raíces), o sacar factor común de la potencia más alta de x (si x→±∞). Catálogo de técnicas: <a class="btn ghost" style="font-size:.92rem;padding:5px 12px;" href="modulo-6.html">Módulo 6: Técnicas de cálculo →</a>.</li>
+          <li><strong>Si las técnicas algebraicas son incómodas o no alcanzan</strong> y la función es derivable, la forma 0/0 o ∞/∞ también se puede resolver derivando numerador y denominador por separado: <a class="btn ghost" style="font-size:.92rem;padding:5px 12px;" href="modulo-11.html">Módulo 11: Regla de L'Hospital →</a>. Ojo: solo aplica a esas dos formas, y solo después de confirmar que realmente son indeterminadas.</li>
+          <li><strong>Si la función es partida (a trozos)</strong> y a es un punto donde cambia de fórmula, no hay sustitución directa que valga: hay que calcular <span class="math">lim<sub>x→a⁻</sub></span> y <span class="math">lim<sub>x→a⁺</sub></span> por separado, cada uno con la fórmula que corresponde de ese lado, y comparar — igual que en el caso gráfico.</li>
+        </ol>
+      </div>
+
+      <div class="postit yellow sm postit-float">
+        <b>El orden importa</b>
+        Sustitución directa primero, siempre. Es el paso más rápido y, en la mayoría de los ejercicios de la cátedra, ya resuelve el límite. Solo si tropieza (0/0, k/0, ∞/∞) hay que sacar las herramientas más pesadas.
+      </div>
+
+      <p>En síntesis: con gráfica, el límite se <em>lee</em>; con fórmula, el límite se <em>deduce</em> siguiendo el árbol de arriba de afuera hacia adentro — probando primero lo simple (sustituir) y recién después lo que hace falta (factorizar, racionalizar, L'Hospital) según qué forma haya quedado.</p>
+
+      <nav class="page-nav">
+        <a class="corner prev" href="#"></a>
+        <a class="corner next" href="#"></a>
+      </nav>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/notebook.js"></script>
+</body>
+</html>
