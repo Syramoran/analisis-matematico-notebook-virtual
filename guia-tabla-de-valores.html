@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía · Qué valores usar en una tabla de valores · Cuaderno de Límites</title>
+<link rel="stylesheet" href="css/notebook.css">
+</head>
+<body data-module="2">
+
+<button id="index-tab" class="index-tab">📑 Índice</button>
+<div id="drawer-overlay" class="drawer-overlay"></div>
+<aside id="index-drawer" class="index-drawer"></aside>
+
+<div class="desk">
+  <main class="notebook-page">
+    <div class="spiral" aria-hidden="true"></div>
+    <div class="margin-line" aria-hidden="true"></div>
+
+    <div class="page-content">
+
+      <a class="dd-back" href="modulo-2.html">← volver al Módulo 2</a>
+      <header class="page-header">
+        <span class="dd-badge">🔢 Guía práctica · Módulo 2</span>
+        <h1 class="underline-draw">Qué valores usar en una tabla de valores
+          <svg viewBox="0 0 640 14" preserveAspectRatio="none"><path d="M4 9 Q 210 2, 636 8"/></svg>
+        </h1>
+        <p style="font-size:1.2rem;color:#4a453a;max-width:680px;">Cuando armás a mano (o con la calculadora) una tabla como la del Módulo 2 para intuir <span class="math">lim<sub>x→a</sub> f(x)</span>, no cualquier valor sirve. La idea es siempre la misma: acercarse a <span class="math">a</span> de a poco, cada vez más pegado — nunca de golpe.</p>
+      </header>
+
+      <div class="box def">
+        <span class="box-tag">📖 La idea de fondo</span>
+        <p style="margin:0;">Usá valores que se acerquen a <span class="math">a</span> "exponencialmente": cada uno diez veces más cerca que el anterior. En la práctica, eso significa ir agregando un cero decimal por vez. Armás <strong>dos</strong> columnas — una por izquierda (<span class="math">x &lt; a</span>) y otra por derecha (<span class="math">x &gt; a</span>) — y evaluás <span class="math">f(x)</span> en cada una. El esquema de valores a usar cambia un poco según a qué número tiende x, pero es siempre el mismo patrón de fondo.</p>
+      </div>
+
+      <h3>1. Si el límite tiende a cero (x → 0)</h3>
+      <p>El caso más simple: los valores ya vienen "centrados" en 0, solo hay que ir agregando ceros.</p>
+      <table class="value-table">
+        <caption>x → 0</caption>
+        <thead><tr><th>Por la izquierda (x &lt; 0)</th><th>Por la derecha (x &gt; 0)</th></tr></thead>
+        <tbody>
+          <tr><td>−0,5</td><td>0,5</td></tr>
+          <tr><td>−0,1</td><td>0,1</td></tr>
+          <tr><td>−0,01</td><td>0,01</td></tr>
+          <tr><td>−0,001</td><td>0,001</td></tr>
+          <tr><td>−0,0001</td><td>0,0001</td></tr>
+        </tbody>
+      </table>
+
+      <h3>2. Si el límite tiende a un número entero positivo (ej: x → 3)</h3>
+      <p>Le restás y le sumás a <span class="math">a</span> valores cada vez más chicos: primero un decimal (0,5 y 0,1), y de ahí en adelante un cero decimal más por fila.</p>
+      <table class="value-table">
+        <caption>x → 3</caption>
+        <thead><tr><th>Por la izquierda (x &lt; 3)</th><th>Por la derecha (x &gt; 3)</th></tr></thead>
+        <tbody>
+          <tr><td>2,5</td><td>3,5</td></tr>
+          <tr><td>2,9</td><td>3,1</td></tr>
+          <tr><td>2,99</td><td>3,01</td></tr>
+          <tr><td>2,999</td><td>3,001</td></tr>
+          <tr><td>2,9999</td><td>3,0001</td></tr>
+        </tbody>
+      </table>
+
+      <div class="box warn">
+        <span class="box-tag">⚠️ Si el límite tiende a un número negativo (ej: x → −2)</span>
+        <p style="margin:0;">Acá es donde más se equivocan los signos. Como los números son negativos, <strong>"por la izquierda" significa más negativo</strong> (más lejos del cero, no más cerca) — y "por la derecha" significa menos negativo (más cerca del cero). Es al revés de lo que uno intuye si solo piensa en "restar" y "sumar" sin prestar atención al signo.</p>
+        <table class="value-table" style="margin-top:10px;">
+          <caption>x → −2</caption>
+          <thead><tr><th>Por la izquierda (x &lt; −2)</th><th>Por la derecha (x &gt; −2)</th></tr></thead>
+          <tbody>
+            <tr><td>−2,5</td><td>−1,5</td></tr>
+            <tr><td>−2,1</td><td>−1,9</td></tr>
+            <tr><td>−2,01</td><td>−1,99</td></tr>
+            <tr><td>−2,001</td><td>−1,999</td></tr>
+            <tr><td>−2,0001</td><td>−1,9999</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="postit yellow md postit-float">
+        <b>Truco para no confundirse con el signo</b>
+        Ubicá a en la recta numérica. "Izquierda" y "derecha" son siempre respecto a esa posición en la recta — no respecto al 0. Si a es negativo, izquierda sigue siendo "más chico que a", que ahí es un número todavía más negativo.
+      </div>
+
+      <p>En los tres casos el patrón es el mismo: <span class="math">a ± 0,5</span>, <span class="math">a ± 0,1</span>, <span class="math">a ± 0,01</span>, <span class="math">a ± 0,001</span>, <span class="math">a ± 0,0001</span> — restando por izquierda y sumando por derecha. Con 4 o 5 filas alcanza para que la calculadora te muestre hacia qué número se van estabilizando los valores de f(x); ese número (si ambos lados coinciden) es el candidato a límite. Repaso de por qué se compara izquierda con derecha: <a class="btn ghost" style="font-size:.92rem;padding:5px 12px;" href="modulo-3.html">Módulo 3: Límites laterales →</a>.</p>
+
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplo aplicado</span>
+        <p>Para estimar <span class="math">lim<sub>x→1</sub> <span class="frac"><span class="num">x − 1</span><span class="den">x² − 1</span></span></span> (el mismo del Módulo 2), como a = 1 es un entero positivo, la tabla usa el esquema del caso 2: 0,5 / 1,5 · 0,9 / 1,1 · 0,99 / 1,01 · 0,999 / 1,001 — que es exactamente la tabla que ya viste ahí.</p>
+      </div>
+
+      <nav class="page-nav">
+        <a class="corner prev" href="modulo-2.html"><span class="dir">← volver</span><span class="ttl">Módulo 2: Definición informal</span></a>
+        <a class="corner next" href="modulo-12.html"><span class="dir">seguir →</span><span class="ttl">Módulo 12: Resumen de límites</span></a>
+      </nav>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/notebook.js"></script>
+</body>
+</html>
