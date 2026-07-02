@@ -46,24 +46,29 @@
         <span class="box-tag">🧮 Si tenés la fórmula (sin gráfica)</span>
         <p style="margin:0;">Acá no hay dedo que recorra nada: se razona en pasos. Para <span class="math">lim<sub>x→a</sub> f(x)</span>:</p>
         <ol style="margin:8px 0 0;padding-left:22px;">
-          <li><strong>Probá sustitución directa.</strong> Reemplazá x=a en la fórmula de f(x) y resolvé la cuenta. Si f es una combinación de polinomios, raíces, trigonométricas, exponenciales o logaritmos <em>definida en a</em> (sin dividir por 0 ni nada raro justo ahí), entonces f es continua en a — y en ese caso, y <strong>solo</strong> en ese caso, <span class="text-green">el número que te dio la cuenta es el límite</span> (de yapa, también es f(a): ahí los dos coinciden). Fin del ejercicio.
-            <details style="margin-top:10px;">
-              <summary style="cursor:pointer;font-weight:700;color:var(--ink-purple);font-family:var(--font-note);">Ver un ejemplo simple →</summary>
-              <div style="margin-top:8px;padding:12px 16px;background:#f7f4ea;border-radius:10px;border:2px dashed var(--ink-purple);">
-                <p style="margin:0;">lim<sub>x→2</sub> (x² + 1)</p>
-                <p style="margin:8px 0 0;">f(x) = x² + 1 es un polinomio: <span class="text-green">continuo en todos lados</span>, así que puedo sustituir directo. Reemplazo x=2:</p>
-                <p style="margin:8px 0 0;">2² + 1 = <span class="text-purple" style="font-weight:700;">5</span></p>
-                <p style="margin:8px 0 0;">Como f es continua en x=2, ese <span class="text-purple" style="font-weight:700;">5</span> no es solo "lo que da la cuenta": es a la vez <span class="text-green"><strong>el límite</strong></span> y <span class="text-green"><strong>f(2)</strong></span> — los dos números coinciden porque no hay ningún salto, hueco ni redefinición en x=2.</p>
+          <li><span class="text-red">Ojo antes de arrancar:</span> este primer paso <strong>solo</strong> sirve si f es continua en a (una fórmula "de una pieza", sin dividir por 0 justo ahí, sin partirse en trozos). Si f no es continua en a, saltá directo al punto 6.
+            <p style="margin-top:6px;"><strong>Probá sustitución directa:</strong> reemplazá x=a en f(x). Si f es una combinación de polinomios, raíces, trigonométricas, exponenciales o logaritmos definida ahí, es continua — y el número que te da la cuenta es, directamente, <span class="text-green">el límite</span>. Fin del ejercicio.</p>
+            <details style="margin-top:8px;">
+              <summary style="cursor:pointer;font-weight:700;color:var(--ink-purple);font-family:var(--font-note);">Ejemplo →</summary>
+              <div style="margin-top:6px;padding:10px 14px;background:#f7f4ea;border-radius:10px;border:2px dashed var(--ink-purple);">
+                <p style="margin:0;">lim<sub>x→2</sub> (x² + 1) — es un polinomio (continuo en todos lados), sustituyo x=2: 2²+1 = <span class="text-green" style="font-weight:700;">5</span>. El límite es 5.</p>
               </div>
             </details>
-            <p style="margin-top:10px;"><span class="text-red">Ojo:</span> este atajo depende de que f sea continua en a. Si la función está partida y en a cambia de fórmula (por ejemplo, si en el gráfico hay un círculo hueco en un lado y un punto relleno en otro lugar distinto), lo que "da" al evaluar ahí no tiene por qué ser el límite — puede ser un valor de f(a) totalmente aislado de hacia dónde se acerca la curva. Para esos casos va el punto 6 de esta lista.</p>
-            <p style="margin-top:8px;">Por qué funciona el atajo cuando sí es continua: <a class="btn ghost" style="font-size:.92rem;padding:5px 12px;" href="modulo-7.html">Módulo 7: Continuidad →</a>.</p>
+            <p style="margin-top:8px;">Por qué funciona: <a class="btn ghost" style="font-size:.92rem;padding:5px 12px;" href="modulo-7.html">Módulo 7: Continuidad →</a>.</p>
           </li>
           <li><strong>Si te da un número real:</strong> listo, ese es el límite.</li>
           <li><strong>Si te da k/0 con k≠0:</strong> no es un número — es un límite infinito. Mirá el signo de k y del denominador acercándose por izquierda y derecha para saber si tiende a +∞ o −∞ (puede ser distinto de cada lado). Guía completa: <a class="btn ghost" style="font-size:.92rem;padding:5px 12px;" href="modulo-4.html">Módulo 4: Límites infinitos →</a> o la <a class="btn ghost" style="font-size:.92rem;padding:5px 12px;" href="guia-asintotas-verticales.html">guía de asíntotas verticales →</a>.</li>
           <li><strong>Si te da 0/0 (o x→∞ y queda ∞/∞):</strong> es una forma indeterminada, no una respuesta. Probá, en este orden: factorizar y simplificar, racionalizar (si hay raíces), o sacar factor común de la potencia más alta de x (si x→±∞). Catálogo de técnicas: <a class="btn ghost" style="font-size:.92rem;padding:5px 12px;" href="modulo-6.html">Módulo 6: Técnicas de cálculo →</a>.</li>
           <li><strong>Si las técnicas algebraicas son incómodas o no alcanzan</strong> y la función es derivable, la forma 0/0 o ∞/∞ también se puede resolver derivando numerador y denominador por separado: <a class="btn ghost" style="font-size:.92rem;padding:5px 12px;" href="modulo-11.html">Módulo 11: Regla de L'Hospital →</a>. Ojo: solo aplica a esas dos formas, y solo después de confirmar que realmente son indeterminadas.</li>
-          <li><strong>Si la función es partida (a trozos)</strong> y a es un punto donde cambia de fórmula, no hay sustitución directa que valga: hay que calcular <span class="math">lim<sub>x→a⁻</sub></span> y <span class="math">lim<sub>x→a⁺</sub></span> por separado, cada uno con la fórmula que corresponde de ese lado, y comparar — igual que en el caso gráfico.</li>
+          <li><strong>Si la función es partida (a trozos)</strong> y a es el punto donde cambia de fórmula, no hay sustitución directa que valga. Una función partida trae varias fórmulas, una por tramo — por ejemplo:
+            <div class="box formula" style="text-align:left;font-size:1.05rem;margin-top:8px;">f(x) = { x, &nbsp;si x &lt; 1 &nbsp;·&nbsp; 3, &nbsp;si x = 1 &nbsp;·&nbsp; −2x+3, &nbsp;si x &gt; 1 }</div>
+            <p style="margin-top:8px;">Para <span class="math">lim<sub>x→1</sub> f(x)</span> hay que usar, de cada lado, <strong>la fórmula de ese tramo</strong> (nunca la de x=1, que es solo el valor puntual):</p>
+            <ul style="margin:6px 0 0;padding-left:22px;">
+              <li><span class="math">lim<sub>x→1⁻</sub></span>: uso la fórmula de x&lt;1, que es <span class="math">x</span> → sustituyo x=1 → da <span class="text-green">1</span>.</li>
+              <li><span class="math">lim<sub>x→1⁺</sub></span>: uso la fórmula de x&gt;1, que es <span class="math">−2x+3</span> → sustituyo x=1 → da <span class="text-green">1</span>.</li>
+            </ul>
+            <p style="margin-top:8px;">Coinciden: <span class="text-green">el límite es 1</span>. La fórmula "f(x)=3 si x=1" nunca entra en la cuenta del límite — es <span class="text-red">solo el valor de f(1)</span>, aislado de las otras dos ramas.</p>
+          </li>
         </ol>
       </div>
 
