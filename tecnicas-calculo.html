@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía · Las 6 técnicas para resolver indeterminaciones · Cuaderno de Límites</title>
+<link rel="stylesheet" href="css/notebook.css">
+</head>
+<body data-module="6">
+
+<button id="index-tab" class="index-tab">📑 Índice</button>
+<div id="drawer-overlay" class="drawer-overlay"></div>
+<aside id="index-drawer" class="index-drawer"></aside>
+
+<div class="desk">
+  <main class="notebook-page">
+    <div class="spiral" aria-hidden="true"></div>
+    <div class="margin-line" aria-hidden="true"></div>
+
+    <div class="page-content">
+
+      <a class="dd-back" href="modulo-6.html">← volver al Módulo 6</a>
+      <header class="page-header">
+        <span class="dd-badge">🛠️ Guía práctica · Módulo 6</span>
+        <h1 class="underline-draw">Las 6 técnicas para resolver indeterminaciones
+          <svg viewBox="0 0 640 14" preserveAspectRatio="none"><path d="M4 9 Q 210 2, 636 8"/></svg>
+        </h1>
+        <p style="font-size:1.2rem;color:#4a453a;max-width:680px;">Cuando sustituir directamente da 0/0, ∞/∞ u otra forma indeterminada, hay que "destrabar" la expresión con álgebra. Estas son las seis herramientas — con ejemplo interactivo en cada una para que veas <em>por qué</em> funcionan, no solo el procedimiento.</p>
+      </header>
+
+      <div class="box def">
+        <span class="box-tag">🧭 ¿Cuál uso primero?</span>
+        <p>Siempre en este orden: probá primero <strong>sustitución directa</strong>. Si da un número, listo. Si da una forma indeterminada, elegí la técnica según la "pista" que te da la función:</p>
+        <ul style="margin:8px 0 0 20px;line-height:1.9;">
+          <li>Cociente de <strong>polinomios</strong> que da 0/0 → <a href="#t2">Cancelación (factorización)</a></li>
+          <li>Aparece una <strong>raíz</strong> (generalmente cuadrada) y da 0/0 → <a href="#t3">Racionalización</a></li>
+          <li>Hay un <strong>binomio elevado a una potencia</strong>, tipo (a+h)ⁿ, que da 0/0 → <a href="#t4">Desarrollo de potencias</a></li>
+          <li>Aparecen <strong>seno, coseno o tangente</strong> → <a href="#t5">Sustituciones trigonométricas</a></li>
+          <li><strong>x → ∞</strong> y queda ∞/∞ → <a href="#t6">División por la mayor potencia</a></li>
+        </ul>
+      </div>
+
+      <h3 id="t1">1️⃣ Sustitución directa</h3>
+      <p>No es una "técnica para indeterminaciones" — es el paso 0, el que probás siempre primero. Si <span class="math">f</span> es polinomial o racional y <span class="math">a</span> está en su dominio, alcanza con reemplazar.</p>
+      <div class="box formula">
+        <span class="box-tag">Regla</span>
+        Si f es polinomial o racional y a está en el dominio de f, entonces <span class="lim" style="font-size:.85em;"><span class="lim-word">lim</span><span class="lim-sub">x→a</span></span>f(x) = f(a).
+      </div>
+      <div class="widget">
+        <canvas id="plot-t1" cssHeight="320"></canvas>
+        <div class="widget-controls">
+          <label>x: <input type="range" id="ctrl-t1" min="0" max="4" step="0.02" value="0.4"></label>
+          <span>x = <span class="widget-readout" id="read-t1x">0,40</span></span>
+          <span>f(x) = <span class="widget-readout" id="read-t1y">—</span></span>
+        </div>
+        <p class="widget-caption">f(x) = (x² − 1)/(x + 2). Movete hasta x = 2: no hay ningún salto ni hueco, así que <span class="math">lim(x→2) f(x) = f(2) = 3/4</span> directamente.</p>
+      </div>
+
+      <h3 id="t2">2️⃣ Cancelación (factorización)</h3>
+      <p>Se usa cuando sustitución directa da <strong>0/0</strong> en un cociente de polinomios. Factorizás numerador y/o denominador (diferencia de cuadrados, factor común, resolvente) y cancelás el factor que causa el cero.</p>
+      <div class="box example">
+        <span class="box-tag">Ejemplo</span>
+        <p><span class="lim" style="font-size:.9em;"><span class="lim-word">lim</span><span class="lim-sub">x→1</span></span><span class="frac"><span class="num">x² − 1</span><span class="den">x − 1</span></span> da 0/0. Factorizando (diferencia de cuadrados): <span class="frac"><span class="num">(x−1)(x+1)</span><span class="den">x−1</span></span>. Se cancela (x−1) y queda <span class="lim" style="font-size:.9em;"><span class="lim-word">lim</span><span class="lim-sub">x→1</span></span>(x+1) = <strong>2</strong>.</p>
+      </div>
+      <div class="widget">
+        <canvas id="plot-t2" cssHeight="320"></canvas>
+        <div class="widget-controls">
+          <label>x: <input type="range" id="ctrl-t2" min="-1" max="3" step="0.01" value="0"></label>
+          <span>x = <span class="widget-readout" id="read-t2x">0,00</span></span>
+          <span>f(x) = <span class="widget-readout" id="read-t2y">—</span></span>
+        </div>
+        <p class="widget-caption">Acercate a x=1 desde los dos lados: la función no está definida ahí (hueco), pero el valor se acerca cada vez más a 2.</p>
+      </div>
+
+      <h3 id="t3">3️⃣ Racionalización</h3>
+      <p>Se aplica cuando hay una indeterminación 0/0 y la función tiene <strong>raíces</strong>. Multiplicás numerador y denominador por el conjugado del término con la raíz, para forzar una diferencia de cuadrados que la elimine.</p>
+      <div class="box example">
+        <span class="box-tag">Ejemplo</span>
+        <p><span class="lim" style="font-size:.9em;"><span class="lim-word">lim</span><span class="lim-sub">x→0</span></span><span class="frac"><span class="num">√(x²+9) − 3</span><span class="den">x²</span></span>. Multiplicamos por el conjugado √(x²+9)+3: queda <span class="frac"><span class="num">(x²+9) − 9</span><span class="den">x²(√(x²+9)+3)</span></span> = <span class="frac"><span class="num">1</span><span class="den">√(x²+9)+3</span></span> → <strong>1/6</strong>.</p>
+      </div>
+      <div class="widget">
+        <canvas id="plot-t3" cssHeight="320"></canvas>
+        <div class="widget-controls">
+          <label>x: <input type="range" id="ctrl-t3" min="-2" max="2" step="0.01" value="0.8"></label>
+          <span>x = <span class="widget-readout" id="read-t3x">0,80</span></span>
+          <span>f(x) = <span class="widget-readout" id="read-t3y">—</span></span>
+        </div>
+        <p class="widget-caption">Acercate a x=0: aunque en x=0 la expresión original es 0/0, el valor converge a 1/6 ≈ 0,1667.</p>
+      </div>
+
+      <h3 id="t4">4️⃣ Desarrollo de potencias</h3>
+      <p>Se usa cuando aparece un <strong>binomio elevado a una potencia</strong> que produce 0/0 (típicamente con h→0). Expandís el binomio, agrupás, y sacás factor común para simplificar.</p>
+      <div class="box example">
+        <span class="box-tag">Ejemplo</span>
+        <p><span class="lim" style="font-size:.9em;"><span class="lim-word">lim</span><span class="lim-sub">h→0</span></span><span class="frac"><span class="num">(3+h)² − 9</span><span class="den">h</span></span>. Expandiendo: <span class="frac"><span class="num">9+6h+h² − 9</span><span class="den">h</span></span> = <span class="frac"><span class="num">h(6+h)</span><span class="den">h</span></span> = 6+h → <strong>6</strong>.</p>
+      </div>
+      <div class="widget">
+        <canvas id="plot-t4" cssHeight="320"></canvas>
+        <div class="widget-controls">
+          <label>h: <input type="range" id="ctrl-t4" min="-2" max="2" step="0.01" value="1"></label>
+          <span>h = <span class="widget-readout" id="read-t4x">1,00</span></span>
+          <span>f(h) = <span class="widget-readout" id="read-t4y">—</span></span>
+        </div>
+        <p class="widget-caption">Acercate a h=0: la expresión original tiene un hueco ahí, pero se acerca a 6.</p>
+      </div>
+
+      <h3 id="t5">5️⃣ Sustituciones trigonométricas</h3>
+      <p>Cuando aparecen seno, coseno o tangente, reescribís la expresión con identidades conocidas (como <span class="math">sen²x + cos²x = 1</span>) para llegar al límite notable <span class="math">lim(x→0) sen(x)/x = 1</span>, y de ahí despejar.</p>
+      <div class="box def">
+        <span class="box-tag">📖 El límite notable</span>
+        <p style="text-align:center;font-size:1.2rem;"><span class="lim"><span class="lim-word">lim</span><span class="lim-sub">x→0</span></span> <span class="frac"><span class="num">sen(x)</span><span class="den">x</span></span> = 1</p>
+      </div>
+      <div class="widget">
+        <canvas id="plot-t5" cssHeight="340"></canvas>
+        <div class="widget-controls">
+          <label>x (radianes): <input type="range" id="ctrl-t5" min="-2" max="2" step="0.01" value="0.9"></label>
+          <span>x = <span class="widget-readout" id="read-t5x">0,90</span></span>
+          <span>sen(x)/x = <span class="widget-readout" id="read-t5y">—</span></span>
+        </div>
+        <p class="widget-caption">Acercate a x=0 desde ambos lados: sen(x)/x nunca está definida en x=0 (0/0), pero se acerca a 1. A partir de este límite se resuelven otros, como (1−cos x)/x → 0.</p>
+      </div>
+
+      <h3 id="t6">6️⃣ División por la mayor potencia</h3>
+      <p>Es el método estándar para <strong>∞/∞</strong>, típico cuando <span class="math">x→∞</span>. Dividís cada término (numerador y denominador) por la mayor potencia de x presente, y usás que cualquier constante sobre infinito tiende a 0.</p>
+      <div class="box example">
+        <span class="box-tag">Ejemplo</span>
+        <p><span class="lim" style="font-size:.9em;"><span class="lim-word">lim</span><span class="lim-sub">x→∞</span></span><span class="frac"><span class="num">2x³ − 5x</span><span class="den">4x³ + x² + 1</span></span>. Dividiendo todo por x³: <span class="frac"><span class="num">2 − 5/x²</span><span class="den">4 + 1/x + 1/x³</span></span> → <strong>2/4 = 1/2</strong>.</p>
+      </div>
+      <div class="widget">
+        <canvas id="plot-t6" cssHeight="320"></canvas>
+        <div class="widget-controls">
+          <label>x: <input type="range" id="ctrl-t6" min="1" max="60" step="0.5" value="4"></label>
+          <span>x = <span class="widget-readout" id="read-t6x">4</span></span>
+          <span>f(x) = <span class="widget-readout" id="read-t6y">—</span></span>
+        </div>
+        <p class="widget-caption">Agrandá x: el valor se acerca cada vez más a 0,5, aunque para x chico la función pueda verse lejos de ese valor.</p>
+      </div>
+
+      <div class="postit orange lg postit-float">
+        <b>Un mismo límite, varios caminos</b>
+        Algunos límites se pueden resolver con más de una técnica (por ejemplo, factorización o racionalización a veces se combinan). No hay una única forma "correcta": lo importante es llegar a una expresión donde sustituir directamente ya no dé una indeterminación.
+      </div>
+
+      <div class="reflect-box">
+        <b>🖊️ Para pensar</b>
+        <p style="margin:.4em 0 0;">¿Por qué la sustitución directa "falla" justo en los casos más interesantes (huecos, límites notables, límites al infinito)? ¿Qué tienen en común esos casos?</p>
+        <textarea placeholder="Escribí tu respuesta acá."></textarea>
+        <details>
+          <summary>Ver una posible respuesta</summary>
+          <p class="model-answer">La sustitución directa solo funciona cuando la función ya "sabe" cuánto vale en a (porque es continua ahí). En los casos interesantes, el punto a no está en el dominio de la función tal como está escrita — hay una raíz que se anula, una división por cero, o x se va a infinito, que ni siquiera es un número. En todos esos casos, la expresión original "oculta" el comportamiento real de la función cerca de a, y hace falta reescribirla (factorizar, racionalizar, dividir) para revelarlo.</p>
+        </details>
+      </div>
+
+      <section class="quiz-section" id="quiz">
+        <div class="quiz-intro"><span class="pencil">📝</span><h2>Pon a prueba lo aprendido</h2></div>
+        <p class="quiz-progress">¿Qué técnica usarías en cada caso? Respondé y comprobá al toque.</p>
+        <div id="quiz-container"></div>
+      </section>
+
+      <nav class="page-nav">
+        <a class="corner prev" href="modulo-6.html"><span class="dir">← volver</span><span class="ttl">Módulo 6: límites al infinito</span></a>
+        <a class="corner next" href="profundiza-6.html"><span class="dir">seguir profundizando →</span><span class="ttl">Más técnicas de cálculo</span></a>
+      </nav>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/notebook.js"></script>
+<script src="js/plotter.js"></script>
+<script src="js/quiz.js"></script>
+<script>
+(function(){
+  /* ---- 1: sustitución directa: (x^2-1)/(x+2) ---- */
+  const plot1 = new NotebookPlot(document.getElementById('plot-t1'), {xMin:-1,xMax:4,yMin:-1,yMax:4,xStep:1,yStep:1,cssHeight:320});
+  const f1 = x => (x*x-1)/(x+2);
+  const c1 = document.getElementById('ctrl-t1'), rx1=document.getElementById('read-t1x'), ry1=document.getElementById('read-t1y');
+  function draw1(){
+    const x = parseFloat(c1.value);
+    rx1.textContent = x.toFixed(2).replace('.',','); ry1.textContent = f1(x).toFixed(4).replace('.',',');
+    plot1.clear(); plot1.drawGrid(); plot1.drawAxes();
+    plot1.vLine(2,{color:'#bbb', dash:[3,4], label:'a = 2'});
+    plot1.plotFunction(f1,{color:NB_INK.blue, lineWidth:3, domain:[-1,4]});
+    plot1.point(x,f1(x),{color:NB_INK.red, r:6});
+    plot1.point(2,f1(2),{color:NB_INK.green, r:5, hollow:true});
+  }
+  plot1.onRedraw(draw1); c1.addEventListener('input',draw1); draw1();
+
+  /* ---- 2: cancelación: (x^2-1)/(x-1), hueco en x=1 ---- */
+  const plot2 = new NotebookPlot(document.getElementById('plot-t2'), {xMin:-1,xMax:3,yMin:-1,yMax:4,xStep:1,yStep:1,cssHeight:320});
+  const f2 = x => (x*x-1)/(x-1);
+  const c2 = document.getElementById('ctrl-t2'), rx2=document.getElementById('read-t2x'), ry2=document.getElementById('read-t2y');
+  function draw2(){
+    let x = parseFloat(c2.value);
+    if(Math.abs(x-1)<0.005) x = x<1 ? 0.995 : 1.005;
+    rx2.textContent = x.toFixed(2).replace('.',','); ry2.textContent = f2(x).toFixed(4).replace('.',',');
+    plot2.clear(); plot2.drawGrid(); plot2.drawAxes();
+    plot2.hLine(2,{color:NB_INK.purple, dash:[5,5], label:'L = 2'});
+    plot2.plotFunction(f2,{color:NB_INK.blue, lineWidth:3, domain:[-1,3], asymptoteAt:[1]});
+    plot2.point(1,2,{color:NB_INK.green, r:6, hollow:true});
+    plot2.point(x,f2(x),{color:NB_INK.red, r:6});
+  }
+  plot2.onRedraw(draw2); c2.addEventListener('input',draw2); draw2();
+
+  /* ---- 3: racionalización: (sqrt(x^2+9)-3)/x^2 ---- */
+  const plot3 = new NotebookPlot(document.getElementById('plot-t3'), {xMin:-2,xMax:2,yMin:0,yMax:0.4,xStep:0.5,yStep:0.1,cssHeight:320});
+  const f3 = x => (Math.sqrt(x*x+9)-3)/(x*x);
+  const c3 = document.getElementById('ctrl-t3'), rx3=document.getElementById('read-t3x'), ry3=document.getElementById('read-t3y');
+  function draw3(){
+    let x = parseFloat(c3.value);
+    if(Math.abs(x)<0.01) x = x<0 ? -0.01 : 0.01;
+    rx3.textContent = x.toFixed(2).replace('.',','); ry3.textContent = f3(x).toFixed(4).replace('.',',');
+    plot3.clear(); plot3.drawGrid(); plot3.drawAxes();
+    plot3.hLine(1/6,{color:NB_INK.purple, dash:[5,5], label:'L = 1/6'});
+    plot3.plotFunction(f3,{color:NB_INK.blue, lineWidth:3, domain:[-2,2], asymptoteAt:[0]});
+    plot3.point(0,1/6,{color:NB_INK.green, r:6, hollow:true});
+    plot3.point(x,f3(x),{color:NB_INK.red, r:6});
+  }
+  plot3.onRedraw(draw3); c3.addEventListener('input',draw3); draw3();
+
+  /* ---- 4: desarrollo de potencias: ((3+h)^2-9)/h ---- */
+  const plot4 = new NotebookPlot(document.getElementById('plot-t4'), {xMin:-2,xMax:2,yMin:2,yMax:10,xStep:0.5,yStep:1,cssHeight:320});
+  const f4 = h => ((3+h)*(3+h)-9)/h;
+  const c4 = document.getElementById('ctrl-t4'), rx4=document.getElementById('read-t4x'), ry4=document.getElementById('read-t4y');
+  function draw4(){
+    let h = parseFloat(c4.value);
+    if(Math.abs(h)<0.01) h = h<0 ? -0.01 : 0.01;
+    rx4.textContent = h.toFixed(2).replace('.',','); ry4.textContent = f4(h).toFixed(4).replace('.',',');
+    plot4.clear(); plot4.drawGrid(); plot4.drawAxes();
+    plot4.hLine(6,{color:NB_INK.purple, dash:[5,5], label:'L = 6'});
+    plot4.plotFunction(f4,{color:NB_INK.blue, lineWidth:3, domain:[-2,2], asymptoteAt:[0]});
+    plot4.point(0,6,{color:NB_INK.green, r:6, hollow:true});
+    plot4.point(h,f4(h),{color:NB_INK.red, r:6});
+  }
+  plot4.onRedraw(draw4); c4.addEventListener('input',draw4); draw4();
+
+  /* ---- 5: sen(x)/x ---- */
+  const plot5 = new NotebookPlot(document.getElementById('plot-t5'), {xMin:-2,xMax:2,yMin:-0.5,yMax:1.3,xStep:0.5,yStep:0.5,cssHeight:340});
+  const f5 = x => Math.sin(x)/x;
+  const c5 = document.getElementById('ctrl-t5'), rx5=document.getElementById('read-t5x'), ry5=document.getElementById('read-t5y');
+  function draw5(){
+    let x = parseFloat(c5.value);
+    if(Math.abs(x)<0.01) x = x<0 ? -0.01 : 0.01;
+    rx5.textContent = x.toFixed(2).replace('.',','); ry5.textContent = f5(x).toFixed(4).replace('.',',');
+    plot5.clear(); plot5.drawGrid(); plot5.drawAxes();
+    plot5.hLine(1,{color:NB_INK.purple, dash:[5,5], label:'L = 1'});
+    plot5.plotFunction(f5,{color:NB_INK.blue, lineWidth:3, domain:[-2,2], asymptoteAt:[0]});
+    plot5.point(0,1,{color:NB_INK.green, r:6, hollow:true});
+    plot5.point(x,f5(x),{color:NB_INK.red, r:6});
+  }
+  plot5.onRedraw(draw5); c5.addEventListener('input',draw5); draw5();
+
+  /* ---- 6: (2x^3-5x)/(4x^3+x^2+1), x->infinito ---- */
+  const plot6 = new NotebookPlot(document.getElementById('plot-t6'), {xMin:0,xMax:60,yMin:0,yMax:1,xStep:10,yStep:0.25,cssHeight:320});
+  const f6 = x => (2*x*x*x-5*x)/(4*x*x*x+x*x+1);
+  const c6 = document.getElementById('ctrl-t6'), rx6=document.getElementById('read-t6x'), ry6=document.getElementById('read-t6y');
+  function draw6(){
+    const x = parseFloat(c6.value);
+    rx6.textContent = x; ry6.textContent = f6(x).toFixed(4).replace('.',',');
+    plot6.clear(); plot6.drawGrid(); plot6.drawAxes();
+    plot6.hLine(0.5,{color:NB_INK.purple, dash:[5,5], label:'L = 1/2'});
+    plot6.plotFunction(f6,{color:NB_INK.blue, lineWidth:3, domain:[0.5,60]});
+    plot6.point(x,f6(x),{color:NB_INK.red, r:6});
+  }
+  plot6.onRedraw(draw6); c6.addEventListener('input',draw6); draw6();
+
+  NBQuiz('quiz-container', {
+    moduleId:'tecnicas-calculo',
+    passScore:0.7,
+    questions:[
+      {
+        type:'mcq',
+        prompt:'lim(x→3) (x²−9)/(x−3) da 0/0. ¿Qué técnica conviene?',
+        options:['Racionalización','Cancelación (factorización)','Sustitución trigonométrica','División por la mayor potencia'],
+        correct:1,
+        explain:'Es un cociente de polinomios con 0/0: se factoriza x²−9=(x−3)(x+3) y se cancela (x−3).'
+      },
+      {
+        type:'mcq',
+        prompt:'lim(x→0) (√(x+4)−2)/x da 0/0 y tiene una raíz. ¿Qué técnica conviene?',
+        options:['Cancelación','Desarrollo de potencias','Racionalización (multiplicar por el conjugado)','Sustitución directa'],
+        correct:2,
+        explain:'Cuando hay una raíz involucrada en una indeterminación 0/0, se multiplica por el conjugado para eliminarla.'
+      },
+      {
+        type:'mcq',
+        prompt:'lim(x→∞) (5x²+1)/(3x²−x) es ∞/∞. ¿Qué técnica conviene?',
+        options:['Racionalización','División por la mayor potencia de x','Sustitución trigonométrica','Desarrollo de potencias'],
+        correct:1,
+        explain:'Para x→∞ con ∞/∞, se divide cada término por la mayor potencia presente (x²).'
+      },
+      {
+        type:'fill',
+        prompt:'lim(x→0) sen(x)/x = ______',
+        accept:['1','1,0','1.0'],
+        explain:'Es el límite trigonométrico notable, base de todas las sustituciones trigonométricas.'
+      },
+      {
+        type:'tf',
+        prompt:'La sustitución directa se puede usar en cualquier función, incluso si a no está en su dominio.',
+        correct:false,
+        explain:'Solo funciona si f es polinomial o racional Y a está en su dominio. Si a no está (por ejemplo, anula el denominador), hace falta otra técnica.'
+      },
+      {
+        type:'mcq',
+        prompt:'lim(h→0) ((2+h)³−8)/h da 0/0 por un binomio elevado a una potencia. ¿Qué técnica conviene?',
+        options:['Desarrollo de potencias (expandir el binomio)','Racionalización','División por la mayor potencia','Sustitución directa'],
+        correct:0,
+        explain:'Al expandir (2+h)³ se puede agrupar, cancelar el término constante y sacar factor común h.'
+      }
+    ]
+  });
+})();
+</script>
+</body>
+</html>

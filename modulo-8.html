@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>8. Derivada: introducción y definición · Cuaderno de Límites</title>
+<link rel="stylesheet" href="css/notebook.css">
+</head>
+<body data-module="8">
+
+<button id="index-tab" class="index-tab">📑 Índice</button>
+<div id="drawer-overlay" class="drawer-overlay"></div>
+<aside id="index-drawer" class="index-drawer"></aside>
+
+<div class="desk">
+  <main class="notebook-page">
+    <div class="spiral" aria-hidden="true"></div>
+    <div class="margin-line" aria-hidden="true"></div>
+
+    <div class="page-content">
+
+      <header class="page-header">
+        <span class="module-badge"><span class="dot"></span>Módulo 8 de 9</span>
+        <div class="progress-strip"></div>
+        <h1 class="underline-draw">Derivada: introducción y definición
+          <svg viewBox="0 0 620 14" preserveAspectRatio="none"><path d="M4 9 Q 200 2, 616 8"/></svg>
+        </h1>
+        <p style="font-size:1.2rem;color:#4a453a;max-width:660px;">Empieza la <strong>Unidad Temática N.º 3</strong>. Y arranca con algo que ya conocés: el <strong>problema de la tangente</strong> del Módulo 1. Ahora le vamos a poner nombre y una definición precisa — la <strong>derivada</strong> — y vamos a ver que resuelve, con la misma herramienta, dos preguntas que parecen distintas: la pendiente de una recta tangente y la velocidad instantánea de un objeto.</p>
+      </header>
+
+      <h3>Razón de cambio promedio</h3>
+      <p>Si <span class="math">y</span> es función de <span class="math">x</span>, es decir <span class="math">y = f(x)</span>, y <span class="math">x</span> cambia de <span class="math">x₁</span> a <span class="math">x₂</span>, llamamos:</p>
+      <div class="box def">
+        <span class="box-tag">📖 Incrementos</span>
+        <p><span class="math">Δx = x₂ − x₁</span> — <strong>incremento de x</strong> (cuánto se movió la variable independiente).</p>
+        <p style="margin-top:6px;"><span class="math">Δy = f(x₂) − f(x₁)</span> — <strong>incremento de y</strong> (cuánto cambió la función en respuesta).</p>
+      </div>
+      <p>El cociente entre ambos incrementos se llama <strong>razón de cambio promedio</strong> de y respecto de x en el intervalo <span class="math">[x₁, x₂]</span>, y se interpreta geométricamente como la pendiente de la recta <strong>secante</strong> que pasa por <span class="math">P(x₁,f(x₁))</span> y <span class="math">Q(x₂,f(x₂))</span>:</p>
+      <div class="box formula">
+        <span class="box-tag">Cociente incremental</span>
+        <span class="frac"><span class="num">Δy</span><span class="den">Δx</span></span> = <span class="frac"><span class="num">f(x₂) − f(x₁)</span><span class="den">x₂ − x₁</span></span> = m<sub>PQ</sub>
+      </div>
+
+      <h3>De promedio a instantánea: dejamos que Q se acerque a P</h3>
+      <p>Exactamente como en el Módulo 1, si dejamos que <span class="math">x₂</span> se acerque a <span class="math">x₁</span> (o, lo que es lo mismo, que <span class="math">Δx</span> tienda a 0), el límite de esas razones de cambio promedio se llama <strong>razón de cambio instantánea</strong>, y se interpreta como la pendiente de la recta <strong>tangente</strong> en <span class="math">P</span>:</p>
+      <div class="box formula">
+        <span class="box-tag">Razón de cambio instantánea</span>
+        <span class="lim"><span class="lim-word">lim</span><span class="lim-sub">Δx→0</span></span> <span class="frac"><span class="num">Δy</span><span class="den">Δx</span></span> = <span class="lim"><span class="lim-word">lim</span><span class="lim-sub">x₂→x₁</span></span> <span class="frac"><span class="num">f(x₂) − f(x₁)</span><span class="den">x₂ − x₁</span></span>
+      </div>
+
+      <p>Probalo con <span class="math">f(x) = x² − 8x + 9</span> y el punto fijo <span class="math">a = 3</span>: movés <span class="math">x</span> con el control y mirás cómo la secante gira hacia la tangente.</p>
+
+      <div class="widget">
+        <canvas id="plot-razon" cssHeight="380"></canvas>
+        <div class="widget-controls">
+          <label>x (posición de Q): <input type="range" id="ctrl-rx" min="0.5" max="5.5" step="0.001" value="4.5"></label>
+          <span>x = <span class="widget-readout" id="read-rx">4,500</span></span>
+          <span>m<sub>PQ</sub> = <span class="widget-readout" id="read-rm">—</span></span>
+        </div>
+        <p class="widget-caption" id="razon-note">A medida que x se acerca a 3, la secante roja se acerca a la tangente verde, y m<sub>PQ</sub> se acerca a −2.</p>
+      </div>
+
+      <h3>El mismo límite aparece con la velocidad</h3>
+      <p>Un objeto se mueve sobre una recta según una <strong>función de posición</strong> <span class="math">s = f(t)</span>. En el intervalo de tiempo <span class="math">[a, a+h]</span> el cambio de posición es <span class="math">f(a+h) − f(a)</span>, y la <strong>velocidad promedio</strong> en ese intervalo es:</p>
+      <div class="box formula">
+        <span class="box-tag">Velocidad promedio</span>
+        v<sub>prom</sub> = <span class="frac"><span class="num">desplazamiento</span><span class="den">tiempo</span></span> = <span class="frac"><span class="num">f(a+h) − f(a)</span><span class="den">h</span></span>
+      </div>
+      <p>Si achicamos <span class="math">h</span> cada vez más (h → 0), obtenemos la <strong>velocidad instantánea</strong> en <span class="math">t = a</span>:</p>
+      <div class="box formula">
+        <span class="box-tag">Velocidad instantánea</span>
+        v(a) = <span class="lim"><span class="lim-word">lim</span><span class="lim-sub">h→0</span></span> <span class="frac"><span class="num">f(a+h) − f(a)</span><span class="den">h</span></span>
+      </div>
+
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplo (Guía de estudio N.º 7)</span>
+        <p>Una piedra se lanza verticalmente hacia arriba desde un edificio de 32 m, con velocidad inicial 26 m/s. Su altura después de <span class="math">t</span> segundos es <span class="math">S(t) = −4,9t² + 26t + 32</span>. Planteando el límite anterior y operando, se llega a:</p>
+        <div class="box formula" style="margin-top:8px;">v(a) = 26 − 9,8·a</div>
+        <p style="margin-top:8px;">La piedra choca contra el piso quiere decir <span class="math">S(t)=0</span>, lo que da <span class="math">t ≈ 6,33</span> s (descartando la raíz negativa). Su velocidad en ese instante es <span class="math">v(6,33) ≈ −36,03</span> m/s (negativa: va cayendo).</p>
+      </div>
+
+      <p>Con el widget probá achicar <span class="math">h</span> alrededor de <span class="math">t = 1</span>: la secante (velocidad promedio) se acerca a la recta tangente (velocidad instantánea).</p>
+
+      <div class="widget">
+        <canvas id="plot-velocidad" cssHeight="380"></canvas>
+        <div class="widget-controls">
+          <label>h: <input type="range" id="ctrl-h" min="0.01" max="3" step="0.01" value="1.6"></label>
+          <span>h = <span class="widget-readout" id="read-h">1,60</span></span>
+          <span>v<sub>prom</sub> [1, 1+h] = <span class="widget-readout" id="read-vp">—</span> m/s</span>
+        </div>
+        <p class="widget-caption" id="vel-note"></p>
+      </div>
+
+      <div class="box def">
+        <span class="box-tag">📖 En ambos casos, el mismo límite</span>
+        <p style="margin:0;">Buscar la pendiente de una tangente y buscar una velocidad instantánea llevan exactamente a la misma clase de límite. Ese límite, tan importante que aparece en toda la ingeniería, tiene nombre propio: <strong>derivada</strong>.</p>
+      </div>
+
+      <h3>Definición: la derivada de una función en un punto</h3>
+      <div class="box def">
+        <span class="box-tag">📖 Definición 1</span>
+        <p style="margin:0;">La <strong>derivada de f en el número a</strong>, que se denota <span class="math">f′(a)</span>, es:</p>
+        <p style="text-align:center;font-size:1.25rem;margin:10px 0 0;">
+          f′(a) = <span class="lim"><span class="lim-word">lim</span><span class="lim-sub">x→a</span></span> <span class="frac"><span class="num">f(x) − f(a)</span><span class="den">x − a</span></span>
+        </p>
+        <p style="margin:10px 0 0;">si este límite existe. Si existe, decimos que f es <strong>derivable</strong> (o diferenciable) en a.</p>
+      </div>
+      <p>Si escribimos <span class="math">x = a + h</span>, entonces <span class="math">h = x − a</span>, y <span class="math">h → 0</span> si y solo si <span class="math">x → a</span>. Esto da una forma equivalente, muchas veces más cómoda para operar algebraicamente:</p>
+      <div class="box def">
+        <span class="box-tag">📖 Definición 2 (equivalente)</span>
+        <p style="text-align:center;font-size:1.25rem;margin:0;">
+          f′(a) = <span class="lim"><span class="lim-word">lim</span><span class="lim-sub">h→0</span></span> <span class="frac"><span class="num">f(a + h) − f(a)</span><span class="den">h</span></span>
+        </p>
+      </div>
+
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplo (Guía de Actividades Prácticas N.º 10)</span>
+        <p>Encontrá la derivada de <span class="math">f(x) = x² − 8x + 9</span> en <span class="math">x = a</span>, usando la Definición 2.</p>
+        <div class="box formula" style="margin-top:10px;">
+          f′(a) = <span class="lim"><span class="lim-word">lim</span><span class="lim-sub">h→0</span></span> <span class="frac"><span class="num">f(a+h) − f(a)</span><span class="den">h</span></span>
+        </div>
+        <div class="box formula" style="margin-top:8px;">
+          = <span class="lim"><span class="lim-word">lim</span><span class="lim-sub">h→0</span></span> <span class="frac"><span class="num">[(a+h)² − 8(a+h) + 9] − [a² − 8a + 9]</span><span class="den">h</span></span>
+        </div>
+        <div class="box formula" style="margin-top:8px;">
+          = <span class="lim"><span class="lim-word">lim</span><span class="lim-sub">h→0</span></span> <span class="frac"><span class="num">2ah + h² − 8h</span><span class="den">h</span></span>
+          = <span class="lim"><span class="lim-word">lim</span><span class="lim-sub">h→0</span></span> (2a + h − 8)
+        </div>
+        <div class="box formula" style="margin-top:8px;">f′(a) = 2a − 8</div>
+        <p style="margin-top:8px;">Como <span class="math">a</span> puede ser cualquier número (donde el límite exista), en realidad acabamos de encontrar una <strong>fórmula</strong>: no solo la pendiente en un punto, sino en <em>todos</em> los puntos. Volvemos sobre esta idea más abajo.</p>
+      </div>
+
+      <h3>Interpretación geométrica</h3>
+      <div class="box def">
+        <span class="box-tag">📖 Recta tangente</span>
+        <p style="margin:0;">La recta tangente a <span class="math">y = f(x)</span> en el punto <span class="math">P(a, f(a))</span> es la recta que pasa por P y tiene pendiente <span class="math">m = f′(a)</span>. Su ecuación (punto-pendiente) es:</p>
+        <p style="text-align:center;font-size:1.2rem;margin-top:10px;">y − f(a) = f′(a)·(x − a)</p>
+      </div>
+
+      <p>Con <span class="math">f(x) = x² − 8x + 9</span> y <span class="math">f′(a) = 2a − 8</span>, movés <span class="math">a</span> y la tangente se recalcula sola:</p>
+
+      <div class="widget">
+        <canvas id="plot-tangente-a" cssHeight="380"></canvas>
+        <div class="widget-controls">
+          <label>a: <input type="range" id="ctrl-a" min="0" max="8" step="0.05" value="3"></label>
+          <span>a = <span class="widget-readout" id="read-a">3,00</span></span>
+          <span>f′(a) = 2a−8 = <span class="widget-readout" id="read-fpa">−2,00</span></span>
+        </div>
+        <p class="widget-caption" id="tan-note"></p>
+      </div>
+
+      <div class="box example">
+        <span class="box-tag">✏️ Ecuación de la tangente en (3, −6)</span>
+        <p style="margin:0;">f(3) = 9−24+9 = −6, y f′(3) = 2(3)−8 = −2. Reemplazando en la punto-pendiente: <span class="math">y − (−6) = −2(x−3)</span>, es decir <strong>y = −2x</strong>. Dejá el slider de arriba en a = 3 para verla.</p>
+      </div>
+
+      <div class="postit orange sm postit-float">
+        <b>Ojo con esto</b>
+        Si a = 4, el slider muestra f′(4) = 0: la tangente queda horizontal. Es exactamente el vértice de la parábola, donde f pasa de decrecer a crecer.
+      </div>
+
+      <h3>De la derivada en un punto a la función derivada</h3>
+      <p>Hasta acá tratamos a <span class="math">a</span> como un número fijo. Pero nada impide dejar que <span class="math">a</span> varíe: reemplazándolo por una variable <span class="math">x</span>, a cada número del dominio (donde el límite exista) le asignamos el número <span class="math">f′(x)</span>. Así, <span class="math">f′</span> es una <strong>nueva función</strong>, la <strong>función derivada</strong> de f.</p>
+      <div class="box def">
+        <span class="box-tag">📖 Función derivada</span>
+        <p style="margin:0;">f′(x) = <span class="lim"><span class="lim-word">lim</span><span class="lim-sub">h→0</span></span> <span class="frac"><span class="num">f(x+h) − f(x)</span><span class="den">h</span></span>, para todo x donde el límite exista.</p>
+      </div>
+      <p>Geométricamente, f′(x) es la pendiente de la tangente a la gráfica de f en el punto (x, f(x)) — el mismo número que graficamos recién con el slider, pero ahora visto como función de x.</p>
+
+      <div class="box formula">
+        <span class="box-tag">Notaciones equivalentes de la derivada</span>
+        f′(x) &nbsp;=&nbsp; y′ &nbsp;=&nbsp; <span class="frac"><span class="num">dy</span><span class="den">dx</span></span> &nbsp;=&nbsp; <span class="frac"><span class="num">df</span><span class="den">dx</span></span> &nbsp;=&nbsp; D<sub>x</sub>f(x)
+      </div>
+      <p style="font-size:1rem;color:#4a453a;">La notación <span class="math">f′(x)</span> (con la comilla) se debe a Lagrange; la notación <span class="math">dy/dx</span> es de Leibniz y recuerda directamente al cociente incremental del que viene: es el límite de <span class="math">Δy/Δx</span> cuando <span class="math">Δx→0</span>.</p>
+
+      <p>Mirá la relación entre <span class="math">f</span> y <span class="math">f′</span> con <span class="math">f(x) = x³ − x</span>: movés el punto y comparás el signo de la pendiente arriba con el signo de f′ abajo.</p>
+
+      <div class="widget">
+        <canvas id="plot-f-cubo" cssHeight="280"></canvas>
+        <canvas id="plot-fprima-cubo" cssHeight="220" style="margin-top:10px;"></canvas>
+        <div class="widget-controls">
+          <label>x: <input type="range" id="ctrl-xc" min="-1.8" max="1.8" step="0.01" value="-1.2"></label>
+          <span>x = <span class="widget-readout" id="read-xc">−1,20</span></span>
+          <span>f′(x) = 3x²−1 = <span class="widget-readout" id="read-fpxc">—</span></span>
+        </div>
+        <p class="widget-caption" id="cubo-note"></p>
+      </div>
+
+      <div class="box formula">
+        <span class="box-tag">Lo que se lee del par (f, f′)</span>
+        Donde f es <strong>creciente</strong> → f′ &gt; 0 &nbsp;|&nbsp; donde f es <strong>decreciente</strong> → f′ &lt; 0 &nbsp;|&nbsp; donde f tiene <strong>tangente horizontal</strong> (máximo o mínimo local) → f′ = 0
+      </div>
+
+      <h3>Derivadas laterales, derivabilidad y continuidad</h3>
+      <p>Igual que con los límites (Módulo 3), la derivada también tiene versión lateral:</p>
+      <div class="box def">
+        <span class="box-tag">📖 Derivadas laterales</span>
+        <p>f′₋(a) = <span class="lim"><span class="lim-word">lim</span><span class="lim-sub">h→0⁻</span></span> <span class="frac"><span class="num">f(a+h) − f(a)</span><span class="den">h</span></span> &nbsp;(por izquierda)</p>
+        <p style="margin-top:6px;">f′₊(a) = <span class="lim"><span class="lim-word">lim</span><span class="lim-sub">h→0⁺</span></span> <span class="frac"><span class="num">f(a+h) − f(a)</span><span class="den">h</span></span> &nbsp;(por derecha)</p>
+        <p style="margin-top:10px;">f′(a) existe <strong>si y solo si</strong> ambas derivadas laterales existen y son iguales.</p>
+      </div>
+
+      <p>Probá el caso clásico donde eso falla: <span class="math">f(x) = |x|</span> en <span class="math">x = 0</span>.</p>
+
+      <div class="widget">
+        <canvas id="plot-valabs" cssHeight="360"></canvas>
+        <div class="widget-controls">
+          <label>x (≠ 0): <input type="range" id="ctrl-vx" min="-1" max="1" step="0.001" value="0.6">
+          </label>
+          <span>x = <span class="widget-readout" id="read-vx">0,600</span></span>
+          <span>pendiente de la secante 0→x = <span class="widget-readout" id="read-vm">—</span></span>
+        </div>
+        <p class="widget-caption" id="valabs-note"></p>
+      </div>
+
+      <div class="box warn">
+        <span class="box-tag">⚠️ |x| es continua en 0, pero no derivable ahí</span>
+        <p style="margin:0;">Como viste en el widget, la pendiente de la secante entre 0 y x vale siempre exactamente −1 (si x&lt;0) o +1 (si x&gt;0): nunca "se acomoda" a un valor intermedio a medida que x→0. Entonces f′₋(0) = −1 y f′₊(0) = +1: son distintas, así que <strong>f′(0) no existe</strong>. Sin embargo f es perfectamente continua en 0 (no hay salto ni hueco).</p>
+      </div>
+
+      <div class="box def">
+        <span class="box-tag">📖 Teorema: derivabilidad ⟹ continuidad</span>
+        <p style="margin:0;">Si f es derivable en a, entonces f es continua en a.</p>
+        <p style="margin-top:8px;">El recíproco es <strong>falso</strong>: como acabamos de ver con |x|, una función puede ser continua en a sin ser derivable ahí. Dicho al revés (la forma que más se usa en la práctica): <strong>si f no es continua en a, entonces f no puede ser derivable en a</strong>.</p>
+      </div>
+
+      <h3>¿Cómo deja de ser derivable una función?</h3>
+      <div class="box formula">
+        <span class="box-tag">Tres formas típicas</span>
+        <ul style="margin:8px 0 0;padding-left:22px;">
+          <li><strong>Un pico o esquina</strong> (punto anguloso): las derivadas laterales existen pero son distintas — el caso de |x| en x=0.</li>
+          <li><strong>Una discontinuidad</strong>: si f no es continua en a, automáticamente no es derivable ahí (por el teorema de arriba).</li>
+          <li><strong>Una tangente vertical</strong>: la pendiente de la secante crece sin cota, el límite que define f′(a) da ±∞ y no existe como número real.</li>
+        </ul>
+      </div>
+
+      <div class="postit-row">
+        <div class="postit green md">
+          <b>¿Por qué importa?</b>
+          Toda la física y la ingeniería trabajan con razones de cambio: velocidad, aceleración, corriente eléctrica, tasas de crecimiento. La derivada es la herramienta que las formaliza a todas con una sola definición.
+        </div>
+        <div class="postit pink md">
+          <b>Lo que viene</b>
+          Calcular f′(a) con la definición, límite por límite, funciona pero es lento. El próximo módulo va a las <strong>reglas de derivación</strong> (potencia, producto, cociente, cadena) que agilizan ese cálculo.
+        </div>
+      </div>
+
+      <div class="reflect-box">
+        <b>🖊️ Para pensar</b>
+        <p style="margin:.4em 0 0;">¿Por qué la pendiente de la secante en |x| nunca es, por ejemplo, 0,3 o −0,7, sin importar qué tan cerca de 0 esté x? Escribí tu idea con tus palabras.</p>
+        <textarea placeholder="Escribí tu respuesta acá (no se guarda ni se envía a ningún lado, es solo para pensarlo)."></textarea>
+        <details>
+          <summary>Ver una posible respuesta</summary>
+          <p class="model-answer">Porque |x| es literalmente la recta y=x a la derecha del 0 (pendiente exactamente 1) y la recta y=−x a la izquierda (pendiente exactamente −1). No hay curvatura de ningún lado: son segmentos rectos que se encuentran formando un pico. Por eso la pendiente de la secante desde 0 es siempre uno de esos dos valores fijos, ±1, nunca algo intermedio — y por eso, cuando x→0, no converge a un único número.</p>
+        </details>
+      </div>
+
+      <section class="quiz-section" id="quiz">
+        <div class="quiz-intro"><span class="pencil">📝</span><h2>Pon a prueba lo aprendido</h2></div>
+        <p class="quiz-progress">Respondé las preguntas y comprobá al toque. Podés reintentar las que falles.</p>
+        <div id="quiz-container"></div>
+      </section>
+
+      <nav class="page-nav">
+        <a class="corner prev" href="#"></a>
+        <a class="corner next" href="#"></a>
+      </nav>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/notebook.js"></script>
+<script src="js/plotter.js"></script>
+<script src="js/quiz.js"></script>
+<script>
+(function(){
+  const fCuad = x => x*x - 8*x + 9;
+  const fpCuad = a => 2*a - 8;
+  const A_FIJO = 3;
+
+  /* ---- widget 1: razón de cambio, secante -> tangente en f(x)=x²-8x+9, a=3 ---- */
+  const plotRazon = new NotebookPlot(document.getElementById('plot-razon'), {xMin:-0.5,xMax:6,yMin:-9,yMax:10,xStep:1,yStep:2,cssHeight:380});
+  const ctrlRx = document.getElementById('ctrl-rx');
+  const readRx = document.getElementById('read-rx');
+  const readRm = document.getElementById('read-rm');
+  const razonNote = document.getElementById('razon-note');
+  function drawRazon(){
+    let x = parseFloat(ctrlRx.value);
+    if(Math.abs(x-A_FIJO) < 0.0008) x = x < A_FIJO ? A_FIJO-0.0008 : A_FIJO+0.0008;
+    const Pa = {x:A_FIJO, y:fCuad(A_FIJO)};
+    const Qx = {x:x, y:fCuad(x)};
+    const m = (Qx.y - Pa.y)/(Qx.x - Pa.x);
+
+    plotRazon.clear(); plotRazon.drawGrid(); plotRazon.drawAxes();
+    plotRazon.plotFunction(fCuad, {color:NB_INK.blue, lineWidth:3.2});
+    plotRazon.segment(-0.5, fpCuad(A_FIJO)*(-0.5-A_FIJO)+Pa.y, 6, fpCuad(A_FIJO)*(6-A_FIJO)+Pa.y, {color:NB_INK.green, lineWidth:2.2, dash:[2,5]});
+    const y1 = Pa.y + m*(-0.5-Pa.x), y2 = Pa.y + m*(6-Pa.x);
+    plotRazon.segment(-0.5, y1, 6, y2, {color:NB_INK.red, lineWidth:2.6});
+    plotRazon.point(Pa.x, Pa.y, {color:NB_INK.black, r:6, label:'P(3;−6)', labelDy:18});
+    plotRazon.point(Qx.x, Qx.y, {color:NB_INK.red, r:6, label:'Q', labelDy:-10});
+
+    readRx.textContent = x.toFixed(3).replace('.',',');
+    readRm.textContent = m.toFixed(3).replace('.',',');
+    if(Math.abs(x-A_FIJO) < 0.05){
+      razonNote.innerHTML = '¡Q está muy cerca de P! La secante roja casi no se distingue de la tangente verde: m<sub>PQ</sub> ≈ −2, que es f′(3).';
+    } else {
+      razonNote.innerHTML = 'A medida que x se acerca a 3, la secante roja se acerca a la tangente verde, y m<sub>PQ</sub> se acerca a −2.';
+    }
+  }
+  plotRazon.onRedraw(drawRazon);
+  ctrlRx.addEventListener('input', drawRazon);
+  drawRazon();
+
+  /* ---- widget 2: velocidad promedio -> instantánea, piedra S(t) ---- */
+  const plotVel = new NotebookPlot(document.getElementById('plot-velocidad'), {xMin:0,xMax:7,yMin:0,yMax:72,xStep:1,yStep:10,cssHeight:380});
+  const S = t => -4.9*t*t + 26*t + 32;
+  const vExact = a => 26 - 9.8*a;
+  const A_VEL = 1;
+  const ctrlH = document.getElementById('ctrl-h');
+  const readH = document.getElementById('read-h');
+  const readVp = document.getElementById('read-vp');
+  const velNote = document.getElementById('vel-note');
+  function drawVel(){
+    const h = parseFloat(ctrlH.value);
+    const a = A_VEL, b = A_VEL + h;
+    const vProm = (S(b)-S(a))/h;
+    const vInst = vExact(A_VEL);
+
+    plotVel.clear(); plotVel.drawGrid(); plotVel.drawAxes();
+    plotVel.plotFunction(S, {color:NB_INK.blue, lineWidth:3.2, domain:[0,6.9]});
+    plotVel.segment(0, S(a)+vInst*(0-a), 7, S(a)+vInst*(7-a), {color:NB_INK.green, lineWidth:2.2, dash:[2,5]});
+    plotVel.segment(0, S(a)+vProm*(0-a), 7, S(a)+vProm*(7-a), {color:NB_INK.red, lineWidth:2.6});
+    plotVel.point(a, S(a), {color:NB_INK.black, r:6, label:'t=1', labelDy:18});
+    plotVel.point(b, S(b), {color:NB_INK.red, r:6, label:'t=1+h', labelDy:-10});
+
+    readH.textContent = h.toFixed(2).replace('.',',');
+    readVp.textContent = vProm.toFixed(2).replace('.',',');
+    if(h < 0.08){
+      velNote.innerHTML = `Con h tan chico, v<sub>prom</sub> ≈ ${vProm.toFixed(2).replace('.',',')} m/s, prácticamente igual a la velocidad instantánea v(1) = ${vInst.toFixed(2).replace('.',',')} m/s (recta verde).`;
+    } else {
+      velNote.innerHTML = `Achicá h y mirá cómo la secante roja (velocidad promedio) se acerca a la tangente verde (velocidad instantánea, v(1) = ${vInst.toFixed(2).replace('.',',')} m/s).`;
+    }
+  }
+  plotVel.onRedraw(drawVel);
+  ctrlH.addEventListener('input', drawVel);
+  drawVel();
+
+  /* ---- widget 3: tangente móvil según a, f(x)=x²-8x+9 ---- */
+  const plotTanA = new NotebookPlot(document.getElementById('plot-tangente-a'), {xMin:-0.5,xMax:8.5,yMin:-9,yMax:18,xStep:1,yStep:2,cssHeight:380});
+  const ctrlA = document.getElementById('ctrl-a');
+  const readA = document.getElementById('read-a');
+  const readFpa = document.getElementById('read-fpa');
+  const tanNote = document.getElementById('tan-note');
+  function drawTanA(){
+    const a = parseFloat(ctrlA.value);
+    const fa = fCuad(a), fpa = fpCuad(a);
+    plotTanA.clear(); plotTanA.drawGrid(); plotTanA.drawAxes();
+    plotTanA.plotFunction(fCuad, {color:NB_INK.blue, lineWidth:3.2});
+    plotTanA.segment(-0.5, fa+fpa*(-0.5-a), 8.5, fa+fpa*(8.5-a), {color:NB_INK.green, lineWidth:2.8});
+    plotTanA.point(a, fa, {color:NB_INK.black, r:6, label:`(${a.toFixed(2).replace('.',',')}; ${fa.toFixed(2).replace('.',',')})`, labelDy:-12});
+
+    readA.textContent = a.toFixed(2).replace('.',',');
+    readFpa.textContent = fpa.toFixed(2).replace('.',',').replace(/^0/,'0');
+    if(Math.abs(fpa) < 0.05){
+      tanNote.innerHTML = '¡Tangente horizontal! f′(a) = 0 justo en el vértice de la parábola (mínimo local).';
+    } else if(fpa < 0){
+      tanNote.innerHTML = 'f′(a) &lt; 0: acá la parábola es decreciente, la tangente "baja" de izquierda a derecha.';
+    } else {
+      tanNote.innerHTML = 'f′(a) &gt; 0: acá la parábola es creciente, la tangente "sube" de izquierda a derecha.';
+    }
+  }
+  plotTanA.onRedraw(drawTanA);
+  ctrlA.addEventListener('input', drawTanA);
+  drawTanA();
+
+  /* ---- widget 4: f(x)=x³-x junto a f'(x)=3x²-1 ---- */
+  const plotFc = new NotebookPlot(document.getElementById('plot-f-cubo'), {xMin:-1.9,xMax:1.9,yMin:-2.4,yMax:2.4,xStep:0.5,yStep:1,cssHeight:280});
+  const plotFpc = new NotebookPlot(document.getElementById('plot-fprima-cubo'), {xMin:-1.9,xMax:1.9,yMin:-1.5,yMax:9.5,xStep:0.5,yStep:2,cssHeight:220});
+  const fCubo = x => x*x*x - x;
+  const fpCubo = x => 3*x*x - 1;
+  const ctrlXc = document.getElementById('ctrl-xc');
+  const readXc = document.getElementById('read-xc');
+  const readFpxc = document.getElementById('read-fpxc');
+  const cuboNote = document.getElementById('cubo-note');
+  function drawCubo(){
+    const x = parseFloat(ctrlXc.value);
+    const fx = fCubo(x), fpx = fpCubo(x);
+
+    plotFc.clear(); plotFc.drawGrid(); plotFc.drawAxes();
+    plotFc.plotFunction(fCubo, {color:NB_INK.blue, lineWidth:3});
+    plotFc.segment(x-0.6, fx-0.6*fpx, x+0.6, fx+0.6*fpx, {color:NB_INK.green, lineWidth:2.6});
+    plotFc.point(x, fx, {color:NB_INK.black, r:6, label:'f(x)', labelDy:-12});
+
+    plotFpc.clear(); plotFpc.drawGrid(); plotFpc.drawAxes();
+    plotFpc.plotFunction(fpCubo, {color:NB_INK.purple, lineWidth:3});
+    plotFpc.hLine(0, {color:'#999', dash:[3,4]});
+    plotFpc.point(x, fpx, {color:NB_INK.red, r:6, label:"f′(x)", labelDy:-12});
+
+    readXc.textContent = x.toFixed(2).replace('.',',').replace(/^-/,'−');
+    readFpxc.textContent = fpx.toFixed(2).replace('.',',');
+    if(Math.abs(fpx) < 0.05){
+      cuboNote.innerHTML = 'f′(x) ≈ 0: la tangente de arriba está casi horizontal — un máximo o mínimo local de f.';
+    } else if(fpx > 0){
+      cuboNote.innerHTML = 'f′(x) &gt; 0 (la curva de abajo está por encima del eje): f es creciente en este punto — la tangente de arriba "sube".';
+    } else {
+      cuboNote.innerHTML = 'f′(x) &lt; 0 (la curva de abajo está por debajo del eje): f es decreciente en este punto — la tangente de arriba "baja".';
+    }
+  }
+  plotFc.onRedraw(drawCubo);
+  plotFpc.onRedraw(drawCubo);
+  ctrlXc.addEventListener('input', drawCubo);
+  drawCubo();
+
+  /* ---- widget 5: |x| — derivadas laterales distintas ---- */
+  const plotAbs = new NotebookPlot(document.getElementById('plot-valabs'), {xMin:-1.3,xMax:1.3,yMin:-0.3,yMax:1.4,xStep:0.5,yStep:0.5,cssHeight:360});
+  const fAbs = x => Math.abs(x);
+  const ctrlVx = document.getElementById('ctrl-vx');
+  const readVx = document.getElementById('read-vx');
+  const readVm = document.getElementById('read-vm');
+  const valabsNote = document.getElementById('valabs-note');
+  function drawAbs(){
+    let x = parseFloat(ctrlVx.value);
+    if(Math.abs(x) < 0.01) x = x < 0 ? -0.01 : 0.01;
+    const m = (fAbs(x)-0)/(x-0);
+
+    plotAbs.clear(); plotAbs.drawGrid(); plotAbs.drawAxes();
+    plotAbs.plotFunction(fAbs, {color:NB_INK.blue, lineWidth:3.2});
+    plotAbs.segment(0, 0, x, fAbs(x), {color:NB_INK.red, lineWidth:2.8});
+    plotAbs.point(0, 0, {color:NB_INK.black, r:6, label:'(0;0)', labelDy:18});
+    plotAbs.point(x, fAbs(x), {color:NB_INK.red, r:6, label:'x', labelDy:-12});
+
+    readVx.textContent = x.toFixed(3).replace('.',',').replace(/^-/,'−');
+    readVm.textContent = m.toFixed(0);
+    valabsNote.innerHTML = x < 0
+      ? 'Con x &lt; 0, la pendiente de la secante da exactamente −1, sea cual sea qué tan cerca de 0 esté x: por eso f′₋(0) = −1.'
+      : 'Con x &gt; 0, la pendiente de la secante da exactamente +1, sea cual sea qué tan cerca de 0 esté x: por eso f′₊(0) = +1.';
+  }
+  plotAbs.onRedraw(drawAbs);
+  ctrlVx.addEventListener('input', drawAbs);
+  drawAbs();
+
+  NBQuiz('quiz-container', {
+    moduleId:8,
+    passScore:0.7,
+    questions:[
+      {
+        type:'mcq',
+        prompt:'El cociente incremental Δy/Δx representa geométricamente...',
+        options:[
+          'la pendiente de la recta tangente en x₁.',
+          'la pendiente de la recta secante que pasa por (x₁,f(x₁)) y (x₂,f(x₂)).',
+          'el valor de f en x₂.',
+          'siempre 0.'
+        ],
+        correct:1,
+        explain:'Δy/Δx = [f(x₂)−f(x₁)]/(x₂−x₁) es, por definición, la pendiente de la secante PQ. Recién al tomar el límite cuando Δx→0 se convierte en la pendiente de la tangente.'
+      },
+      {
+        type:'fill',
+        prompt:'Completá el nombre: el límite lim(h→0) [f(a+h)−f(a)]/h, cuando existe, se llama la ______ de f en a.',
+        accept:['derivada','la derivada'],
+        explain:'Esa es, precisamente, la definición de derivada de f en el número a: f′(a).'
+      },
+      {
+        type:'mcq',
+        prompt:'Geométricamente, f′(a) representa...',
+        options:[
+          'el valor de f en a.',
+          'la pendiente de la recta tangente a y=f(x) en el punto (a, f(a)).',
+          'el área bajo la curva hasta a.',
+          'la distancia entre dos puntos de la curva.'
+        ],
+        correct:1,
+        explain:'La derivada en a es, por definición, la pendiente de la recta tangente en el punto (a, f(a)).'
+      },
+      {
+        type:'mcq',
+        prompt:'Para f(x) = x² − 8x + 9, la función derivada f′(x) es:',
+        options:['2x − 8', 'x² − 8', '2x + 9', '2x − 8x'],
+        correct:0,
+        explain:'Aplicando la definición con h→0: f′(x) = lim [ (x+h)²−8(x+h)+9 − (x²−8x+9) ] / h = lim (2x+h−8) = 2x−8.'
+      },
+      {
+        type:'tf',
+        prompt:'Si una función es derivable en x=a, entonces necesariamente es continua en x=a.',
+        correct:true,
+        explain:'Es el teorema derivabilidad ⟹ continuidad. Vale siempre, sin excepciones.'
+      },
+      {
+        type:'tf',
+        prompt:'Si una función es continua en x=a, entonces necesariamente es derivable en x=a.',
+        correct:false,
+        explain:'Falso — es el recíproco del teorema anterior, y no vale. El ejemplo clásico es f(x)=|x| en x=0: es continua ahí, pero no derivable (las derivadas laterales son −1 y +1, distintas).'
+      },
+      {
+        type:'mcq',
+        prompt:'¿Por qué f(x) = |x| no es derivable en x = 0?',
+        options:[
+          'Porque f(0) no está definida.',
+          'Porque f no es continua en 0.',
+          'Porque las derivadas laterales en 0 existen pero son distintas (−1 y +1).',
+          'Porque |x| no tiene gráfica cerca de 0.'
+        ],
+        correct:2,
+        explain:'f′₋(0) = −1 y f′₊(0) = +1. Como ambas existen pero no coinciden, f′(0) no existe, aunque f sea perfectamente continua en 0.'
+      }
+    ]
+  });
+})();
+</script>
+</body>
+</html>

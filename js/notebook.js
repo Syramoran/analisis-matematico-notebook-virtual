@@ -12,7 +12,9 @@
     { id:4, file:'modulo-4.html', title:'Límites infinitos y asíntotas verticales', short:'Cuando f(x) crece o decrece sin cota', color:'blue' },
     { id:5, file:'modulo-5.html', title:'Definición formal (ε – δ)',               short:'La precisión detrás de la idea intuitiva', color:'orange' },
     { id:6, file:'modulo-6.html', title:'Límites al infinito y técnicas de cálculo',short:'Asíntotas horizontales, leyes y formas indeterminadas', color:'yellow' },
-    { id:7, file:null,           title:'Continuidad',                              short:'Próximo capítulo del cuaderno', locked:true, color:'pink' },
+    { id:7, file:'modulo-7.html', title:'Continuidad y discontinuidades',          short:'Definición, clasificación de discontinuidades y los tres teoremas del intervalo cerrado', color:'pink' },
+    { id:8, file:'modulo-8.html', title:'Derivada: introducción y definición',     short:'Razón de cambio, definición de derivada, interpretación geométrica y derivabilidad', color:'green' },
+    { id:9, file:null,           title:'Reglas de derivación',                    short:'Próximo capítulo del cuaderno', locked:true, color:'orange' },
   ];
   window.NB_MODULES = MODULES;
 
@@ -105,9 +107,12 @@
       if(next && !next.locked){
         nextEl.href=next.file;
         nextEl.innerHTML=`<span class="dir">página siguiente →</span><span class="ttl">${next.id}. ${next.title}</span>`;
+      } else if(next && next.locked){
+        nextEl.classList.add('disabled');
+        nextEl.innerHTML=`<span class="dir">próximamente →</span><span class="ttl">${next.title}</span>`;
       } else {
         nextEl.classList.add('disabled');
-        nextEl.innerHTML=`<span class="dir">próximamente →</span><span class="ttl">Continuidad</span>`;
+        nextEl.innerHTML=`<span class="dir">✎ fin del cuaderno</span><span class="ttl">¡Llegaste al final!</span>`;
       }
     }
   }

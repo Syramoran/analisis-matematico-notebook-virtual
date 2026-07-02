@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía · Cómo hallar asíntotas horizontales · Cuaderno de Límites</title>
+<link rel="stylesheet" href="css/notebook.css">
+</head>
+<body data-module="6">
+
+<button id="index-tab" class="index-tab">📑 Índice</button>
+<div id="drawer-overlay" class="drawer-overlay"></div>
+<aside id="index-drawer" class="index-drawer"></aside>
+
+<div class="desk">
+  <main class="notebook-page">
+    <div class="spiral" aria-hidden="true"></div>
+    <div class="margin-line" aria-hidden="true"></div>
+
+    <div class="page-content">
+
+      <a class="dd-back" href="modulo-6.html">← volver al Módulo 6</a>
+      <header class="page-header">
+        <span class="dd-badge">📐 Guía práctica · Módulo 6</span>
+        <h1 class="underline-draw">Cómo hallar todas las asíntotas horizontales
+          <svg viewBox="0 0 640 14" preserveAspectRatio="none"><path d="M4 9 Q 210 2, 636 8"/></svg>
+        </h1>
+        <p style="font-size:1.2rem;color:#4a453a;max-width:680px;">A diferencia de las verticales, acá el análisis es sobre <strong>x</strong> yendo a ±∞. El método cambia según el tipo de función — pero para funciones racionales, comparar grados alcanza y sobra.</p>
+      </header>
+
+      <div class="box def">
+        <span class="box-tag">📖 El método, en un vistazo</span>
+        <ol style="margin:8px 0 0 22px;padding:0;line-height:1.9;">
+          <li><strong>Identificá el grado</strong> del numerador (n) y del denominador (m) — solo vale para funciones racionales.</li>
+          <li><strong>Compará n y m:</strong> si n &lt; m, y = 0. Si n = m, y = (coeficiente principal de p)/(coeficiente principal de q). Si n &gt; m, no hay asíntota horizontal.</li>
+          <li><strong>Confirmá dividiendo</strong> cada término por la mayor potencia de x del denominador, y dejá que los términos 1/xᵏ tiendan a 0.</li>
+          <li><strong>Repetí para x→−∞</strong> por separado. En funciones racionales da lo mismo que x→∞, pero en funciones con raíces cuadradas puede dar un valor distinto — ahí hay <em>dos</em> asíntotas horizontales.</li>
+        </ol>
+      </div>
+
+      <h3>Caso 1 · Grado del numerador menor (n &lt; m)</h3>
+      <p><span class="math">f(x) = <span class="frac"><span class="num">2x + 1</span><span class="den">x² + 3</span></span></span> — el numerador tiene grado 1, el denominador grado 2.</p>
+      <div class="box example">
+        <span class="box-tag">Desarrollo</span>
+        <p>Dividimos cada término por x² (la mayor potencia presente, del denominador):</p>
+        <p><span class="frac"><span class="num">2/x + 1/x²</span><span class="den">1 + 3/x²</span></span></p>
+        <p>Cuando <span class="math">x→±∞</span>, todos los términos con 1/x y 1/x² tienden a 0, así que queda <span class="math">0/1 = 0</span>.</p>
+      </div>
+      <div class="box formula" style="margin-top:8px;">
+        <span class="box-tag">Conclusión</span>
+        y = 0 (el eje x), tanto para x→∞ como para x→−∞.
+      </div>
+      <div class="widget">
+        <canvas id="plot-caso1" cssHeight="340"></canvas>
+      </div>
+
+      <h3>Caso 2 · Mismo grado (n = m)</h3>
+      <p><span class="math">f(x) = <span class="frac"><span class="num">x² − 1</span><span class="den">x² + 1</span></span></span> — visto en el módulo: numerador y denominador tienen grado 2.</p>
+      <div class="box example">
+        <span class="box-tag">Desarrollo</span>
+        <p>Dividimos por x²: <span class="frac"><span class="num">1 − 1/x²</span><span class="den">1 + 1/x²</span></span>. Cuando x→±∞, los términos 1/x² se van a 0 y queda <span class="math">1/1 = 1</span> — el cociente de los coeficientes principales (1 y 1).</p>
+      </div>
+      <div class="box formula" style="margin-top:8px;">
+        <span class="box-tag">Conclusión</span>
+        y = 1, tanto para x→∞ como para x→−∞.
+      </div>
+      <div class="widget">
+        <canvas id="plot-caso2" cssHeight="340"></canvas>
+      </div>
+
+      <h3>Caso 3 · Grado del numerador mayor (n &gt; m)</h3>
+      <p><span class="math">f(x) = <span class="frac"><span class="num">x² + 1</span><span class="den">x + 1</span></span></span> — numerador de grado 2, denominador de grado 1.</p>
+      <div class="box example">
+        <span class="box-tag">Desarrollo</span>
+        <p>Dividiendo por x (la mayor potencia del denominador): <span class="frac"><span class="num">x + 1/x</span><span class="den">1 + 1/x</span></span>. Cuando x→±∞, el numerador sigue creciendo sin cota (el término x no desaparece) mientras el denominador tiende a 1.</p>
+      </div>
+      <div class="box formula" style="margin-top:8px;">
+        <span class="box-tag">Conclusión</span>
+        No hay asíntota horizontal: f(x) crece (o decrece) sin cota. <span style="font-size:.92rem;color:#6b6252;">(Curiosidad: acá suele aparecer una <em>asíntota oblicua</em>, y = x − 1, pero eso queda fuera de este cuaderno.)</span>
+      </div>
+      <div class="widget">
+        <canvas id="plot-caso3" cssHeight="340"></canvas>
+      </div>
+
+      <h3>Caso especial · Dos asíntotas horizontales distintas</h3>
+      <p>Con raíces cuadradas, x→∞ y x→−∞ pueden dar resultados diferentes. Analicemos <span class="math">f(x) = <span class="frac"><span class="num">x</span><span class="den">√(x² + 1)</span></span></span>.</p>
+      <div class="box warn">
+        <span class="box-tag">⚠️ Cuidado con el signo de x</span>
+        <p>Para sacar x de adentro de la raíz hay que recordar que <span class="math">√(x²) = |x|</span>, no simplemente x. Eso cambia el signo según el lado.</p>
+        <p style="margin-top:8px;"><strong>x→∞</strong> (x positivo, |x|=x): dividimos numerador y denominador por x (dentro de la raíz, por x², que es lo mismo que dividir por |x|=x):</p>
+        <p><span class="frac"><span class="num">x/x</span><span class="den">√(x²+1)/x</span></span> = <span class="frac"><span class="num">1</span><span class="den">√(1+1/x²)</span></span> → <span class="frac"><span class="num">1</span><span class="den">√1</span></span> = <strong>1</strong></p>
+        <p style="margin-top:8px;"><strong>x→−∞</strong> (x negativo, |x|=−x): ahora dividir por |x| es dividir por −x:</p>
+        <p><span class="frac"><span class="num">x/(−x)</span><span class="den">√(x²+1)/(−x)</span></span> = <span class="frac"><span class="num">−1</span><span class="den">√(1+1/x²)</span></span> → <strong>−1</strong></p>
+      </div>
+      <div class="box formula" style="margin-top:8px;">
+        <span class="box-tag">Conclusión</span>
+        Hay <strong>dos</strong> asíntotas horizontales: y = 1 (cuando x→∞) e y = −1 (cuando x→−∞).
+      </div>
+      <div class="widget">
+        <canvas id="plot-especial" cssHeight="340"></canvas>
+      </div>
+
+      <h3>Cómo responder en un examen: "Encuentre todas las asíntotas horizontales y justifique"</h3>
+      <div class="box warn">
+        <span class="box-tag">⚠️ Qué espera el corrector</span>
+        <ul style="margin:6px 0 0 20px;line-height:1.85;">
+          <li>Que identifiques los grados de p(x) y q(x) explícitamente (no solo el resultado final).</li>
+          <li>Que muestres la división por la mayor potencia de x, término por término.</li>
+          <li>Que evalúes <span class="math">x→∞</span> y <span class="math">x→−∞</span> por separado, aunque den lo mismo — sobre todo si hay una raíz cuadrada de por medio.</li>
+          <li>Una conclusión explícita: "por lo tanto, y = L es asíntota horizontal (cuando x→…)".</li>
+        </ul>
+      </div>
+
+      <div class="postit pink md postit-float">
+        <b>Errores que restan puntos</b>
+        Olvidarse de revisar x→−∞ por separado · sacar √(x²) como x en vez de |x| · confundir "no hay asíntota horizontal" con "el límite es 0" cuando en realidad diverge.
+      </div>
+
+      <div class="reflect-box">
+        <b>🖊️ Para pensar</b>
+        <p style="margin:.4em 0 0;">¿Por qué una función racional nunca puede tener dos asíntotas horizontales distintas (como sí le pasa a f(x) = x/√(x²+1))? Pensá en qué papel juega el valor absoluto |x| en esa diferencia.</p>
+        <textarea placeholder="Escribí tu respuesta acá."></textarea>
+        <details>
+          <summary>Ver una posible respuesta</summary>
+          <p class="model-answer">En una función racional (sin raíces), dividir por la mayor potencia de x es una operación simétrica: da lo mismo si x es positivo o negativo, porque x/x = 1 sin importar el signo. En cambio, cuando hay una raíz cuadrada de x² de por medio, hay que reemplazarla por |x|, que sí depende del signo de x — eso es lo único que puede introducir una asimetría entre x→∞ y x→−∞. Sin esa raíz, no hay forma de que aparezcan dos asíntotas horizontales distintas.</p>
+        </details>
+      </div>
+
+      <nav class="page-nav">
+        <a class="corner prev" href="modulo-6.html"><span class="dir">← volver</span><span class="ttl">Módulo 6: límites al infinito</span></a>
+        <a class="corner next" href="profundiza-6.html"><span class="dir">seguir profundizando →</span><span class="ttl">Más técnicas de cálculo</span></a>
+      </nav>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/notebook.js"></script>
+<script src="js/plotter.js"></script>
+<script>
+(function(){
+  /* ---- caso 1: (2x+1)/(x^2+3), y=0 ---- */
+  const plot1 = new NotebookPlot(document.getElementById('plot-caso1'), {xMin:-20,xMax:20,yMin:-1.5,yMax:1.5,xStep:5,yStep:0.5,cssHeight:340});
+  const f1 = x => (2*x+1)/(x*x+3);
+  function drawC1(){
+    plot1.clear(); plot1.drawGrid(); plot1.drawAxes();
+    plot1.hLine(0,{color:NB_INK.green, dash:[5,5], label:'y = 0'});
+    plot1.plotFunction(f1,{color:NB_INK.blue, lineWidth:3, domain:[-20,20]});
+  }
+  plot1.onRedraw(drawC1);
+  drawC1();
+
+  /* ---- caso 2: (x^2-1)/(x^2+1), y=1 ---- */
+  const plot2 = new NotebookPlot(document.getElementById('plot-caso2'), {xMin:-15,xMax:15,yMin:-1.5,yMax:1.5,xStep:3,yStep:0.5,cssHeight:340});
+  const f2 = x => (x*x-1)/(x*x+1);
+  function drawC2(){
+    plot2.clear(); plot2.drawGrid(); plot2.drawAxes();
+    plot2.hLine(1,{color:NB_INK.green, dash:[5,5], label:'y = 1'});
+    plot2.plotFunction(f2,{color:NB_INK.blue, lineWidth:3, domain:[-15,15]});
+  }
+  plot2.onRedraw(drawC2);
+  drawC2();
+
+  /* ---- caso 3: (x^2+1)/(x+1), sin asíntota horizontal ---- */
+  const plot3 = new NotebookPlot(document.getElementById('plot-caso3'), {xMin:-10,xMax:10,yMin:-12,yMax:12,xStep:2,yStep:3,cssHeight:340});
+  const f3 = x => (x*x+1)/(x+1);
+  function drawC3(){
+    plot3.clear(); plot3.drawGrid(); plot3.drawAxes();
+    plot3.vLine(-1,{color:'#bbb', dash:[3,4]});
+    plot3.plotFunction(f3,{color:NB_INK.blue, lineWidth:3, domain:[-10,-1], asymptoteAt:[-1]});
+    plot3.plotFunction(f3,{color:NB_INK.blue, lineWidth:3, domain:[-1,10], asymptoteAt:[-1]});
+  }
+  plot3.onRedraw(drawC3);
+  drawC3();
+
+  /* ---- caso especial: x/sqrt(x^2+1), dos asíntotas ---- */
+  const plotE = new NotebookPlot(document.getElementById('plot-especial'), {xMin:-12,xMax:12,yMin:-1.6,yMax:1.6,xStep:2,yStep:0.5,cssHeight:340});
+  const fE = x => x/Math.sqrt(x*x+1);
+  function drawE(){
+    plotE.clear(); plotE.drawGrid(); plotE.drawAxes();
+    plotE.hLine(1,{color:NB_INK.green, dash:[5,5], label:'y = 1 (x→∞)'});
+    plotE.hLine(-1,{color:NB_INK.red, dash:[5,5], label:'y = −1 (x→−∞)'});
+    plotE.plotFunction(fE,{color:NB_INK.blue, lineWidth:3, domain:[-12,12]});
+  }
+  plotE.onRedraw(drawE);
+  drawE();
+})();
+</script>
+</body>
+</html>

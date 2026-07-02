@@ -20,7 +20,7 @@
     <div class="page-content">
 
       <header class="page-header">
-        <span class="module-badge"><span class="dot"></span>Módulo 6 de 6</span>
+        <span class="module-badge"><span class="dot"></span>Módulo 6 de 7</span>
         <div class="progress-strip"></div>
         <h1 class="underline-draw">Límites al infinito y técnicas de cálculo
           <svg viewBox="0 0 640 14" preserveAspectRatio="none"><path d="M4 9 Q 200 2, 636 8"/></svg>
@@ -51,6 +51,29 @@
       <div class="box formula">
         <span class="box-tag">Asíntota horizontal</span>
         La recta y = L es una <strong>asíntota horizontal</strong> de y=f(x) si <span class="lim" style="font-size:.85em;"><span class="lim-word">lim</span><span class="lim-sub">x→∞</span></span>f(x)=L &nbsp;o&nbsp; <span class="lim" style="font-size:.85em;"><span class="lim-word">lim</span><span class="lim-sub">x→−∞</span></span>f(x)=L.
+      </div>
+
+      <h3>Guía rápida: cómo hallar todas las asíntotas horizontales</h3>
+      <p>Para una función racional <span class="math">f(x) = p(x)/q(x)</span>, alcanza con comparar los grados del numerador y el denominador:</p>
+      <div class="box formula">
+        <span class="box-tag">Paso 1</span>
+        Compará el grado de p(x) (n) con el grado de q(x) (m).
+      </div>
+      <div class="box formula" style="margin-top:8px;">
+        <span class="box-tag">Paso 2</span>
+        n &lt; m ⟹ y = 0. &nbsp; n = m ⟹ y = (coef. principal de p)/(coef. principal de q). &nbsp; n &gt; m ⟹ no hay asíntota horizontal.
+      </div>
+      <div class="box formula" style="margin-top:8px;">
+        <span class="box-tag">Paso 3</span>
+        Repetí el análisis para <span class="math">x→∞</span> y para <span class="math">x→−∞</span> por separado — en funciones con raíces pueden dar valores distintos.
+      </div>
+
+      <div class="deepdive-cta">
+        <div class="dd-text">
+          <b>📐 ¿Querés la guía completa, con más ejemplos?</b>
+          <p>Los tres casos según el grado, más el caso con raíz cuadrada donde x→∞ y x→−∞ dan dos asíntotas horizontales distintas.</p>
+        </div>
+        <a class="btn purple" href="guia-asintotas-horizontales.html">Ver la guía en detalle →</a>
       </div>
 
       <h3>La versión formal, en acción</h3>
@@ -102,7 +125,7 @@
       </div>
 
       <h3>Técnicas de cálculo</h3>
-      <p>Cuatro estrategias típicas para "destrabar" una indeterminación:</p>
+      <p>Tres estrategias típicas para "destrabar" una indeterminación (hay más — más abajo te dejamos la guía completa):</p>
 
       <div class="box example">
         <span class="box-tag">1️⃣ Desarrollo de potencias</span>
@@ -140,6 +163,14 @@
         </details>
       </div>
 
+      <div class="deepdive-cta">
+        <div class="dd-text">
+          <b>🛠️ ¿Querés las 6 técnicas completas?</b>
+          <p>Sustitución directa, cancelación, racionalización, desarrollo de potencias, sustituciones trigonométricas y división por la mayor potencia — cada una con su ejemplo interactivo y una guía de "cuál uso primero".</p>
+        </div>
+        <a class="btn purple" href="tecnicas-calculo.html">Ver la guía completa →</a>
+      </div>
+
       <div class="postit green lg postit-float">
         <b>Aplicación real 💊</b>
         La concentración de un medicamento en sangre puede modelarse como C(t) = 50t/(t+10). ¿Qué pasa cuando t→∞? El límite es 50: la concentración se <i>estabiliza</i>, no crece para siempre. La asíntota horizontal tiene sentido físico.
@@ -169,9 +200,12 @@
         <div id="quiz-container"></div>
       </section>
 
-      <div class="box def" style="margin-top:50px;text-align:center;">
-        <span class="box-tag">🎉 ¡Llegaste al final de la Unidad 2!</span>
-        <p>Repasaste el problema de la tangente, la definición informal y formal de límite, los límites laterales, infinitos, al infinito, y las técnicas de cálculo. El próximo capítulo del cuaderno — <strong>Continuidad</strong> — se apoya en todo esto.</p>
+      <div class="deepdive-cta">
+        <div class="dd-text">
+          <b>🏁 Último tramo</b>
+          <p>Repasaste el problema de la tangente, la definición informal y formal de límite, los límites laterales, infinitos, al infinito, y las técnicas de cálculo. Con eso ya podés atacar el último módulo: <strong>Continuidad</strong> — dónde se "corta" una función y por qué importa.</p>
+        </div>
+        <a class="btn purple" href="modulo-7.html">Ir al Módulo 7: Continuidad →</a>
       </div>
 
       <nav class="page-nav">

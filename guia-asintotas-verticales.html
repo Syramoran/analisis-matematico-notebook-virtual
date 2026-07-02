@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía · Cómo hallar asíntotas verticales · Cuaderno de Límites</title>
+<link rel="stylesheet" href="css/notebook.css">
+</head>
+<body data-module="4">
+
+<button id="index-tab" class="index-tab">📑 Índice</button>
+<div id="drawer-overlay" class="drawer-overlay"></div>
+<aside id="index-drawer" class="index-drawer"></aside>
+
+<div class="desk">
+  <main class="notebook-page">
+    <div class="spiral" aria-hidden="true"></div>
+    <div class="margin-line" aria-hidden="true"></div>
+
+    <div class="page-content">
+
+      <a class="dd-back" href="modulo-4.html">← volver al Módulo 4</a>
+      <header class="page-header">
+        <span class="dd-badge">📐 Guía práctica · Módulo 4</span>
+        <h1 class="underline-draw">Cómo hallar la ecuación de una asíntota vertical
+          <svg viewBox="0 0 640 14" preserveAspectRatio="none"><path d="M4 9 Q 210 2, 636 8"/></svg>
+        </h1>
+        <p style="font-size:1.2rem;color:#4a453a;max-width:680px;">El mismo procedimiento de cuatro pasos sirve para cualquier función racional. Acá lo aplicamos completo, con ejemplos que incluyen la "trampa" del hueco y funciones con más de una asíntota.</p>
+      </header>
+
+      <div class="box def">
+        <span class="box-tag">📖 El método, en un vistazo</span>
+        <ol style="margin:8px 0 0 22px;padding:0;line-height:1.9;">
+          <li><strong>Igualá el denominador a cero</strong> y resolvé: q(x) = 0. Cada raíz es candidata.</li>
+          <li><strong>Revisá el numerador en esa misma raíz.</strong> Si no se anula, es asíntota segura. Si se anula también, simplificá el factor común y repetí desde el paso 1 con la función reducida.</li>
+          <li><strong>Estudiá el signo</strong> de f(x) apenas a la izquierda y apenas a la derecha de la candidata, para saber si cada rama va a +∞ o −∞.</li>
+          <li><strong>Escribí la ecuación</strong> x = a. Repetí con cada raíz restante del denominador.</li>
+        </ol>
+      </div>
+
+      <h3>Ejemplo 1 · Una sola asíntota, sin trampas</h3>
+      <p>Retomamos <span class="math">f(x) = <span class="frac"><span class="num">x + 1</span><span class="den">x − 2</span></span></span> del módulo, ahora con el detalle de cada paso.</p>
+
+      <div class="box example">
+        <span class="box-tag">Paso 1 — candidata</span>
+        <p><span class="math">x − 2 = 0 ⟹ x = 2</span> es la única candidata.</p>
+      </div>
+      <div class="box example" style="margin-top:8px;">
+        <span class="box-tag">Paso 2 — numerador</span>
+        <p><span class="math">p(2) = 2 + 1 = 3 ≠ 0</span>. No hay factor común: x = 2 es asíntota segura, sin necesidad de simplificar nada.</p>
+      </div>
+      <div class="box example" style="margin-top:8px;">
+        <span class="box-tag">Paso 3 — signos</span>
+        <p>x = 1,9 (izquierda): numerador ≈ 2,9 (+), denominador ≈ −0,1 (−) ⟹ f(x) ≈ −29 → <strong>−∞</strong>.<br>
+        x = 2,1 (derecha): numerador ≈ 3,1 (+), denominador ≈ 0,1 (+) ⟹ f(x) ≈ +31 → <strong>+∞</strong>.</p>
+      </div>
+      <div class="box formula" style="margin-top:8px;">
+        <span class="box-tag">Paso 4 — ecuación</span>
+        x = 2
+      </div>
+
+      <div class="widget">
+        <canvas id="plot-ej1" cssHeight="360"></canvas>
+      </div>
+
+      <h3>Ejemplo 2 · La trampa del hueco</h3>
+      <p>Ahora <span class="math">g(x) = <span class="frac"><span class="num">x² − 1</span><span class="den">x − 1</span></span></span> — la misma función del Módulo 2. Apliquemos el método sin mirar lo que ya sabemos.</p>
+
+      <div class="box example">
+        <span class="box-tag">Paso 1 — candidata</span>
+        <p><span class="math">x − 1 = 0 ⟹ x = 1</span> es la única candidata.</p>
+      </div>
+      <div class="box example" style="margin-top:8px;">
+        <span class="box-tag">Paso 2 — numerador</span>
+        <p><span class="math">p(1) = 1² − 1 = 0</span>. ¡También se anula! Hay un factor común. Factorizamos: <span class="math">x² − 1 = (x−1)(x+1)</span>, así que <span class="math">g(x) = <span class="frac"><span class="num">(x−1)(x+1)</span><span class="den">x − 1</span></span> = x + 1</span> para todo <span class="math">x ≠ 1</span>.</p>
+        <p>La función simplificada <span class="math">x + 1</span> ya no tiene denominador que se anule en ningún lado. <strong>No queda ninguna candidata</strong>: x = 1 no es asíntota vertical, es un hueco.</p>
+      </div>
+      <div class="box formula" style="margin-top:8px;">
+        <span class="box-tag">Conclusión</span>
+        g(x) no tiene asíntotas verticales. En x = 1 hay un agujero: el límite existe (vale 2) pero la función no está definida ahí.
+      </div>
+
+      <div class="widget">
+        <canvas id="plot-ej2" cssHeight="360"></canvas>
+      </div>
+
+      <h3>Ejemplo 3 · Dos asíntotas verticales</h3>
+      <p>Probemos con <span class="math">h(x) = <span class="frac"><span class="num">1</span><span class="den">x² − 4</span></span></span>.</p>
+
+      <div class="box example">
+        <span class="box-tag">Paso 1 — candidatas</span>
+        <p><span class="math">x² − 4 = 0 ⟹ (x−2)(x+2) = 0 ⟹ x = 2</span> ó <span class="math">x = −2</span>. Dos candidatas.</p>
+      </div>
+      <div class="box example" style="margin-top:8px;">
+        <span class="box-tag">Paso 2 — numerador</span>
+        <p>El numerador es la constante 1, que nunca se anula. Las dos candidatas son asíntotas seguras.</p>
+      </div>
+      <div class="box example" style="margin-top:8px;">
+        <span class="box-tag">Paso 3 — signos</span>
+        <p>En x = 2: izquierda (x=1,9) da denominador ≈ −0,39 (−) ⟹ <strong>−∞</strong>; derecha (x=2,1) da denominador ≈ 0,41 (+) ⟹ <strong>+∞</strong>.<br>
+        En x = −2: izquierda (x=−2,1) da denominador ≈ 0,41 (+) ⟹ <strong>+∞</strong>; derecha (x=−1,9) da denominador ≈ −0,39 (−) ⟹ <strong>−∞</strong>.</p>
+      </div>
+      <div class="box formula" style="margin-top:8px;">
+        <span class="box-tag">Paso 4 — ecuaciones</span>
+        x = 2 &nbsp;y&nbsp; x = −2
+      </div>
+
+      <div class="widget">
+        <canvas id="plot-ej3" cssHeight="360"></canvas>
+      </div>
+
+      <div class="postit orange lg postit-float">
+        <b>Atajo para el paso 3</b>
+        No hace falta calcular f(x) exactamente: alcanza con el <em>signo</em> de cada factor cerca de la candidata. Multiplicá los signos de numerador y denominador para saber si f(x) es + o − de cada lado.
+      </div>
+
+      <h3>Cómo responder en un examen: "Encuentre todas las asíntotas verticales y justifique"</h3>
+      <p>En un examen no alcanza con escribir la respuesta final — la <strong>justificación</strong> es lo que se corrige. Un buen desarrollo escrito sigue exactamente los cuatro pasos de la guía, pero puesto en palabras y con notación formal de límite.</p>
+
+      <div class="box warn">
+        <span class="box-tag">⚠️ Qué espera el corrector</span>
+        <ul style="margin:6px 0 0 20px;line-height:1.85;">
+          <li>Que plantees <span class="math">q(x) = 0</span> y muestres cómo resolviste (no solo el resultado).</li>
+          <li>Que <strong>chequees el numerador</strong> en cada candidata — decir explícitamente "el numerador no se anula ahí" (o si se anula, mostrar la factorización y la simplificación).</li>
+          <li>Que escribas los <strong>dos límites laterales</strong> con notación formal, no solo "da infinito": <span class="lim" style="font-size:.85em;"><span class="lim-word">lim</span><span class="lim-sub">x→a⁻</span></span>f(x) y <span class="lim" style="font-size:.85em;"><span class="lim-word">lim</span><span class="lim-sub">x→a⁺</span></span>f(x), cada uno con su signo (+∞ o −∞) y una razón breve del signo (qué signo tiene cada factor cerca de a).</li>
+          <li>Una <strong>conclusión explícita</strong> por cada asíntota: "por lo tanto, x = a es asíntota vertical".</li>
+        </ul>
+      </div>
+
+      <div class="box example">
+        <span class="box-tag">✏️ Modelo de respuesta completa</span>
+        <p>Consigna: hallar todas las asíntotas verticales de <span class="math">h(x) = <span class="frac"><span class="num">1</span><span class="den">x² − 4</span></span></span> y justificar.</p>
+        <p style="margin-top:10px;"><strong>Desarrollo:</strong></p>
+        <p>El denominador se anula cuando <span class="math">x² − 4 = 0</span>, es decir <span class="math">(x−2)(x+2) = 0</span>, lo que da <span class="math">x = 2</span> y <span class="math">x = −2</span> como candidatas.</p>
+        <p>El numerador es la constante 1, que nunca vale 0, así que ninguna candidata se cancela: ambas son asíntotas verticales seguras.</p>
+        <p>Para <span class="math">x = 2</span>: si <span class="math">x→2⁻</span>, entonces <span class="math">(x−2)→0⁻</span> y <span class="math">(x+2)→4⁺</span>, así que el denominador es negativo y chico ⟹ <span class="lim" style="font-size:.85em;"><span class="lim-word">lim</span><span class="lim-sub">x→2⁻</span></span>h(x) = −∞. Si <span class="math">x→2⁺</span>, el denominador es positivo y chico ⟹ <span class="lim" style="font-size:.85em;"><span class="lim-word">lim</span><span class="lim-sub">x→2⁺</span></span>h(x) = +∞.</p>
+        <p>Para <span class="math">x = −2</span>: por izquierda el denominador es positivo y chico ⟹ +∞; por derecha es negativo y chico ⟹ −∞.</p>
+        <p style="margin-top:8px;"><strong>Conclusión:</strong> como al menos uno de los límites laterales es infinito en cada candidata, <span class="math">x = 2</span> y <span class="math">x = −2</span> son asíntotas verticales de h(x).</p>
+      </div>
+
+      <div class="postit pink md postit-float">
+        <b>Errores que restan puntos</b>
+        Dar solo el valor de x sin justificar · no chequear si el numerador también se anula · escribir "da infinito" sin indicar el signo (+∞ o −∞) ni el lado · olvidarse de alguna candidata cuando el denominador tiene más de una raíz.
+      </div>
+
+      <div class="reflect-box">
+        <b>🖊️ Para pensar</b>
+        <p style="margin:.4em 0 0;">¿Podría una función racional tener un numerador y un denominador que se anulen juntos en un punto, y aun así conservar una asíntota vertical ahí? Pensá en qué pasaría si el factor (x−a) aparece con distinta potencia arriba y abajo, por ejemplo (x−a)/(x−a)².</p>
+        <textarea placeholder="Escribí tu respuesta acá."></textarea>
+        <details>
+          <summary>Ver una posible respuesta</summary>
+          <p class="model-answer">Sí. Si el factor se cancela una vez pero queda una potencia extra en el denominador — como en (x−a)/(x−a)² = 1/(x−a) — después de simplificar todavía queda un denominador que se anula en x=a. Ahí sí hay asíntota vertical, aunque numerador y denominador originales se hayan anulado juntos. Por eso el paso 2 dice "simplificá y repetí desde el paso 1": la cancelación no garantiza un hueco, solo obliga a volver a revisar.</p>
+        </details>
+      </div>
+
+      <nav class="page-nav">
+        <a class="corner prev" href="modulo-4.html"><span class="dir">← volver</span><span class="ttl">Módulo 4: límites infinitos</span></a>
+        <a class="corner next" href="profundiza-4.html"><span class="dir">seguir profundizando →</span><span class="ttl">Asíntotas de tan(x)</span></a>
+      </nav>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/notebook.js"></script>
+<script src="js/plotter.js"></script>
+<script>
+(function(){
+  /* ---- ejemplo 1: (x+1)/(x-2), una asíntota ---- */
+  const plot1 = new NotebookPlot(document.getElementById('plot-ej1'), {xMin:-4,xMax:8,yMin:-8,yMax:8,xStep:1,yStep:2,cssHeight:360});
+  const f1 = x => (x+1)/(x-2);
+  function drawEj1(){
+    plot1.clear(); plot1.drawGrid(); plot1.drawAxes();
+    plot1.vLine(2, {color:NB_INK.red, label:'x = 2'});
+    plot1.plotFunction(f1, {color:NB_INK.blue, lineWidth:3.2, domain:[-4,2], asymptoteAt:[2]});
+    plot1.plotFunction(f1, {color:NB_INK.blue, lineWidth:3.2, domain:[2,8], asymptoteAt:[2]});
+  }
+  plot1.onRedraw(drawEj1);
+  drawEj1();
+
+  /* ---- ejemplo 2: (x^2-1)/(x-1), hueco en x=1 ---- */
+  const plot2 = new NotebookPlot(document.getElementById('plot-ej2'), {xMin:-4,xMax:4,yMin:-4,yMax:6,xStep:1,yStep:1,cssHeight:360});
+  const f2 = x => (x*x-1)/(x-1);
+  function drawEj2(){
+    plot2.clear(); plot2.drawGrid(); plot2.drawAxes();
+    plot2.plotFunction(f2, {color:NB_INK.blue, lineWidth:3.2, domain:[-4,4], asymptoteAt:[1]});
+    plot2.point(1,2,{color:NB_INK.red, r:6, hollow:true, label:'hueco en x=1'});
+  }
+  plot2.onRedraw(drawEj2);
+  drawEj2();
+
+  /* ---- ejemplo 3: 1/(x^2-4), dos asíntotas ---- */
+  const plot3 = new NotebookPlot(document.getElementById('plot-ej3'), {xMin:-6,xMax:6,yMin:-6,yMax:6,xStep:1,yStep:1,cssHeight:360});
+  const f3 = x => 1/(x*x-4);
+  function drawEj3(){
+    plot3.clear(); plot3.drawGrid(); plot3.drawAxes();
+    plot3.vLine(2, {color:NB_INK.red, label:'x = 2'});
+    plot3.vLine(-2, {color:NB_INK.red, label:'x = −2'});
+    plot3.plotFunction(f3, {color:NB_INK.blue, lineWidth:3.2, domain:[-6,-2], asymptoteAt:[-2,2]});
+    plot3.plotFunction(f3, {color:NB_INK.blue, lineWidth:3.2, domain:[-2,2], asymptoteAt:[-2,2]});
+    plot3.plotFunction(f3, {color:NB_INK.blue, lineWidth:3.2, domain:[2,6], asymptoteAt:[-2,2]});
+  }
+  plot3.onRedraw(drawEj3);
+  drawEj3();
+})();
+</script>
+</body>
+</html>

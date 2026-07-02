@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>7. Continuidad y discontinuidades · Cuaderno de Límites</title>
+<link rel="stylesheet" href="css/notebook.css">
+</head>
+<body data-module="7">
+
+<button id="index-tab" class="index-tab">📑 Índice</button>
+<div id="drawer-overlay" class="drawer-overlay"></div>
+<aside id="index-drawer" class="index-drawer"></aside>
+
+<div class="desk">
+  <main class="notebook-page">
+    <div class="spiral" aria-hidden="true"></div>
+    <div class="margin-line" aria-hidden="true"></div>
+
+    <div class="page-content">
+
+      <header class="page-header">
+        <span class="module-badge"><span class="dot"></span>Módulo 7 de 7</span>
+        <div class="progress-strip"></div>
+        <h1 class="underline-draw">Continuidad y discontinuidades
+          <svg viewBox="0 0 620 14" preserveAspectRatio="none"><path d="M4 9 Q 200 2, 616 8"/></svg>
+        </h1>
+        <p style="font-size:1.2rem;color:#4a453a;max-width:660px;">Todo lo que vimos sobre límites converge acá: una función es <strong>continua</strong> en un punto cuando el límite existe, la función está definida ahí, y ambos coinciden. Cuando algo de eso falla, aparece una discontinuidad — y no todas son iguales.</p>
+      </header>
+
+      <h3>¿Qué significa que f sea continua en x = a?</h3>
+      <p>Intuitivamente: podés dibujar la gráfica de f cerca de x=a <mark class="hl">sin levantar el lápiz del papel</mark>. Formalmente, hacen falta tres condiciones simultáneas:</p>
+
+      <div class="box def">
+        <span class="box-tag">📖 Definición</span>
+        <p>Una función f es <strong>continua en el número x = a</strong> si <span class="lim" style="font-size:.9em;"><span class="lim-word">lim</span><span class="lim-sub">x→a</span></span>f(x) = f(a).</p>
+        <p style="margin:10px 0 0;">Esto exige, implícitamente, tres cosas:</p>
+        <ol style="margin:8px 0 0;padding-left:22px;">
+          <li><strong>Condición 1:</strong> f(a) está definida (a está en el dominio de f).</li>
+          <li><strong>Condición 2:</strong> <span class="lim" style="font-size:.85em;"><span class="lim-word">lim</span><span class="lim-sub">x→a</span></span>f(x) existe (los límites laterales existen y coinciden).</li>
+          <li><strong>Condición 3:</strong> <span class="lim" style="font-size:.85em;"><span class="lim-word">lim</span><span class="lim-sub">x→a</span></span>f(x) = f(a) (el límite y el valor de la función coinciden).</li>
+        </ol>
+      </div>
+
+      <p>Si <strong>cualquiera</strong> de las tres falla, decimos que f es <strong>discontinua</strong> en x=a. Probá los cinco casos y mirá cuál condición se rompe en cada uno:</p>
+
+      <div class="widget">
+        <div class="widget-controls" style="justify-content:center;flex-wrap:wrap;">
+          <button class="btn secondary" id="case-continua" style="font-size:.92rem;">✅ Continua</button>
+          <button class="btn secondary" id="case-salto" style="font-size:.92rem;">1️⃣ Salto</button>
+          <button class="btn secondary" id="case-hueco" style="font-size:.92rem;">2️⃣ Hueco</button>
+          <button class="btn secondary" id="case-valor" style="font-size:.92rem;">3️⃣ Valor distinto</button>
+          <button class="btn secondary" id="case-infinita" style="font-size:.92rem;">4️⃣ Infinita</button>
+        </div>
+        <canvas id="plot-condiciones" cssHeight="360"></canvas>
+        <div class="box def" style="margin-top:14px;">
+          <span class="box-tag" id="cond-tag">Continua en x = 2</span>
+          <p id="cond-text" style="margin:0;"></p>
+        </div>
+      </div>
+
+      <h3>Clasificación de las discontinuidades</h3>
+      <p>Cuando f no es continua en x=a, la discontinuidad se clasifica según <em>cuál</em> condición falla y <em>cómo</em>:</p>
+
+      <div class="box formula">
+        <span class="box-tag">Taxonomía</span>
+        Discontinuidad → <strong>Removible</strong> (evitable: casos 2 y 3 de arriba) &nbsp;|&nbsp; <strong>No removible</strong> (esencial) → <strong>por salto</strong> (caso 1) &nbsp;o&nbsp; <strong>infinita</strong> (caso 4)
+      </div>
+      <p>Las discontinuidades <strong>removibles</strong> se llaman así porque alcanza con <em>(re)definir</em> f(a) con el valor del límite para que la función se vuelva continua — no hace falta cambiar la fórmula, solo "tapar el agujero". Las <strong>no removibles</strong> no se arreglan así: en el salto, los límites laterales son distintos entre sí; en la infinita, directamente no hay un número al cual converger.</p>
+
+      <h3>Continuidad lateral: por derecha y por izquierda</h3>
+      <div class="box def">
+        <span class="box-tag">📖 Definición</span>
+        <p>f es <strong>continua por la derecha</strong> de x=a si <span class="lim" style="font-size:.85em;"><span class="lim-word">lim</span><span class="lim-sub">x→a⁺</span></span>f(x) = f(a).</p>
+        <p>f es <strong>continua por la izquierda</strong> de x=a si <span class="lim" style="font-size:.85em;"><span class="lim-word">lim</span><span class="lim-sub">x→a⁻</span></span>f(x) = f(a).</p>
+      </div>
+      <p>Volvé al <strong>Caso 1 (salto)</strong> del widget de arriba: ahí f(2) coincide con el límite por la derecha, así que f es continua por la derecha en x=2 — pero no por la izquierda, porque ese límite lateral da un valor distinto.</p>
+
+      <h3>Continuidad en un intervalo</h3>
+      <div class="box def">
+        <span class="box-tag">📖 Definición</span>
+        <p>f es continua <strong>sobre un intervalo abierto (a, b)</strong> si es continua en todo número del intervalo.</p>
+        <p>f es continua <strong>sobre un intervalo cerrado [a, b]</strong> si es continua en (a,b) y además es continua <strong>por la derecha en a</strong> y <strong>por la izquierda en b</strong>.</p>
+      </div>
+
+      <div class="widget">
+        <canvas id="plot-abierto" cssHeight="300"></canvas>
+        <p class="widget-caption">f(x) = 1/√(1−x²) es continua en el intervalo <strong>abierto</strong> (−1, 1). No lo es en el cerrado [−1,1]: directamente no está definida en los extremos (asíntotas verticales).</p>
+      </div>
+      <div class="widget">
+        <canvas id="plot-cerrado" cssHeight="300"></canvas>
+        <p class="widget-caption">f(x) = √(1−x²), en cambio, sí es continua en el intervalo <strong>cerrado</strong> [−1, 1]: en x=−1 es continua por la derecha, y en x=1 es continua por la izquierda.</p>
+      </div>
+
+      <h3>Propiedades de las funciones continuas</h3>
+      <p>Si f y g son continuas en x=a, y c es una constante, entonces también son continuas en x=a:</p>
+      <div class="box def">
+        <span class="box-tag">Propiedades</span>
+        <ul style="columns:2 220px;">
+          <li>f + g</li>
+          <li>f − g</li>
+          <li>c·f</li>
+          <li>f·g</li>
+          <li>f/g, si g(a) ≠ 0</li>
+        </ul>
+      </div>
+      <div class="box formula">
+        <span class="box-tag">Composición</span>
+        Si g es continua en x=a y f es continua en g(a), entonces (f∘g)(x) = f(g(x)) es continua en x=a.
+      </div>
+      <p style="font-size:1.05rem;color:#4a453a;">Consecuencia práctica: todo <strong>polinomio</strong> es continuo en todo ℝ, y toda función <strong>racional</strong> es continua en todo punto de su dominio (donde el denominador no se anula).</p>
+
+      <div class="postit orange lg postit-float">
+        <b>Aplicación real 📦</b>
+        El costo de un envío postal suele depender del peso por tramos: hasta 1kg cuesta $X, de 1kg a 2kg cuesta $Y, etc. Esa función tiene una <strong>discontinuidad de salto</strong> en cada kilo exacto — apenas se cruza el umbral, el precio "salta" en vez de subir gradualmente.
+      </div>
+
+      <h3>Tres teoremas para funciones continuas en [a, b]</h3>
+      <p>Cuando una función es continua en un <strong>intervalo cerrado</strong>, se desbloquean tres resultados muy usados en el resto de la materia.</p>
+
+      <div class="box def">
+        <span class="box-tag">📖 Teorema del Valor Intermedio (TVI)</span>
+        <p>Si f es continua en [a, b] y N es cualquier número entre f(a) y f(b) (con f(a) ≠ f(b)), entonces existe al menos un c en (a, b) tal que f(c) = N.</p>
+      </div>
+
+      <div class="widget">
+        <canvas id="plot-tvi" cssHeight="380"></canvas>
+        <div class="widget-controls">
+          <label>N: <input type="range" id="ctrl-N7" min="-1" max="2" step="0.05" value="0"></label>
+          <span>N = <span class="widget-readout" id="read-N7">0</span></span>
+          <button class="btn secondary" id="btn-bolzano">🎯 Ir al caso de Bolzano (N=0)</button>
+        </div>
+        <p class="widget-caption" id="tvi-caption"></p>
+      </div>
+
+      <div class="box example">
+        <span class="box-tag">📌 Teorema de Bolzano (caso particular, N=0)</span>
+        <p>Si f es continua en [a,b] y f(a) y f(b) tienen <strong>signos opuestos</strong>, entonces existe al menos un c en (a,b) tal que f(c) = 0.</p>
+        <p style="margin:6px 0 0;">Es exactamente el TVI aplicado a N=0 — por eso también se lo llama <em>Teorema de la existencia de ceros</em>. Con f(x)=x³+2x−1: f(0)=−1 (negativo) y f(1)=2 (positivo), así que hay una raíz garantizada en (0,1). Probalo en el widget de arriba dejando el slider en N=0.</p>
+      </div>
+
+      <div class="box def">
+        <span class="box-tag">📖 Teorema de Weierstrass</span>
+        <p>Si f es continua en un intervalo cerrado [a, b], entonces f está acotada en [a,b] y alcanza un valor <strong>máximo</strong> y un valor <strong>mínimo</strong> en ese intervalo (no solo se acerca — los toca).</p>
+      </div>
+
+      <div class="widget">
+        <canvas id="plot-weier" cssHeight="380"></canvas>
+        <div class="widget-controls">
+          <label>a: <input type="range" id="ctrl-wa" min="-2.5" max="2.3" step="0.1" value="-2"></label>
+          <span>a = <span class="widget-readout" id="read-wa">−2</span></span>
+          <label>b: <input type="range" id="ctrl-wb" min="-2.3" max="2.5" step="0.1" value="2"></label>
+          <span>b = <span class="widget-readout" id="read-wb">2</span></span>
+        </div>
+        <p class="widget-caption" id="weier-caption"></p>
+      </div>
+
+      <div class="box warn">
+        <span class="box-tag">⚠️ Las hipótesis importan</span>
+        <p style="margin:0;">Ninguno de los tres teoremas vale si f no es continua, o si el intervalo no es cerrado. Con un intervalo abierto (a,b) la función podría "escaparse" hacia el extremo sin llegar nunca a tocar un máximo o un mínimo real — por eso Weierstrass exige explícitamente [a,b].</p>
+      </div>
+
+      <div class="reflect-box">
+        <b>🖊️ Para pensar</b>
+        <p style="margin:.4em 0 0;">En el Caso 2 (hueco) del primer widget, decimos que la discontinuidad es "evitable". ¿Por qué el Caso 1 (salto) no se puede evitar de la misma forma, simplemente redefiniendo f(2)?</p>
+        <textarea placeholder="Escribí tu respuesta acá."></textarea>
+        <details>
+          <summary>Ver una posible respuesta</summary>
+          <p class="model-answer">Porque en el hueco, el límite <em>sí existe</em> — solo falta que f(a) tome ese mismo valor, y eso se arregla con una única redefinición. En el salto, el límite <em>no existe</em> (los límites laterales son distintos entre sí): no hay un único valor candidato para f(a) que haga que ambos lados "empalmen" al mismo tiempo. No importa qué valor le asignemos a f(2), siempre va a quedar un salto de un lado.</p>
+        </details>
+      </div>
+
+      <section class="quiz-section" id="quiz">
+        <div class="quiz-intro"><span class="pencil">📝</span><h2>Pon a prueba lo aprendido</h2></div>
+        <p class="quiz-progress">Respondé las preguntas y comprobá al toque. Podés reintentar las que falles.</p>
+        <div id="quiz-container"></div>
+      </section>
+
+      <div class="box def" style="margin-top:50px;text-align:center;">
+        <span class="box-tag">🎉 ¡Completaste el Cuaderno de Límites!</span>
+        <p>Recorriste el problema de la tangente, la definición informal y formal, los límites laterales, infinitos y al infinito, las técnicas de cálculo, y ahora continuidad — con sus discontinuidades y los tres grandes teoremas del intervalo cerrado. Esa base es el punto de partida de todo lo que viene: <strong>derivadas</strong>.</p>
+      </div>
+
+      <nav class="page-nav">
+        <a class="corner prev" href="#"></a>
+        <a class="corner next" href="#"></a>
+      </nav>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/notebook.js"></script>
+<script src="js/plotter.js"></script>
+<script src="js/quiz.js"></script>
+<script>
+(function(){
+  /* ---- widget A: las tres condiciones / clasificación de discontinuidades ---- */
+  const plotCond = new NotebookPlot(document.getElementById('plot-condiciones'), {xMin:-1,xMax:5,yMin:-1,yMax:7,xStep:1,yStep:1,cssHeight:360});
+  const aC = 2;
+  const contFn = x => 0.4*(x-1)*(x-3.4)+3.6;
+  const saltoLeft = x => 0.4*x+1.3;
+  const saltoRight = x => 0.4*x+2.3;
+  const infFn = x => 1.3/(x-2)+3;
+
+  const casesCond = {
+    continua:{
+      tag:'✅ Continua en x = 2 — se cumplen las tres condiciones',
+      text:'f(2) está definida, el límite existe y coincide con f(2). <strong>No hay ninguna discontinuidad acá.</strong>',
+      draw(p){
+        p.plotFunction(contFn,{color:NB_INK.blue,lineWidth:3.2,domain:[-1,5]});
+        p.point(aC, contFn(aC), {color:NB_INK.black, r:6});
+      }
+    },
+    salto:{
+      tag:'1️⃣ Discontinuidad NO removible — por salto',
+      text:'Condición 1 ✔ (f(2) = 3,10, está definida). Condición 2 ✘ (límite por izquierda = 2,10, límite por derecha = 3,10: no coinciden, el límite no existe). Al fallar la 2, la 3 también falla. <br><em>Es continua por la derecha en x=2, pero no por la izquierda.</em>',
+      draw(p){
+        p.plotFunction(saltoLeft,{color:NB_INK.blue,lineWidth:3.2,domain:[-1,2]});
+        p.plotFunction(saltoRight,{color:NB_INK.blue,lineWidth:3.2,domain:[2,5]});
+        p.point(aC, saltoLeft(aC), {color:NB_INK.blueSoft, hollow:true, r:6});
+        p.point(aC, saltoRight(aC), {color:NB_INK.black, r:6});
+      }
+    },
+    hueco:{
+      tag:'2️⃣ Discontinuidad removible (evitable) — hueco',
+      text:'Condición 1 ✘ (f(2) no está definida). Condición 2 ✔ (el límite existe y vale 3,04). Al fallar la 1, la 3 tampoco se cumple. <br>Se llama "evitable" porque alcanzaría con <em>definir</em> f(2)=3,04 para que la función quede continua.',
+      draw(p){
+        p.plotFunction(contFn,{color:NB_INK.blue,lineWidth:3.2,domain:[-1,5],asymptoteAt:[aC]});
+        p.point(aC, contFn(aC), {color:NB_INK.blueSoft, hollow:true, r:6});
+      }
+    },
+    valor:{
+      tag:'3️⃣ Discontinuidad removible (evitable) — valor distinto',
+      text:'Condición 1 ✔ (f(2) = 1,20, está definida). Condición 2 ✔ (el límite existe y vale 3,04). Condición 3 ✘ (3,04 ≠ 1,20: el límite y f(2) no coinciden). <br>De nuevo evitable: alcanzaría con redefinir f(2) para que valga lo mismo que el límite.',
+      draw(p){
+        p.plotFunction(contFn,{color:NB_INK.blue,lineWidth:3.2,domain:[-1,5],asymptoteAt:[aC]});
+        p.point(aC, contFn(aC), {color:NB_INK.blueSoft, hollow:true, r:6});
+        p.point(aC, 1.2, {color:NB_INK.black, r:6});
+      }
+    },
+    infinita:{
+      tag:'4️⃣ Discontinuidad NO removible — infinita',
+      text:'Condición 1 ✘ (f(2) no está definida). Condición 2 ✘ (el límite es infinito: no existe como número real). La condición 3 tampoco puede cumplirse. <br>No es evitable: no hay ningún valor finito que "tape el agujero", porque la función se dispara hacia ±∞.',
+      draw(p){
+        p.plotFunction(infFn,{color:NB_INK.blue,lineWidth:3.2,domain:[-1,5],asymptoteAt:[aC]});
+      }
+    }
+  };
+
+  const condBtnEls = {
+    continua: document.getElementById('case-continua'),
+    salto: document.getElementById('case-salto'),
+    hueco: document.getElementById('case-hueco'),
+    valor: document.getElementById('case-valor'),
+    infinita: document.getElementById('case-infinita')
+  };
+  let curCond = 'continua';
+
+  function setActiveBtn(){
+    Object.entries(condBtnEls).forEach(([k,el])=>{
+      if(k===curCond){ el.style.background='var(--ink-blue)'; el.style.color='var(--paper)'; }
+      else { el.style.background=''; el.style.color=''; }
+    });
+  }
+
+  function drawCond(){
+    plotCond.clear(); plotCond.drawGrid(); plotCond.drawAxes();
+    if(curCond!=='continua') plotCond.vLine(aC,{color:'#999', dash:[3,4]});
+    casesCond[curCond].draw(plotCond);
+    document.getElementById('cond-tag').textContent = casesCond[curCond].tag;
+    document.getElementById('cond-text').innerHTML = casesCond[curCond].text;
+    setActiveBtn();
+  }
+  plotCond.onRedraw(drawCond);
+  Object.entries(condBtnEls).forEach(([k,el])=>{
+    el.addEventListener('click', ()=>{ curCond=k; drawCond(); });
+  });
+  drawCond();
+
+  /* ---- widget B: continuidad en intervalo abierto vs cerrado ---- */
+  const plotOpen = new NotebookPlot(document.getElementById('plot-abierto'), {xMin:-1.4,xMax:1.4,yMin:0,yMax:6,xStep:0.5,yStep:1,cssHeight:300});
+  function drawOpen(){
+    plotOpen.clear(); plotOpen.drawGrid(); plotOpen.drawAxes();
+    plotOpen.vLine(-1,{color:NB_INK.red, dash:[5,5]});
+    plotOpen.vLine(1,{color:NB_INK.red, dash:[5,5]});
+    plotOpen.plotFunction(x=>1/Math.sqrt(1-x*x), {color:NB_INK.blue, lineWidth:3, domain:[-1.38,1.38]});
+  }
+  plotOpen.onRedraw(drawOpen);
+  drawOpen();
+
+  const plotClosed = new NotebookPlot(document.getElementById('plot-cerrado'), {xMin:-1.4,xMax:1.4,yMin:-0.2,yMax:1.3,xStep:0.5,yStep:0.5,cssHeight:300});
+  function drawClosed(){
+    plotClosed.clear(); plotClosed.drawGrid(); plotClosed.drawAxes();
+    plotClosed.plotFunction(x=>Math.sqrt(Math.max(0,1-x*x)), {color:NB_INK.green, lineWidth:3, domain:[-1,1]});
+    plotClosed.point(-1,0,{color:NB_INK.black,r:5});
+    plotClosed.point(1,0,{color:NB_INK.black,r:5});
+  }
+  plotClosed.onRedraw(drawClosed);
+  drawClosed();
+
+  /* ---- widget C: Teorema del Valor Intermedio + Bolzano (N=0) ---- */
+  const plotTVI = new NotebookPlot(document.getElementById('plot-tvi'), {xMin:-1.3,xMax:1.3,yMin:-4,yMax:4,xStep:0.5,yStep:1,cssHeight:380});
+  const fTVI = x => x*x*x+2*x-1;
+  const aT = 0, bT = 1, faT = fTVI(aT), fbT = fTVI(bT);
+  function solveC(N){
+    let lo=aT, hi=bT;
+    for(let i=0;i<40;i++){
+      const mid=(lo+hi)/2;
+      if(fTVI(mid) < N) lo=mid; else hi=mid;
+    }
+    return (lo+hi)/2;
+  }
+  const ctrlN7 = document.getElementById('ctrl-N7');
+  const readN7 = document.getElementById('read-N7');
+  function drawTVI(){
+    const N = parseFloat(ctrlN7.value);
+    readN7.textContent = N.toFixed(2).replace('.',',');
+    const c = solveC(N);
+    plotTVI.clear(); plotTVI.drawGrid(); plotTVI.drawAxes();
+    plotTVI.plotFunction(fTVI, {color:NB_INK.blue, lineWidth:3.2, domain:[-1.3,1.3]});
+    plotTVI.hLine(N, {color:NB_INK.purple, dash:[5,5], label:'N = '+N.toFixed(2).replace('.',',')});
+    plotTVI.vLine(c, {color:NB_INK.red, dash:[4,4]});
+    plotTVI.point(aT, faT, {color:'#333', r:5, label:'a', labelDy:16});
+    plotTVI.point(bT, fbT, {color:'#333', r:5, label:'b', labelDy:-14});
+    plotTVI.point(c, N, {color:NB_INK.black, r:6, label:'c', labelDy:16});
+    const cap = document.getElementById('tvi-caption');
+    if(Math.abs(N) < 0.02){
+      cap.innerHTML = `🎯 <strong>Caso Bolzano:</strong> f(a)=${faT.toFixed(0)} y f(b)=${fbT.toFixed(0)} tienen signos opuestos, así que existe c ≈ ${c.toFixed(4).replace('.',',')} en (a,b) con f(c) = 0.`;
+    } else {
+      cap.innerHTML = `Como N = ${N.toFixed(2).replace('.',',')} está entre f(a) = ${faT.toFixed(0)} y f(b) = ${fbT.toFixed(0)}, el TVI garantiza que existe c ≈ ${c.toFixed(4).replace('.',',')} en (a,b) tal que f(c) = N.`;
+    }
+  }
+  plotTVI.onRedraw(drawTVI);
+  ctrlN7.addEventListener('input', drawTVI);
+  document.getElementById('btn-bolzano').addEventListener('click', ()=>{ ctrlN7.value=0; drawTVI(); });
+  drawTVI();
+
+  /* ---- widget D: Teorema de Weierstrass (máx/mín en [a,b]) ---- */
+  const plotW = new NotebookPlot(document.getElementById('plot-weier'), {xMin:-2.6,xMax:2.6,yMin:-1,yMax:5,xStep:1,yStep:1,cssHeight:380});
+  const fW = x => 0.4*x*x*x-1.2*x+0.08*x*x+2.4;
+  const ctrlWA = document.getElementById('ctrl-wa');
+  const ctrlWB = document.getElementById('ctrl-wb');
+  const readWA = document.getElementById('read-wa');
+  const readWB = document.getElementById('read-wb');
+  function drawW(){
+    let a = parseFloat(ctrlWA.value), b = parseFloat(ctrlWB.value);
+    if(a >= b){ b = a+0.2; ctrlWB.value = b; }
+    readWA.textContent = a.toFixed(1).replace('.',',').replace('-','−');
+    readWB.textContent = b.toFixed(1).replace('.',',').replace('-','−');
+    plotW.clear(); plotW.drawGrid(); plotW.drawAxes();
+    plotW.vBand(a,b,{color:'rgba(35,62,130,.08)'});
+    plotW.plotFunction(fW, {color:'#ccc2a6', lineWidth:2, domain:[-2.6,2.6]});
+    plotW.plotFunction(fW, {color:NB_INK.blue, lineWidth:3.4, domain:[a,b]});
+    let maxX=a, maxY=fW(a), minX=a, minY=fW(a);
+    const N=300;
+    for(let i=0;i<=N;i++){
+      const x = a+(b-a)*i/N;
+      const y = fW(x);
+      if(y>maxY){ maxY=y; maxX=x; }
+      if(y<minY){ minY=y; minX=x; }
+    }
+    plotW.point(maxX,maxY,{color:NB_INK.green,r:6,label:'máx',labelDy:-10});
+    plotW.point(minX,minY,{color:NB_INK.red,r:6,label:'mín',labelDy:18});
+    plotW.point(a,fW(a),{color:'#333',r:4});
+    plotW.point(b,fW(b),{color:'#333',r:4});
+    document.getElementById('weier-caption').innerHTML =
+      `En [${a.toFixed(1).replace('.',',')}, ${b.toFixed(1).replace('.',',')}]: máximo ≈ ${maxY.toFixed(2).replace('.',',')} en x≈${maxX.toFixed(2).replace('.',',')}; mínimo ≈ ${minY.toFixed(2).replace('.',',')} en x≈${minX.toFixed(2).replace('.',',')}. Movés a y b y ambos se recalculan — probá comparar, por ejemplo, [0,2] contra [−1,0].`;
+  }
+  plotW.onRedraw(drawW);
+  ctrlWA.addEventListener('input', drawW);
+  ctrlWB.addEventListener('input', drawW);
+  drawW();
+
+  NBQuiz('quiz-container', {
+    moduleId:7,
+    passScore:0.7,
+    questions:[
+      {
+        type:'mcq',
+        prompt:'¿Qué le falta a una función que tiene un "hueco" en x=a para ser continua ahí, si el límite en ese punto existe?',
+        options:[
+          'Que el límite exista.',
+          'Que f(a) esté definida (con el mismo valor del límite).',
+          'Que la función sea un polinomio.',
+          'Que a sea positivo.'
+        ],
+        correct:1,
+        explain:'Un hueco es discontinuidad removible: el límite existe pero f(a) no está definida (condición 1). Definiendo f(a) igual al límite, la función queda continua.'
+      },
+      {
+        type:'mcq',
+        prompt:'Si el límite de f en x=a existe pero es distinto del valor de f(a), ¿qué tipo de discontinuidad es?',
+        options:[
+          'No removible, por salto.',
+          'No removible, infinita.',
+          'Removible (evitable).',
+          'No es una discontinuidad.'
+        ],
+        correct:2,
+        explain:'Cuando el límite existe pero no coincide con f(a) (falla solo la condición 3), la discontinuidad es removible: alcanza con redefinir f(a).'
+      },
+      {
+        type:'tf',
+        prompt:'La discontinuidad de salto es removible: alcanza con redefinir f(a) para eliminarla.',
+        correct:false,
+        explain:'Falso. En el salto, los límites laterales son distintos entre sí, así que el límite ni siquiera existe — no hay un único valor que se le pueda asignar a f(a) para "arreglar" ambos lados a la vez.'
+      },
+      {
+        type:'fill',
+        prompt:'Si f es continua en [0,1], f(0)=−1 y f(1)=2, ¿cuántas raíces c en (0,1) garantiza como mínimo el Teorema de Bolzano?',
+        accept:['1','uno','una'],
+        explain:'f(0) y f(1) tienen signos opuestos, así que el Teorema de Bolzano garantiza al menos una raíz (podría haber más de una, pero garantiza al menos 1).'
+      },
+      {
+        type:'mcq',
+        prompt:'Para que f sea continua en el intervalo cerrado [a,b], además de ser continua en (a,b) hace falta que...',
+        options:[
+          'f sea un polinomio de grado par.',
+          'f sea continua por la derecha en a y por la izquierda en b.',
+          'f(a) y f(b) sean iguales.',
+          'f sea derivable en todo el intervalo.'
+        ],
+        correct:1,
+        explain:'La continuidad en un intervalo cerrado exige continuidad en los puntos interiores más continuidad lateral (hacia adentro) en cada extremo.'
+      },
+      {
+        type:'mcq',
+        prompt:'¿Por qué el Teorema de Weierstrass exige que el intervalo sea cerrado [a,b] y no alcanza con que sea abierto (a,b)?',
+        options:[
+          'Porque en intervalos abiertos las funciones nunca son continuas.',
+          'Es solo una convención, no cambia nada.',
+          'Porque en un intervalo abierto la función podría acercarse a un extremo sin llegar nunca a alcanzar ahí un máximo o mínimo real.',
+          'Porque los intervalos abiertos no tienen números racionales.'
+        ],
+        correct:2,
+        explain:'Con un intervalo abierto, el supremo o ínfimo podría estar "justo en el borde que falta" y nunca alcanzarse realmente — por eso Weierstrass necesita el intervalo cerrado.'
+      },
+      {
+        type:'tf',
+        prompt:'El cociente f/g de dos funciones continuas en x=a es siempre continua en x=a.',
+        correct:false,
+        explain:'Falso: hace falta además que g(a) ≠ 0. Si el denominador se anula en a, el cociente ni siquiera está definido ahí.'
+      }
+    ]
+  });
+})();
+</script>
+</body>
+</html>

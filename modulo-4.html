@@ -20,7 +20,7 @@
     <div class="page-content">
 
       <header class="page-header">
-        <span class="module-badge"><span class="dot"></span>Módulo 4 de 6</span>
+        <span class="module-badge"><span class="dot"></span>Módulo 4 de 7</span>
         <div class="progress-strip"></div>
         <h1 class="underline-draw">Límites infinitos y asíntotas verticales
           <svg viewBox="0 0 620 14" preserveAspectRatio="none"><path d="M4 9 Q 200 2, 616 8"/></svg>
@@ -90,6 +90,34 @@
           <li>Si <span class="math">x→2⁺</span> (por ejemplo x=2,1): numerador ≈ 3,1 (positivo), denominador ≈ 0,1 (positivo chico) → f(x) → <strong>+∞</strong></li>
         </ul>
         <p>Por lo tanto, <span class="math">x = 2</span> es una asíntota vertical.</p>
+      </div>
+
+      <h3>Guía paso a paso: cómo hallar la ecuación de una asíntota vertical</h3>
+      <p>El razonamiento anterior siempre sigue el mismo camino. Para <span class="math">f(x) = p(x)/q(x)</span>:</p>
+
+      <div class="box formula">
+        <span class="box-tag">Paso 1</span>
+        Igualá el denominador a cero y resolvé: <span class="math">q(x) = 0</span>. Cada solución es una <strong>candidata</strong> a asíntota vertical.
+      </div>
+      <div class="box formula" style="margin-top:8px;">
+        <span class="box-tag">Paso 2</span>
+        Revisá si el numerador también se anula ahí. Si <span class="math">p(a) ≠ 0</span>, la candidata es asíntota segura. Si <span class="math">p(a) = 0</span> también, simplificá el factor común (0/0): puede que quede un <strong>hueco</strong> (límite finito) en vez de una asíntota — repetí el paso 1 con la función ya simplificada.
+      </div>
+      <div class="box formula" style="margin-top:8px;">
+        <span class="box-tag">Paso 3</span>
+        Estudiá el signo de f(x) tomando un valor de x un poco menor y un poco mayor que a (o analizando el signo de cada factor). Así determinás si cada rama va a <span class="math">+∞</span> o a <span class="math">−∞</span>.
+      </div>
+      <div class="box formula" style="margin-top:8px;">
+        <span class="box-tag">Paso 4</span>
+        Escribí la ecuación de la asíntota: <span class="math">x = a</span>. Repetí los pasos 1–3 con cada raíz del denominador que haya quedado en pie.
+      </div>
+
+      <div class="deepdive-cta">
+        <div class="dd-text">
+          <b>📐 ¿Querés la guía completa, con más ejemplos?</b>
+          <p>Practicá el método paso a paso con funciones que tienen más de una asíntota y con el caso "trampa" del hueco que se cancela.</p>
+        </div>
+        <a class="btn purple" href="guia-asintotas-verticales.html">Ver la guía en detalle →</a>
       </div>
 
       <div class="reflect-box">
