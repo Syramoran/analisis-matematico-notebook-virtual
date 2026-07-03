@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>13. Resumen de continuidad y derivadas · Cuaderno de Límites</title>
+<link rel="stylesheet" href="css/notebook.css">
+</head>
+<body data-module="13">
+
+<button id="index-tab" class="index-tab">📑 Índice</button>
+<div id="drawer-overlay" class="drawer-overlay"></div>
+<aside id="index-drawer" class="index-drawer"></aside>
+
+<div class="desk">
+  <main class="notebook-page">
+    <div class="spiral" aria-hidden="true"></div>
+    <div class="margin-line" aria-hidden="true"></div>
+
+    <div class="page-content">
+
+      <header class="page-header">
+        <span class="module-badge"><span class="dot"></span>Módulo 13 de 13</span>
+        <div class="progress-strip"></div>
+        <h1 class="underline-draw">Resumen de continuidad y derivadas
+          <svg viewBox="0 0 700 14" preserveAspectRatio="none"><path d="M4 9 Q 220 2, 696 8"/></svg>
+        </h1>
+        <p style="font-size:1.2rem;color:#4a453a;max-width:660px;">La libreta de bolsillo del Módulo 12, ahora para continuidad, derivabilidad, asíntotas y rectas. Guías cortas, con los pasos en orden, para cuando una actividad te deja trabado. Se va completando de a poco.</p>
+      </header>
+
+      <h3>1 · ¿Cómo analizar la continuidad de una función?</h3>
+      <p>Todo se reduce a chequear tres condiciones en cada punto que te interese. La única variante es <strong>dónde</strong> hay que chequearlas: en un solo punto, en un intervalo, en todo el dominio, o en el "punto de costura" de una función partida.</p>
+
+      <div class="box def">
+        <span class="box-tag">📖 Continuidad en un punto x = a</span>
+        <p style="margin:0;">f es continua en a si se cumplen, <strong>las tres</strong>:</p>
+        <ol style="margin:8px 0 0;padding-left:22px;">
+          <li><span class="math">f(a)</span> está definida.</li>
+          <li><span class="lim" style="font-size:.85em;"><span class="lim-word">lim</span><span class="lim-sub">x→a</span></span>f(x) existe (los límites laterales coinciden).</li>
+          <li><span class="lim" style="font-size:.85em;"><span class="lim-word">lim</span><span class="lim-sub">x→a</span></span>f(x) = f(a).</li>
+        </ol>
+        <p style="margin-top:8px;">Si <strong>cualquiera</strong> falla, es discontinua en a. Repaso completo: <a class="btn ghost" style="font-size:.92rem;padding:5px 12px;" href="modulo-7.html">Módulo 7: Continuidad →</a>.</p>
+      </div>
+
+      <div class="box def">
+        <span class="box-tag">🧩 Si f es partida (a trozos): cómo chequear el punto de corte</span>
+        <p style="margin:0;">En una función partida, la única duda real está en el (o los) valores de x donde cambia de fórmula. En el resto de cada tramo, la continuidad depende del tipo de fórmula de ese tramo (ver punto 4 más abajo). Para el punto de corte x=a:</p>
+        <ol style="margin:8px 0 0;padding-left:22px;">
+          <li><strong>f(a):</strong> usá la fórmula de la fila que dice "si x = a" (si existe); si el partido no tiene una fila puntual, usá la fórmula del tramo al que a pertenece según la desigualdad (≤ o ≥).</li>
+          <li><strong>Límite por izquierda:</strong> tomá la fórmula del tramo con <span class="math">x &lt; a</span> y evaluala en a.</li>
+          <li><strong>Límite por derecha:</strong> tomá la fórmula del tramo con <span class="math">x &gt; a</span> y evaluala en a.</li>
+          <li><strong>Comparación:</strong> si los dos límites laterales coinciden entre sí y además coinciden con f(a), es continua en a. Si no, es discontinua — y toca clasificarla (ver abajo).</li>
+        </ol>
+        <details style="margin-top:8px;">
+          <summary style="cursor:pointer;font-weight:700;color:var(--ink-purple);font-family:var(--font-note);">Ejemplo →</summary>
+          <div style="margin-top:6px;padding:10px 14px;background:#f7f4ea;border-radius:10px;border:2px dashed var(--ink-purple);">
+            <p style="margin:0;">f(x) = { x, si x&lt;1 · 3, si x=1 · −2x+3, si x&gt;1 }. f(1)=3. Límite izquierdo: fórmula x → 1 = 1. Límite derecho: fórmula −2x+3 → 1. Los laterales coinciden (dan 1), pero <span class="text-red">f(1)=3 ≠ 1</span>: falla la condición 3. Es discontinua en x=1 — y como el límite sí existe, es una discontinuidad <strong>removible</strong> (alcanzaría con redefinir f(1)=1).</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="box formula">
+        <span class="box-tag">Clasificación de discontinuidades</span>
+        Discontinuidad → <strong>Removible</strong> (el límite existe: hueco o valor distinto de f(a)) &nbsp;|&nbsp; <strong>No removible</strong> → <strong>salto</strong> (límites laterales distintos entre sí) &nbsp;o&nbsp; <strong>infinita</strong> (algún lateral da ±∞)
+      </div>
+
+      <div class="box def">
+        <span class="box-tag">📖 Continuidad en un intervalo</span>
+        <p style="margin:0;">En un <strong>intervalo abierto (a,b)</strong>: f continua en todo punto interior, sin más.</p>
+        <p style="margin-top:6px;">En un <strong>intervalo cerrado [a,b]</strong>: además, f continua <strong>por la derecha</strong> en a y <strong>por la izquierda</strong> en b (no hace falta el otro lado, porque queda afuera del intervalo).</p>
+      </div>
+
+      <div class="box def">
+        <span class="box-tag">📖 Continuidad en todo el dominio</span>
+        <p style="margin:0;">Atajos que ahorran chequear punto por punto:</p>
+        <ul style="margin:8px 0 0;padding-left:22px;">
+          <li>Todo <strong>polinomio</strong> es continuo en todo ℝ.</li>
+          <li>Toda función <strong>racional</strong> es continua en todo su dominio (donde el denominador no se anula) — no hace falta chequear nada extra ahí.</li>
+          <li>Sumas, restas, productos, cocientes (con denominador ≠0) y composiciones de funciones continuas son continuas donde estén definidas.</li>
+          <li>Con una función <strong>partida</strong>: continua en todo su dominio si cada tramo es continuo por dentro (por ser polinomio, racional, etc.) <strong>y</strong> además se cumple el chequeo de arriba en cada punto de corte.</li>
+        </ul>
+      </div>
+
+      <div class="postit yellow sm postit-float">
+        <b>Atajo mental</b>
+        "¿Dónde puede fallar la continuidad?" — en funciones no partidas: donde se anula un denominador o donde algo no está definido (raíz de negativo, log de no positivo). En funciones partidas: ahí también, más los puntos de corte.
+      </div>
+
+      <h3>2 · ¿Cómo analizar la derivabilidad de una función?</h3>
+      <p>La derivabilidad es más exigente que la continuidad: primero pide continuidad, y después pide que las dos "pendientes laterales" coincidan.</p>
+
+      <div class="box def">
+        <span class="box-tag">📖 Derivabilidad en un punto x = a</span>
+        <ol style="margin:8px 0 0;padding-left:22px;">
+          <li><strong>Paso 0 (filtro rápido):</strong> ¿f es continua en a? Si no lo es, ya no puede ser derivable ahí — cortá acá, no hace falta seguir.</li>
+          <li><strong>Derivada por izquierda:</strong> <span class="math">f′₋(a) = <span class="lim" style="font-size:.85em;"><span class="lim-word">lim</span><span class="lim-sub">h→0⁻</span></span> <span class="frac"><span class="num">f(a+h) − f(a)</span><span class="den">h</span></span></span>, usando la fórmula del tramo x&lt;a si f es partida.</li>
+          <li><strong>Derivada por derecha:</strong> lo mismo con <span class="math">h→0⁺</span> y la fórmula del tramo x&gt;a.</li>
+          <li><strong>Comparación:</strong> si ambas existen y coinciden, f es derivable en a y f′(a) es ese valor común. Si no coinciden (o alguna no existe), f no es derivable en a.</li>
+        </ol>
+        <p style="margin-top:8px;">Repaso completo: <a class="btn ghost" style="font-size:.92rem;padding:5px 12px;" href="modulo-8.html">Módulo 8: Derivada, definición y derivabilidad →</a>.</p>
+      </div>
+
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplo: continua pero no derivable (punto anguloso)</span>
+        <p style="margin:0;">f(x) = { x, si x≤0 · x², si x&gt;0 }, en x=0. Continuidad: f(0)=0, límite izquierdo (fórmula x) = 0, límite derecho (fórmula x²) = 0 → continua. Paso 0 pasa, seguimos. f′₋(0): la derivada de x es 1, así que f′₋(0)=1. f′₊(0): la derivada de x² en 0 es 2·0=0, así que f′₊(0)=0. <span class="text-red">1 ≠ 0</span>: no es derivable en 0, aunque sí es continua ahí. Geométricamente, hay un "pico" en (0,0).</p>
+      </div>
+
+      <div class="box formula">
+        <span class="box-tag">Tres formas típicas de no ser derivable en a</span>
+        <strong>Pico o esquina</strong> (derivadas laterales existen pero son distintas) &nbsp;|&nbsp; <strong>discontinuidad</strong> en a (automáticamente no derivable, por el paso 0) &nbsp;|&nbsp; <strong>tangente vertical</strong> (la pendiente de la secante se dispara a ±∞)
+      </div>
+
+      <div class="box def">
+        <span class="box-tag">📖 Derivabilidad en un intervalo o en todo el dominio</span>
+        <p style="margin:0;">Misma lógica que con continuidad: f es derivable en un intervalo si lo es en cada punto de ese intervalo. Para "todo el dominio", con funciones partidas alcanza con confirmar que cada tramo es derivable por dentro (por su fórmula) y aplicar el chequeo de 4 pasos de arriba en cada punto de corte — que es, casi siempre, donde se rompe.</p>
+      </div>
+
+      <h3>3 · ¿Cómo buscar asíntotas?</h3>
+      <p>Dos preguntas distintas, con dos guías dedicadas y ejemplos resueltos completos. Acá el resumen mínimo de cada una:</p>
+
+      <div class="box def">
+        <span class="box-tag">📐 Verticales — se buscan en un x fijo</span>
+        <p style="margin:0;">Igualá el denominador a 0 (candidatas) → chequeá que el numerador no se anule ahí (si se anula, simplificá y repetí) → estudiá el signo de f(x) apenas a cada lado → escribí x = a.</p>
+        <p style="margin-top:8px;"><a class="btn ghost" style="font-size:.92rem;padding:5px 12px;" href="guia-asintotas-verticales.html">Guía completa con ejemplos →</a></p>
+      </div>
+
+      <div class="box def">
+        <span class="box-tag">📐 Horizontales — se buscan con x→±∞</span>
+        <p style="margin:0;">Para racionales: comparar el grado del numerador (n) contra el del denominador (m). n&lt;m → y=0. n=m → y = cociente de coeficientes principales. n&gt;m → no hay. Repetí para x→−∞ por separado (en funciones con raíces puede dar otro valor).</p>
+        <p style="margin-top:8px;"><a class="btn ghost" style="font-size:.92rem;padding:5px 12px;" href="guia-asintotas-horizontales.html">Guía completa con ejemplos →</a></p>
+      </div>
+
+      <h3>4 · ¿Cómo hallar la pendiente y la ecuación de la recta secante o tangente?</h3>
+      <p>Las dos rectas se construyen igual (punto + pendiente); lo único que cambia es <strong>de dónde sale la pendiente</strong>.</p>
+
+      <div class="box def">
+        <span class="box-tag">📖 Recta secante entre P(x₁,f(x₁)) y Q(x₂,f(x₂))</span>
+        <ol style="margin:8px 0 0;padding-left:22px;">
+          <li><strong>Pendiente:</strong> <span class="math">m<sub>PQ</sub> = <span class="frac"><span class="num">f(x₂) − f(x₁)</span><span class="den">x₂ − x₁</span></span></span> — el cociente incremental, con los dos puntos ya conocidos (no hay límite de por medio).</li>
+          <li><strong>Ecuación</strong> (punto-pendiente, con cualquiera de los dos puntos): <span class="math">y − f(x₁) = m<sub>PQ</sub>·(x − x₁)</span>.</li>
+        </ol>
+      </div>
+
+      <div class="box def">
+        <span class="box-tag">📖 Recta tangente en un único punto P(a, f(a))</span>
+        <ol style="margin:8px 0 0;padding-left:22px;">
+          <li><strong>Pendiente:</strong> <span class="math">m = f′(a)</span>. Si ya tenés reglas de derivación, derivá f y evaluá en a. Si todavía no, planteá <span class="math">f′(a) = <span class="lim" style="font-size:.85em;"><span class="lim-word">lim</span><span class="lim-sub">h→0</span></span> <span class="frac"><span class="num">f(a+h) − f(a)</span><span class="den">h</span></span></span> y resolvé el límite a mano.</li>
+          <li><strong>f(a):</strong> evaluá la función en a — es el punto por donde pasa la tangente.</li>
+          <li><strong>Ecuación</strong> (punto-pendiente): <span class="math">y − f(a) = f′(a)·(x − a)</span>.</li>
+        </ol>
+        <p style="margin-top:8px;">Repaso completo con ejemplos y widgets: <a class="btn ghost" style="font-size:.92rem;padding:5px 12px;" href="modulo-8.html">Módulo 8: Derivada, introducción →</a>.</p>
+      </div>
+
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplo</span>
+        <p style="margin:0;">Con f(x) = x² − 8x + 9 y a = 3: f(3) = −6, y f′(x) = 2x−8 da f′(3) = −2. Ecuación: <span class="math">y − (−6) = −2(x−3)</span>, es decir <strong>y = −2x</strong>.</p>
+      </div>
+
+      <div class="postit orange sm postit-float">
+        <b>No confundir</b>
+        La secante necesita <strong>dos</strong> puntos de la curva y su pendiente sale de una resta y división directa. La tangente necesita <strong>un solo</strong> punto y su pendiente sale de la derivada — que es, justamente, el límite de las pendientes de secantes cada vez más cercanas.
+      </div>
+
+      <p>En síntesis: continuidad y derivabilidad se chequean con la misma lógica de "comparar tres o dos cosas en un punto"; asíntotas se buscan con un procedimiento fijo según sean verticales u horizontales; y secante/tangente son la misma ecuación punto-pendiente, con la pendiente sacada de dos lugares distintos.</p>
+
+      <nav class="page-nav">
+        <a class="corner prev" href="#"></a>
+        <a class="corner next" href="#"></a>
+      </nav>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/notebook.js"></script>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía · Diagrama de flujo para límites y asíntotas verticales · Cuaderno de Límites</title>
+<link rel="stylesheet" href="css/notebook.css">
+</head>
+<body data-module="4">
+
+<button id="index-tab" class="index-tab">📑 Índice</button>
+<div id="drawer-overlay" class="drawer-overlay"></div>
+<aside id="index-drawer" class="index-drawer"></aside>
+
+<div class="desk">
+  <main class="notebook-page">
+    <div class="spiral" aria-hidden="true"></div>
+    <div class="margin-line" aria-hidden="true"></div>
+
+    <div class="page-content">
+
+      <a class="dd-back" href="guia-asintotas-verticales.html">← volver a la guía de asíntotas verticales</a>
+      <header class="page-header">
+        <span class="dd-badge">🧭 Diagrama de decisión · Módulo 4</span>
+        <h1 class="underline-draw">Diagrama de flujo: límites y asíntotas verticales
+          <svg viewBox="0 0 700 14" preserveAspectRatio="none"><path d="M4 9 Q 220 2, 696 8"/></svg>
+        </h1>
+        <p style="font-size:1.2rem;color:#4a453a;max-width:680px;">Si sentís que te perdés entre tantos casos (0/0, k/0, funciones partidas...), esto es para vos: un mapa con flechas. Empezá siempre por el rombo violeta de arriba y seguí el camino según lo que te vaya dando la cuenta. No hay que memorizar nada — solo seguir el hilo.</p>
+      </header>
+
+      <div class="box def">
+        <span class="box-tag">🖊️ Cómo leer el diagrama</span>
+        <p style="margin:0;">Los <strong>rectángulos celestes</strong> son acciones ("hacé esto"). Los <strong>rombos violetas</strong> son preguntas con varias salidas posibles, marcadas con una etiqueta de color. Los <strong>cuadros de color al final de cada rama</strong> son la conclusión de ese camino. Si en algún punto tenés que "repetir", una flecha punteada te manda de nuevo al rombo correspondiente.</p>
+      </div>
+
+      <div class="flowchart">
+
+        <div class="flow-node start">Querés hallar lim<sub>x→a</sub> f(x)<br>(¿hay asíntota vertical en x = a?)</div>
+        <div class="flow-arrow">↓</div>
+
+        <div class="flow-question">¿f(x) es una función partida (a trozos) y a es justo el punto donde cambia de fórmula?
+          <span class="sub">ej.: f(x) = { x si x&lt;1 · 3 si x=1 · −2x+3 si x&gt;1 }</span>
+        </div>
+        <div class="flow-branches">
+
+          <div class="flow-branch">
+            <span class="flow-tag yes">Sí, es partida</span>
+            <div class="flow-node action">Calculá los dos límites laterales, usando en cada uno <strong>la fórmula del tramo correspondiente</strong> (nunca la del punto suelto x=a).</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-question" style="font-size:.92rem;">¿Los dos límites laterales dan el mismo número?</div>
+            <div class="flow-branches" style="grid-template-columns:1fr 1fr;max-width:100%;">
+              <div class="flow-branch">
+                <span class="flow-tag yes">Sí, coinciden</span>
+                <div class="flow-result ok"><b>El límite es ese valor común.</b> f puede ser continua o no en a, pero el límite existe — y no es asíntota vertical (da un número finito).</div>
+              </div>
+              <div class="flow-branch">
+                <span class="flow-tag no">No, difieren</span>
+                <div class="flow-result warn"><b>El límite no existe</b> en x=a (hay un salto). Si ambos laterales son finitos, tampoco hay asíntota vertical — solo una discontinuidad de salto.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flow-branch">
+            <span class="flow-tag no">No, es "de una pieza"</span>
+            <div class="flow-node action">Probá <strong>sustitución directa</strong>: reemplazá x = a en f(x) y hacé la cuenta.</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-question" id="q-sustitucion">¿Qué te da la sustitución?</div>
+          </div>
+
+        </div>
+
+        <div class="flow-arrow" style="margin-top:6px;">↓ (las cuatro salidas posibles de "¿qué te da la sustitución?")</div>
+
+        <div class="flow-branches" style="max-width:960px;">
+
+          <div class="flow-branch">
+            <span class="flow-tag case">Un número real L</span>
+            <div class="flow-result ok"><b>El límite es L.</b> f es continua en a (polinomios, raíces, trig., exponenciales y logaritmos se comportan así donde están definidas). No hay asíntota vertical en x=a.</div>
+          </div>
+
+          <div class="flow-branch">
+            <span class="flow-tag case2">Forma k/0, con k≠0</span>
+            <div class="flow-node action">Es un límite infinito. Estudiá el <strong>signo</strong> de f(x) tomando un valor apenas menor y apenas mayor que a.</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-question" style="font-size:.9rem;">¿El signo es el mismo por izquierda y por derecha?</div>
+            <div class="flow-branches" style="grid-template-columns:1fr 1fr;max-width:100%;">
+              <div class="flow-branch">
+                <span class="flow-tag yes">Mismo signo</span>
+                <div class="flow-result infinite"><b>Asíntota vertical x = a.</b> Las dos ramas van para el mismo infinito (+∞ o −∞).</div>
+              </div>
+              <div class="flow-branch">
+                <span class="flow-tag no">Signos distintos</span>
+                <div class="flow-result infinite"><b>Asíntota vertical x = a</b> igual. El límite (de dos caras) no existe como número, pero una rama va a +∞ y la otra a −∞.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flow-branch">
+            <span class="flow-tag case3">Forma 0/0</span>
+            <div class="flow-node action">Es indeterminado, no una respuesta. <strong>Factorizá y cancelá</strong> el factor común (o racionalizá si hay raíces).</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-question" style="font-size:.9rem;">Después de simplificar, ¿el denominador se sigue anulando en x=a?</div>
+            <div class="flow-branches" style="grid-template-columns:1fr 1fr;max-width:100%;">
+              <div class="flow-branch">
+                <span class="flow-tag yes">Sí, sigue en 0</span>
+                <div class="flow-result next">↩ Volvé a sustituir x=a en la función <em>ya simplificada</em> — repetí desde "¿qué te da la sustitución?".</div>
+              </div>
+              <div class="flow-branch">
+                <span class="flow-tag no">No, ya no se anula</span>
+                <div class="flow-result warn"><b>No hay asíntota vertical:</b> es un hueco en x=a. El límite existe y es finito — sale de sustituir en la función ya simplificada.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flow-branch">
+            <span class="flow-tag no">∞/∞, ∞−∞, 0·∞ (a es ±∞)</span>
+            <div class="flow-node action">No es un punto finito: no puede haber asíntota vertical ahí. Usá técnicas de x→±∞ (dividir por la mayor potencia de x) o, si conviene, L'Hospital.</div>
+            <div class="flow-result next">Seguramente estés buscando una <strong>asíntota horizontal</strong>, no vertical. Ver la <a href="guia-asintotas-horizontales.html">guía de asíntotas horizontales →</a> o el <a href="modulo-6.html">Módulo 6 →</a>.</div>
+          </div>
+
+        </div>
+
+        <div class="flow-arrow">↓</div>
+        <div class="flow-node" style="border-color:var(--ink-purple);font-family:var(--font-title);font-weight:700;color:var(--ink-purple);">Último paso, si confirmaste asíntota: escribí la ecuación <span class="math">x = a</span>. Repetí todo el camino con cada raíz que le quede al denominador.</div>
+
+      </div>
+
+      <div class="postit orange lg postit-float">
+        <b>Si te perdiste en algún rombo</b>
+        Cada pregunta del diagrama corresponde a un paso que ya viste en otro lado: sustitución directa y continuidad (<a href="modulo-7.html">Módulo 7</a>), límites laterales y funciones partidas (<a href="modulo-3.html">Módulo 3</a>), factorizar/racionalizar (<a href="modulo-6.html">Módulo 6</a>), el detalle del signo en k/0 (<a href="guia-asintotas-verticales.html">guía de asíntotas verticales</a>) y L'Hospital (<a href="modulo-11.html">Módulo 11</a>). El diagrama no reemplaza esas páginas: solo te dice a cuál ir en cada momento.
+      </div>
+
+      <h3>Ejemplo recorriendo el diagrama completo</h3>
+      <p>Volvamos a <span class="math">h(x) = <span class="frac"><span class="num">1</span><span class="den">x² − 4</span></span></span> y sigamos las flechas paso a paso para x→2, tal como lo haría alguien que recién está aprendiendo el método.</p>
+
+      <div class="box example">
+        <p style="margin:0;"><strong>¿Es partida?</strong> No, es una sola fórmula → vamos por la rama derecha.</p>
+        <p><strong>Sustitución directa:</strong> h(2) = 1/(2²−4) = 1/0. Es <span class="math">k/0</span> con k=1≠0 → rama "k/0".</p>
+        <p><strong>Signo a los dos lados de x=2:</strong> por izquierda (x=1,9) el denominador da negativo → h(x)→−∞. Por derecha (x=2,1) el denominador da positivo → h(x)→+∞. Signos distintos.</p>
+        <p style="margin-top:8px;"><strong>Conclusión del diagrama:</strong> igual hay asíntota vertical en x=2 (una rama a −∞, la otra a +∞). Repetimos todo el camino con la otra raíz del denominador, x=−2, y llegamos a la misma conclusión ahí también.</p>
+      </div>
+
+      <div class="reflect-box">
+        <b>🖊️ Para pensar</b>
+        <p style="margin:.4em 0 0;">Elegí una función que ya viste en otro módulo (por ejemplo, alguna del Módulo 6 o del Módulo 11) y recorré el diagrama con ella, anotando en qué rombo entraste y por qué salida saliste. ¿En algún punto tuviste que volver atrás (flecha punteada)?</p>
+        <textarea placeholder="Escribí tu función y el camino que seguiste."></textarea>
+        <details>
+          <summary>Ver una posible respuesta</summary>
+          <p class="model-answer">Cualquier función racional con un factor cancelable en el denominador — como (x²−1)/(x−1) del Módulo 2 — te hace pasar por la rama "0/0", te manda a factorizar, y después de simplificar el denominador ya no se anula: termina en la rama "hueco", no en asíntota vertical. Eso es justamente lo que hace tramposo a ese tipo de ejercicio, y por eso el diagrama tiene esa flecha de "volver a sustituir" en vez de cortar directo a una conclusión.</p>
+        </details>
+      </div>
+
+      <nav class="page-nav">
+        <a class="corner prev" href="guia-asintotas-verticales.html"><span class="dir">← volver</span><span class="ttl">Guía: asíntotas verticales</span></a>
+        <a class="corner next" href="modulo-12.html"><span class="dir">seguir →</span><span class="ttl">Módulo 12: Resumen de límites</span></a>
+      </nav>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/notebook.js"></script>
+</body>
+</html>

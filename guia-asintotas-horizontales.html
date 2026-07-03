@@ -38,6 +38,22 @@
         </ol>
       </div>
 
+      <div class="box def">
+        <span class="box-tag">📈 ¿Se puede ver a simple vista, con el gráfico?</span>
+        <p style="margin:0;">Sí — igual que con las verticales, pero mirando otra parte del dibujo. Con las asíntotas <strong>verticales</strong> buscás un valor de <span class="math">x</span> donde la curva se "dispara" hacia arriba o abajo (una recta vertical). Con las <strong>horizontales</strong> hacés lo opuesto: en vez de mirar un punto del medio, seguís la curva hacia <strong>las dos puntas</strong> del gráfico.</p>
+        <ol style="margin:10px 0 0 22px;padding:0;line-height:1.9;">
+          <li>Recorré la curva hacia la <strong>derecha</strong>, lo más lejos que puedas (x→+∞). ¿Se va "achatando", pegándose cada vez más a una altura fija sin llegar a tocarla? Esa altura (el valor de y) es la asíntota horizontal de ese lado.</li>
+          <li>Repetí recorriendo hacia la <strong>izquierda</strong> (x→−∞). Puede achatarse a la misma altura que a la derecha, a una distinta (como en el caso especial de abajo), o directamente no achatarse nunca.</li>
+          <li>Si de algún lado la curva sigue subiendo o bajando sin aplanarse — como una rampa que no frena — <strong>no hay</strong> asíntota horizontal de ese lado.</li>
+        </ol>
+        <p style="margin-top:8px;">Es una forma rápida de <em>adivinar</em> el resultado antes de calcular, o de revisar si la cuenta tiene sentido después. Pero ojo: a simple vista no podés estar 100% seguro de la altura exacta (¿es 1, o 0,98?) — para la respuesta formal siempre hay que confirmar con el cálculo algebraico de las cajas de abajo.</p>
+      </div>
+
+      <div class="widget">
+        <canvas id="plot-visual" cssHeight="340"></canvas>
+        <p class="widget-caption">g(x) = (2x−3)/(x+2). Recorré la curva hacia la derecha y hacia la izquierda: en ambas puntas se pega a la misma altura, y = 2.</p>
+      </div>
+
       <h3>Caso 1 · Grado del numerador menor (n &lt; m)</h3>
       <p><span class="math">f(x) = <span class="frac"><span class="num">2x + 1</span><span class="den">x² + 3</span></span></span> — el numerador tiene grado 1, el denominador grado 2.</p>
       <div class="box example">
@@ -139,6 +155,21 @@
 <script src="js/plotter.js"></script>
 <script>
 (function(){
+  /* ---- lectura gráfica: (2x-3)/(x+2), y=2 en ambas puntas ---- */
+  const plotV = new NotebookPlot(document.getElementById('plot-visual'), {xMin:-20,xMax:20,yMin:-2,yMax:6,xStep:5,yStep:1,cssHeight:340});
+  const fV = x => (2*x-3)/(x+2);
+  function drawV(){
+    plotV.clear(); plotV.drawGrid(); plotV.drawAxes();
+    plotV.hLine(2,{color:NB_INK.green, dash:[5,5], label:'y = 2'});
+    plotV.vLine(-2,{color:'#bbb', dash:[3,4]});
+    plotV.plotFunction(fV,{color:NB_INK.blue, lineWidth:3, domain:[-20,-2], asymptoteAt:[-2]});
+    plotV.plotFunction(fV,{color:NB_INK.blue, lineWidth:3, domain:[-2,20], asymptoteAt:[-2]});
+    plotV.text(-19,5.3,'← se achata acá',{color:NB_INK.purple, size:14});
+    plotV.text(9,3.3,'se achata acá →',{color:NB_INK.purple, size:14});
+  }
+  plotV.onRedraw(drawV);
+  drawV();
+
   /* ---- caso 1: (2x+1)/(x^2+3), y=0 ---- */
   const plot1 = new NotebookPlot(document.getElementById('plot-caso1'), {xMin:-20,xMax:20,yMin:-1.5,yMax:1.5,xStep:5,yStep:0.5,cssHeight:340});
   const f1 = x => (2*x+1)/(x*x+3);
