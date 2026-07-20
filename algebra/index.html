@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cuaderno de Álgebra y Geometría Analítica</title>
+<meta name="description" content="Libreta digital interactiva de Álgebra y Geometría Analítica — UTN.">
+<link rel="stylesheet" href="css/notebook.css">
+</head>
+<body data-module="0">
+
+<button id="index-tab" class="index-tab">📑 Índice</button>
+<div id="drawer-overlay" class="drawer-overlay"></div>
+<aside id="index-drawer" class="index-drawer"></aside>
+
+<div class="desk">
+  <main class="notebook-page">
+    <div class="spiral" aria-hidden="true"></div>
+    <div class="margin-line" aria-hidden="true"></div>
+
+    <div class="page-content">
+
+      <div class="cover-hero">
+        <span class="eyebrow">✎ Álgebra y Geometría Analítica · UTN Paraná</span>
+        <h1>Cuaderno de<br>Álgebra</h1>
+        <p class="subtitle">Determinantes, vectores y rectas en el plano — y lo que vaya llegando después<br>una libreta digital para pensar despacio</p>
+        <span class="cover-stamp">¡a mano y con café ☕!</span>
+      </div>
+
+      <div class="postit-row" style="justify-content:center;margin-top:36px;">
+        <div class="postit yellow md">
+          <b>¿Cómo se usa?</b>
+          Cada página es un módulo. Adentro hay teoría, gráficos que podés tocar, y un cuestionario corto al final para saber si quedó claro.
+        </div>
+        <div class="postit blue md">
+          <b>Este cuaderno recién arranca</b>
+          Por ahora hay temas sueltos (determinantes, vectores, rectas) de distintos puntos del programa. Se va a ir completando y ordenando a medida que repasemos el resto.
+        </div>
+        <div class="postit pink sm">
+          <b>Índice siempre a mano</b>
+          Tocá la pestaña <i>“📑 Índice”</i> en el borde izquierdo, desde cualquier página, para saltar donde quieras.
+        </div>
+      </div>
+
+      <h2 class="toc-title underline-draw">Tabla de contenidos
+        <svg viewBox="0 0 300 14" preserveAspectRatio="none"><path d="M4 9 Q 100 2, 296 8"/></svg>
+      </h2>
+      <p style="text-align:center;color:#4a453a;">Determinantes (1–2) es un bloque aparte. Vectores y rectas (3 a 8) van todos en orden — cada uno se apoya en el anterior.</p>
+
+      <div class="module-grid">
+        <a href="modulo-1.html" class="module-card">
+          <span class="mc-tape"></span>
+          <span class="mc-num">1</span>
+          <div class="mc-title">Determinantes</div>
+          <div class="mc-desc">2×2, 3×3 (cofactores y Regla de Sarrus), menores y cofactores, determinante n×n, matrices triangulares y el área generada por una matriz 2×2.</div>
+        </a>
+        <a href="modulo-2.html" class="module-card">
+          <span class="mc-tape"></span>
+          <span class="mc-num">2</span>
+          <div class="mc-title">Propiedades de los determinantes y Regla de Cramer</div>
+          <div class="mc-desc">det(AB), transpuesta, expansión por cualquier fila/columna, las siete propiedades para simplificar antes de calcular, invertibilidad y la Regla de Cramer.</div>
+        </a>
+        <a href="modulo-3.html" class="module-card">
+          <span class="mc-tape"></span>
+          <span class="mc-num">3</span>
+          <div class="mc-title">Vectores en el plano</div>
+          <div class="mc-desc">Segmentos dirigidos, magnitud y dirección, suma, producto por escalar, vector opuesto, versor y vectores fundamentales i, j.</div>
+        </a>
+        <a href="modulo-4.html" class="module-card">
+          <span class="mc-tape"></span>
+          <span class="mc-num">4</span>
+          <div class="mc-title">Producto escalar, ángulo, paralelismo y proyección</div>
+          <div class="mc-desc">u·v, el ángulo entre dos vectores, las condiciones de paralelismo y ortogonalidad, y la proyección de un vector sobre otro.</div>
+        </a>
+        <a href="modulo-5.html" class="module-card">
+          <span class="mc-tape"></span>
+          <span class="mc-num">5</span>
+          <div class="mc-title">Vectores en el espacio (R³)</div>
+          <div class="mc-desc">Terna (x;y;z), distancia entre puntos, cosenos directores, base i, j, k, y las mismas operaciones del plano llevadas a tres dimensiones.</div>
+        </a>
+        <a href="modulo-6.html" class="module-card">
+          <span class="mc-tape"></span>
+          <span class="mc-num">6</span>
+          <div class="mc-title">Producto cruz, área, volumen y coplanaridad</div>
+          <div class="mc-desc">u×v, la regla de la mano derecha, el área de un paralelogramo, el triple producto escalar y el volumen de un paralelepípedo.</div>
+        </a>
+        <a href="modulo-7.html" class="module-card">
+          <span class="mc-tape"></span>
+          <span class="mc-num">7</span>
+          <div class="mc-title">Ecuaciones de la recta en el plano</div>
+          <div class="mc-desc">Vectorial, cartesiana, simétrica, general (con vector normal), casos particulares, segmentaria, explícita y punto-pendiente.</div>
+        </a>
+        <a href="modulo-8.html" class="module-card">
+          <span class="mc-tape"></span>
+          <span class="mc-num">8</span>
+          <div class="mc-title">Posiciones relativas, ángulo y distancia entre rectas</div>
+          <div class="mc-desc">Cuándo dos rectas son paralelas, perpendiculares o coincidentes; cómo hallar su intersección, el ángulo entre ellas y la distancia de un punto a una recta.</div>
+        </a>
+      </div>
+
+      <div class="box example" style="margin-top:44px;">
+        <span class="box-tag">📚 Bibliografía</span>
+        <p style="margin:0;">Grossman, S. (1996/2012). <i>Álgebra Lineal.</i> Ed. Mc Graw Hill. Secc. 2.1–2.2 / 3.1–3.2: Determinantes; Secc. 3.1–3.4 / 4.1–4.4: Vectores en R² y R³. — Yákovliev (1982). <i>Geometría.</i> Ed. MIR Moscú. Cap. II: Rectas en el Plano. — Kozak, Pastorelli y Vardanega (2007). <i>Nociones de Geometría Analítica y Álgebra Lineal.</i> Ed. edUtecNa. Cap. II, Sección 2.1 — y las clases de cátedra de Álgebra y Geometría Analítica (Clases 8 a 15).</p>
+      </div>
+
+      <p class="credits">Hecho con ✎ para repasar Álgebra, tema por tema. Tu progreso por módulo se guarda en este navegador.</p>
+    </div>
+  </main>
+</div>
+
+<script src="js/notebook.js"></script>
+</body>
+</html>

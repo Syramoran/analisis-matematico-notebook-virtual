@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>7. Ecuaciones de la recta en el plano · Cuaderno de Álgebra</title>
+<link rel="stylesheet" href="css/notebook.css">
+</head>
+<body data-module="7">
+
+<button id="index-tab" class="index-tab">📑 Índice</button>
+<div id="drawer-overlay" class="drawer-overlay"></div>
+<aside id="index-drawer" class="index-drawer"></aside>
+
+<div class="desk">
+  <main class="notebook-page">
+    <div class="spiral" aria-hidden="true"></div>
+    <div class="margin-line" aria-hidden="true"></div>
+
+    <div class="page-content">
+
+      <header class="page-header">
+        <span class="module-badge"><span class="dot"></span>Módulo 7 de 8</span>
+        <div class="progress-strip"></div>
+        <h1 class="underline-draw">Ecuaciones de la recta en el plano
+          <svg viewBox="0 0 620 14" preserveAspectRatio="none"><path d="M4 9 Q 200 2, 616 8"/></svg>
+        </h1>
+        <p style="font-size:1.2rem;color:#4a453a;max-width:660px;">Una misma recta se puede escribir de <strong>seis formas distintas</strong> — vectorial, cartesiana, simétrica, general, segmentaria y explícita. No son seis temas nuevos: son seis fotos de la misma foto, cada una útil según los datos que tenés.</p>
+        <details style="margin-top:8px;margin-bottom:12px;">
+          <summary style="cursor:pointer;color:#6a3f8f;font-weight:500;font-size:1rem;">💡 ¿Por qué tantas formas para lo mismo?</summary>
+          <div style="margin-top:12px;padding:12px;background:#f5f0e6;border-radius:6px;font-size:1rem;">
+            <p>Porque los datos que te dan cambian: a veces tenés <strong>un punto y una dirección</strong>, a veces <strong>un punto y una perpendicular</strong>, a veces <strong>dos puntos</strong>, a veces <strong>la pendiente</strong>. Cada forma de la ecuación está pensada para salir rápido a partir de un tipo de dato distinto.</p>
+          </div>
+        </details>
+      </header>
+
+      <div class="postit-row" style="justify-content:center;">
+        <div class="postit blue md">
+          <b>¿Sabías qué?</b>
+          En ingeniería civil, la pendiente de una recta define la inclinación segura de una carretera; en electrónica, la Ley de Ohm es literalmente una recta (V en función de I, con la resistencia como pendiente).
+        </div>
+      </div>
+
+      <h2>1. Ecuación paramétrica vectorial</h2>
+      <p>Partimos de la pregunta más simple posible: dado un punto <span class="math">P₀(x₀; y₀)</span> y un vector <span class="vec">d</span> = (d₁; d₂) distinto de cero, ¿existe una recta que pase por <span class="math">P₀</span> y sea <strong>paralela</strong> a la dirección de <span class="vec">d</span>?</p>
+      <p>La respuesta es sí, y se construye así: un punto genérico <span class="math">P(x;y)</span> pertenece a la recta si y sólo si el vector <span class="math">P₀P</span> es paralelo a <span class="vec">d</span>, es decir, si existe <span class="math">λ ∈ ℝ</span> tal que:</p>
+
+      <div class="box formula">
+        <span class="box-tag">Ecuación paramétrica vectorial</span>
+        (x;y) = (x₀;y₀) + λ(d₁;d₂), &nbsp;con λ ∈ ℝ
+      </div>
+      <p>El vector <span class="vec">d</span> se llama <strong>vector director</strong> de la recta. Cada valor real de <span class="math">λ</span> genera un punto distinto de la recta; recorrer todos los <span class="math">λ ∈ ℝ</span> es recorrer la recta entera.</p>
+
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplo — recta por P₀(2;3) con dirección d=(3;1)</span>
+        <p style="margin:0;">La ecuación paramétrica vectorial es <span class="math">(x;y) = (2;3) + λ(3;1)</span>. Movés el control de <span class="math">λ</span> y mirá cómo el punto P recorre la recta:</p>
+      </div>
+
+      <div class="widget">
+        <canvas id="plot-vectorial" cssHeight="360"></canvas>
+        <div class="widget-controls">
+          <label>λ: <input type="range" id="ctrl-lambda" min="-3" max="3" step="0.05" value="0"></label>
+          <span>λ = <span class="widget-readout" id="read-lambda">0.00</span></span>
+          <span>P(λ) = <span class="widget-readout" id="read-P">(2,00; 3,00)</span></span>
+        </div>
+        <div class="widget-controls" style="margin-top:0;border-top:none;padding-top:0;">
+          <span style="font-family:var(--font-note);font-size:.9rem;color:#6b6252;">Valores clásicos de la guía:</span>
+          <button class="btn ghost" data-l="0">λ=0</button>
+          <button class="btn ghost" data-l="1">λ=1</button>
+          <button class="btn ghost" data-l="-2">λ=−2</button>
+        </div>
+        <p class="widget-caption">Con λ=0 obtenés el punto de paso P₀(2;3); con λ=1, el punto (5;4); con λ=−2, el punto (−4;1) — los mismos tres puntos que calcula la guía.</p>
+      </div>
+
+      <h2>2. Ecuación paramétrica cartesiana</h2>
+      <p>Es la misma ecuación vectorial, pero separando x e y en dos igualdades (una por cada componente):</p>
+      <div class="box formula">
+        <span class="box-tag">Ecuación paramétrica cartesiana</span>
+        x = x₀ + λd₁ &nbsp;·&nbsp; y = y₀ + λd₂, &nbsp;con λ ∈ ℝ
+      </div>
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplo — misma recta: x = 2+3λ, y = 3+λ</span>
+        <p style="margin:0;">Para hallar dónde la recta corta a los <strong>ejes coordenados</strong>, plantéas la condición de cada eje y resolvés λ:</p>
+        <ul style="margin:8px 0 0;padding-left:22px;">
+          <li>Corte con el eje x (y=0): <span class="math">0 = 3+λ ⇒ λ=−3 ⇒ x = 2+3(−3) = −7</span> → punto (−7; 0)</li>
+          <li>Corte con el eje y (x=0): <span class="math">0 = 2+3λ ⇒ λ=−2/3 ⇒ y = 3+(−2/3) = 7/3</span> → punto (0; 7/3)</li>
+        </ul>
+      </div>
+      <canvas id="plot-cartesiana" style="width:100%;height:320px;display:block;margin-top:12px;border:1px solid #ddd;border-radius:4px;"></canvas>
+
+      <h2>3. Ecuación simétrica (o continua)</h2>
+      <p>Si despejás <span class="math">λ</span> de cada igualdad de la ecuación cartesiana (posible cuando <span class="math">d₁≠0</span> y <span class="math">d₂≠0</span>) e igualás ambas expresiones, queda:</p>
+      <div class="box formula">
+        <span class="box-tag">Ecuación simétrica</span>
+        <span class="frac"><span class="num">x − x₀</span><span class="den">d₁</span></span> = <span class="frac"><span class="num">y − y₀</span><span class="den">d₂</span></span>
+      </div>
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplo — recta por A(1;2) y B(−2;−3)</span>
+        <p>El vector director se obtiene restando los puntos: <span class="vec">AB</span> = (−2−1; −3−2) = (−3;−5). Tomando A como punto de paso:</p>
+        <p style="text-align:center;font-size:1.15rem;margin:10px 0;"><span class="frac"><span class="num">x − 1</span><span class="den">−3</span></span> = <span class="frac"><span class="num">y − 2</span><span class="den">−5</span></span></p>
+      </div>
+      <canvas id="plot-simetrica" style="width:100%;height:320px;display:block;margin-top:12px;border:1px solid #ddd;border-radius:4px;"></canvas>
+
+      <div class="postit yellow sm postit-float">
+        <b>Ojo con esto</b>
+        La ecuación simétrica no existe si algún d₁ o d₂ es 0 (dividirías por cero) — en ese caso la recta es horizontal o vertical, y se usa directamente la forma general.
+      </div>
+
+      <h2>4. Ecuación implícita o general — a partir de un vector perpendicular</h2>
+      <p>Ahora cambiamos el dato: en vez de un vector <em>paralelo</em> a la recta, tenemos un punto <span class="math">P₀(x₀;y₀)</span> y un vector <span class="vec">n</span> = (n₁;n₂) <strong>perpendicular</strong> a la recta (en tu guía aparece como <span class="vec">ν</span>). Un punto genérico P(x;y) pertenece a la recta si y sólo si <span class="math">P₀P · </span><span class="vec">n</span><span class="math"> = 0</span> (producto escalar nulo, porque son perpendiculares). Desarrollando:</p>
+      <div class="box formula">
+        <span class="box-tag">Ecuación implícita o general</span>
+        r : Ax + By + C = 0, &nbsp;con A=n₁, B=n₂ &nbsp;(A y B no simultáneamente nulos)
+      </div>
+      <div class="box def">
+        <span class="box-tag">📌 Vector normal</span>
+        <p style="margin:0;">El vector <span class="vec">n</span> = (A;B), perpendicular a la recta, se llama <strong>vector normal</strong>. No es único: cualquier múltiplo escalar no nulo de un vector normal también es normal a la misma recta (mantiene la dirección).</p>
+      </div>
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplo — recta por P₀(1;3), perpendicular a n=(2;−4)</span>
+        <p style="margin:0;"><span class="math">(x−1;y−3)·(2;−4) = 0 ⇒ 2(x−1) −4(y−3) = 0 ⇒ r: 2x − 4y + 10 = 0</span></p>
+      </div>
+
+      <div class="widget">
+        <canvas id="plot-normal" cssHeight="360"></canvas>
+        <p class="widget-caption">La recta <span style="color:var(--ink-blue)">azul</span> y su vector normal <span style="color:var(--ink-purple)">morado</span>: siempre forman 90°, sin importar desde qué punto de la recta lo dibujes.</p>
+      </div>
+
+      <h3>Casos particulares de Ax+By+C=0</h3>
+      <p>Cuando alguno de los coeficientes es cero, la recta se vuelve horizontal, vertical, o pasa por el origen:</p>
+      <div class="widget">
+        <canvas id="plot-casos" cssHeight="320"></canvas>
+        <div class="widget-controls">
+          <button class="btn ghost" data-caso="A0">A = 0 → recta horizontal</button>
+          <button class="btn ghost" data-caso="B0">B = 0 → recta vertical</button>
+          <button class="btn ghost" data-caso="C0">C = 0 → pasa por el origen</button>
+        </div>
+        <p class="widget-caption" id="casos-note">Tocá un caso para verlo. Si A=0: r: By+C=0 (normal (0;B), paralela al eje x). Si B=0: r: Ax+C=0 (normal (A;0), paralela al eje y). Si C=0: r: Ax+By=0, pasa por el origen.</p>
+      </div>
+
+      <h2>5. Ecuación segmentaria</h2>
+      <p>Si una recta <span class="math">Ax+By+C=0</span> no es paralela a ningún eje y no pasa por el origen (A, B y C todos no nulos), dividiendo todo por −C y llamando <span class="math">p = −C/A</span>, <span class="math">q = −C/B</span> se obtiene:</p>
+      <div class="box formula">
+        <span class="box-tag">Ecuación segmentaria</span>
+        <span class="frac"><span class="num">x</span><span class="den">p</span></span> + <span class="frac"><span class="num">y</span><span class="den">q</span></span> = 1
+      </div>
+      <p><span class="math">p</span> es la <strong>abscisa al origen</strong> (dónde corta al eje x) y <span class="math">q</span> la <strong>ordenada al origen</strong> (dónde corta al eje y) — se leen directamente de la ecuación, sin cuentas.</p>
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplo — r: 4x+8y−2=0</span>
+        <p style="margin:0;">Dividiendo por 2: <span class="math">2x+4y=1</span>, es decir <span class="frac"><span class="num">x</span><span class="den">1/2</span></span> + <span class="frac"><span class="num">y</span><span class="den">1/4</span></span> = 1. La recta corta al eje x en <span class="math">P(1/2; 0)</span> y al eje y en <span class="math">Q(0; 1/4)</span>.</p>
+      </div>
+      <canvas id="plot-segmentaria" style="width:100%;height:320px;display:block;margin-top:12px;border:1px solid #ddd;border-radius:4px;"></canvas>
+
+      <h2>6. Ecuación explícita — pendiente y ordenada al origen</h2>
+      <p>Si en la forma general <span class="math">B≠0</span>, podés despejar y en función de x. Llamando <span class="math">m = −A/B</span> y <span class="math">b = −C/B</span>:</p>
+      <div class="box formula">
+        <span class="box-tag">Ecuación explícita</span>
+        r : y = mx + b
+      </div>
+      <p><span class="math">m</span> es la <strong>pendiente</strong> y <span class="math">b</span> la <strong>ordenada al origen</strong>: si x=0, y=b, así que la recta siempre corta al eje y en el punto (0;b).</p>
+
+      <div class="box def">
+        <span class="box-tag">📐 ¿Qué es geométricamente la pendiente?</span>
+        <p style="margin:0;">Es la tangente del <strong>ángulo de inclinación θ</strong> (el ángulo entre el eje x positivo y la recta, medido en sentido positivo, con 0 ≤ θ ≤ π):</p>
+        <p style="text-align:center;font-size:1.2rem;margin-top:8px;">m = tg θ</p>
+      </div>
+
+      <div class="box formula">
+        <span class="box-tag">Teorema — pendiente por dos puntos</span>
+        Si P₀(x₀;y₀) y P₁(x₁;y₁) son dos puntos distintos de una recta no vertical:
+        <p style="text-align:center;font-size:1.2rem;margin-top:8px;">m = <span class="frac"><span class="num">y₁ − y₀</span><span class="den">x₁ − x₀</span></span></p>
+      </div>
+
+      <div class="widget">
+        <canvas id="plot-pendiente" cssHeight="360"></canvas>
+        <div class="widget-controls">
+          <label>Arrastrá o probá m: <input type="range" id="ctrl-m" min="-3" max="3" step="0.1" value="1"></label>
+          <span>m = <span class="widget-readout" id="read-m">1,0</span></span>
+        </div>
+        <p class="widget-caption">La recta pasa siempre por (0;2). Con m&gt;0 sube de izquierda a derecha; con m&lt;0, baja; con m=0 es horizontal.</p>
+      </div>
+
+      <h2>7. Ecuación de la recta que pasa por dos puntos — punto-pendiente</h2>
+      <p>Combinando la fórmula de la pendiente con la idea de que un punto genérico P(x;y) debe dar la misma pendiente que P₀ y P₁, se llega a la ecuación <strong>punto-pendiente</strong>:</p>
+      <div class="box formula">
+        <span class="box-tag">Punto-pendiente</span>
+        y − y₀ = m(x − x₀)
+      </div>
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplo — recta por A(−1;3) y B(4;2)</span>
+        <p style="margin:0;">m = <span class="frac"><span class="num">2 − 3</span><span class="den">4 − (−1)</span></span> = <span class="frac"><span class="num">−1</span><span class="den">5</span></span>. Usando A: <span class="math">y − 3 = (−1/5)(x − (−1))</span>, que operando da la ecuación general <span class="math">x + 5y − 14 = 0</span>.</p>
+      </div>
+      <canvas id="plot-dospuntos" style="width:100%;height:320px;display:block;margin-top:12px;border:1px solid #ddd;border-radius:4px;"></canvas>
+
+      <div class="box def" style="margin-top:32px;">
+        <span class="box-tag">🗂️ Resumen — seis formas, un mismo objeto</span>
+        <table class="value-table" style="width:100%;">
+          <thead><tr><th>Forma</th><th>Ecuación</th><th>Dato que necesitás</th></tr></thead>
+          <tbody>
+            <tr><td>Vectorial</td><td class="math">(x;y)=(x₀;y₀)+λ(d₁;d₂)</td><td>punto + vector director</td></tr>
+            <tr><td>Cartesiana</td><td class="math">x=x₀+λd₁ ; y=y₀+λd₂</td><td>punto + vector director</td></tr>
+            <tr><td>Simétrica</td><td class="math">(x−x₀)/d₁ = (y−y₀)/d₂</td><td>punto + vector director (d₁,d₂≠0)</td></tr>
+            <tr><td>General/implícita</td><td class="math">Ax+By+C=0</td><td>punto + vector normal</td></tr>
+            <tr><td>Segmentaria</td><td class="math">x/p + y/q = 1</td><td>los dos cortes con los ejes</td></tr>
+            <tr><td>Explícita</td><td class="math">y=mx+b</td><td>pendiente + corte con eje y</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="postit-row">
+        <div class="postit green md">
+          <b>Todo está conectado</b>
+          De cualquiera de estas seis formas podés pasar a cualquier otra: son la misma recta, escrita con datos distintos. El módulo 2 usa sobre todo la forma general y la explícita.
+        </div>
+      </div>
+
+      <section class="quiz-section" id="quiz">
+        <div class="quiz-intro"><span class="pencil">📝</span><h2>Pon a prueba lo aprendido</h2></div>
+        <p class="quiz-progress">Respondé las preguntas y comprobá al toque. Podés reintentar las que falles.</p>
+        <div id="quiz-container"></div>
+      </section>
+
+      <nav class="page-nav">
+        <a class="corner prev" href="#"></a>
+        <a class="corner next" href="#"></a>
+      </nav>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/notebook.js"></script>
+<script src="js/plotter.js"></script>
+<script src="js/quiz.js"></script>
+<script>
+(function(){
+
+  // 1. Vectorial
+  const canvasV = document.getElementById('plot-vectorial');
+  const plotV = new NotebookPlot(canvasV, {xMin:-7, xMax:9, yMin:-4, yMax:8, xStep:1, yStep:1, cssHeight:360});
+  const P0 = {x:2, y:3};
+  const d = {x:3, y:1};
+  const sliderL = document.getElementById('ctrl-lambda');
+  const readL = document.getElementById('read-lambda');
+  const readP = document.getElementById('read-P');
+
+  function drawV(){
+    const lam = parseFloat(sliderL.value);
+    const P = {x:P0.x + lam*d.x, y:P0.y + lam*d.y};
+    plotV.clear(); plotV.drawGrid(); plotV.drawAxes();
+    plotV.lineThrough(P0.x, P0.y, d.x, d.y, {color:NB_INK.blueSoft, lineWidth:2.4, dash:[7,6]});
+    plotV.vector(P0.x, P0.y, d.x, d.y, {color:NB_INK.purple, label:'d', lineWidth:3});
+    plotV.point(P0.x, P0.y, {color:NB_INK.axis, r:6, label:'P₀(2;3)', labelDy:18});
+    plotV.point(P.x, P.y, {color:NB_INK.red, r:6, label:'P(λ)', labelDy:-12});
+    readL.textContent = lam.toFixed(2);
+    readP.textContent = `(${P.x.toFixed(2).replace('.',',')}; ${P.y.toFixed(2).replace('.',',')})`;
+  }
+  plotV.onRedraw(drawV);
+  sliderL.addEventListener('input', drawV);
+  document.querySelectorAll('[data-l]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ sliderL.value = btn.dataset.l; drawV(); });
+  });
+  drawV();
+
+  // 2. Cartesiana (cortes con ejes)
+  (function(){
+    const el = document.getElementById('plot-cartesiana');
+    const plot = new NotebookPlot(el, {xMin:-9, xMax:7, yMin:-3, yMax:6, xStep:1, yStep:1, cssHeight:320});
+    plot.clear(); plot.drawGrid(); plot.drawAxes();
+    plot.lineThrough(2, 3, 3, 1, {color:NB_INK.blue, lineWidth:3});
+    plot.point(2, 3, {color:NB_INK.axis, r:5, label:'P₀(2;3)', labelDy:16});
+    plot.point(-7, 0, {color:NB_INK.red, r:6, label:'(−7;0)', labelDy:16});
+    plot.point(0, 7/3, {color:NB_INK.green, r:6, label:'(0; 7/3)', labelDy:-10});
+  })();
+
+  // 3. Simétrica
+  (function(){
+    const el = document.getElementById('plot-simetrica');
+    const plot = new NotebookPlot(el, {xMin:-6, xMax:4, yMin:-6, yMax:4, xStep:1, yStep:1, cssHeight:320});
+    plot.clear(); plot.drawGrid(); plot.drawAxes();
+    plot.lineThrough(1, 2, -3, -5, {color:NB_INK.blue, lineWidth:3});
+    plot.vector(1, 2, -3, -5, {color:NB_INK.purple, label:'AB', lineWidth:2.6});
+    plot.point(1, 2, {color:NB_INK.axis, r:6, label:'A(1;2)', labelDy:-12});
+    plot.point(-2, -3, {color:NB_INK.red, r:6, label:'B(−2;−3)', labelDy:16});
+  })();
+
+  // 4. Normal
+  (function(){
+    const el = document.getElementById('plot-normal');
+    const plot = new NotebookPlot(el, {xMin:-4, xMax:6, yMin:-2, yMax:8, xStep:1, yStep:1, cssHeight:360});
+    plot.clear(); plot.drawGrid(); plot.drawAxes();
+    // recta 2x - 4y + 10 = 0  ->  d = (2,1) es paralela (perp. a n=(2,-4))
+    plot.lineThrough(1, 3, 2, 1, {color:NB_INK.blue, lineWidth:3});
+    plot.vector(1, 3, 2, -4, {color:NB_INK.purple, label:'n(2;−4)', lineWidth:3});
+    plot.point(1, 3, {color:NB_INK.axis, r:6, label:'P₀(1;3)', labelDy:18});
+  })();
+
+  // 5. Casos particulares
+  (function(){
+    const el = document.getElementById('plot-casos');
+    const plot = new NotebookPlot(el, {xMin:-6, xMax:6, yMin:-6, yMax:6, xStep:1, yStep:1, cssHeight:320});
+    const note = document.getElementById('casos-note');
+    function draw(caso){
+      plot.clear(); plot.drawGrid(); plot.drawAxes();
+      if(caso==='A0'){
+        plot.lineThrough(0, 2, 1, 0, {color:NB_INK.blue, lineWidth:3});
+        plot.vector(-3, 2, 0, 1.4, {color:NB_INK.purple, label:'n(0;B)'});
+        note.innerHTML = 'A=0 ⇒ r: By+C=0 (acá y=2). Normal (0;B), vertical ⇒ la recta es <strong>horizontal</strong>, paralela al eje x.';
+      } else if(caso==='B0'){
+        plot.lineThrough(2, 0, 0, 1, {color:NB_INK.blue, lineWidth:3});
+        plot.vector(2, -4, 1.4, 0, {color:NB_INK.purple, label:'n(A;0)'});
+        note.innerHTML = 'B=0 ⇒ r: Ax+C=0 (acá x=2). Normal (A;0), horizontal ⇒ la recta es <strong>vertical</strong>, paralela al eje y.';
+      } else {
+        plot.lineThrough(0, 0, 2, 1, {color:NB_INK.blue, lineWidth:3});
+        plot.point(0, 0, {color:NB_INK.axis, r:6, label:'origen', labelDy:16});
+        note.innerHTML = 'C=0 ⇒ r: Ax+By=0. No hay término independiente ⇒ la recta <strong>pasa por el origen</strong>.';
+      }
+    }
+    document.querySelectorAll('[data-caso]').forEach(btn=>{
+      btn.addEventListener('click', ()=>draw(btn.dataset.caso));
+    });
+    draw('A0');
+  })();
+
+  // 6. Segmentaria
+  (function(){
+    const el = document.getElementById('plot-segmentaria');
+    const plot = new NotebookPlot(el, {xMin:-1, xMax:2, yMin:-1, yMax:1.5, xStep:0.5, yStep:0.5, cssHeight:320});
+    plot.clear(); plot.drawGrid(); plot.drawAxes();
+    const p = 0.5, q = 0.25;
+    plot.lineThrough(p, 0, (0-p), (q-0), {color:NB_INK.blue, lineWidth:3});
+    plot.point(p, 0, {color:NB_INK.red, r:6, label:'P(1/2;0)', labelDy:16});
+    plot.point(0, q, {color:NB_INK.green, r:6, label:'Q(0;1/4)', labelDy:-10});
+  })();
+
+  // 7. Pendiente (m variable, pasa por (0,2))
+  (function(){
+    const el = document.getElementById('plot-pendiente');
+    const plot = new NotebookPlot(el, {xMin:-6, xMax:6, yMin:-6, yMax:6, xStep:1, yStep:1, cssHeight:360});
+    const slider = document.getElementById('ctrl-m');
+    const read = document.getElementById('read-m');
+    function draw(){
+      const m = parseFloat(slider.value);
+      plot.clear(); plot.drawGrid(); plot.drawAxes();
+      plot.lineThrough(0, 2, 1, m, {color:NB_INK.blue, lineWidth:3});
+      plot.point(0, 2, {color:NB_INK.axis, r:6, label:'b=2', labelDy:-10});
+      // triángulo de referencia
+      plot.segment(1, 2, 2, 2, {color:NB_INK.red, dash:[3,3], lineWidth:1.8});
+      plot.segment(2, 2, 2, 2+m, {color:NB_INK.red, dash:[3,3], lineWidth:1.8});
+      read.textContent = m.toFixed(1).replace('.',',');
+    }
+    plot.onRedraw(draw);
+    slider.addEventListener('input', draw);
+    draw();
+  })();
+
+  // 8. Dos puntos
+  (function(){
+    const el = document.getElementById('plot-dospuntos');
+    const plot = new NotebookPlot(el, {xMin:-4, xMax:6, yMin:-2, yMax:6, xStep:1, yStep:1, cssHeight:320});
+    plot.clear(); plot.drawGrid(); plot.drawAxes();
+    plot.lineThrough(-1, 3, 5, -1, {color:NB_INK.blue, lineWidth:3});
+    plot.point(-1, 3, {color:NB_INK.axis, r:6, label:'A(−1;3)', labelDy:-12});
+    plot.point(4, 2, {color:NB_INK.red, r:6, label:'B(4;2)', labelDy:16});
+  })();
+
+  NBQuiz('quiz-container', {
+    moduleId:7,
+    passScore:0.7,
+    questions:[
+      {
+        type:'mcq',
+        prompt:'¿Qué dato necesitás para escribir la ecuación paramétrica vectorial de una recta?',
+        options:[
+          'Un punto de paso y un vector perpendicular a la recta.',
+          'Un punto de paso y un vector paralelo (director) a la recta.',
+          'Dos vectores normales.',
+          'Solo la pendiente.'
+        ],
+        correct:1,
+        explain:'La ecuación vectorial (x;y)=(x₀;y₀)+λ(d₁;d₂) usa un punto P₀ y un vector director d, paralelo a la recta.'
+      },
+      {
+        type:'fill',
+        prompt:'Para la recta (x;y)=(2;3)+λ(3;1), si λ=1 el punto obtenido es (___;___). Escribilo como "x,y" (ej: 5,4).',
+        accept:['5,4','(5,4)','5;4','(5;4)'],
+        explain:'(x;y) = (2;3)+(1)(3;1) = (5;4).'
+      },
+      {
+        type:'tf',
+        prompt:'La ecuación simétrica de una recta se puede escribir siempre, sin importar los valores de d₁ y d₂.',
+        correct:false,
+        explain:'Falso: requiere d₁≠0 y d₂≠0, porque ambos aparecen como denominadores.'
+      },
+      {
+        type:'mcq',
+        prompt:'En la ecuación general Ax+By+C=0, el vector (A;B) es...',
+        options:[
+          'paralelo a la recta.',
+          'perpendicular (normal) a la recta.',
+          'siempre unitario.',
+          'el punto de paso de la recta.'
+        ],
+        correct:1,
+        explain:'(A;B) es el vector normal: perpendicular a la dirección de la recta, y no es único (cualquier múltiplo escalar no nulo también lo es).'
+      },
+      {
+        type:'mcq',
+        prompt:'Si en Ax+By+C=0 se cumple B=0 (con A≠0), la recta es...',
+        options:['horizontal','vertical','pasa por el origen','no puede determinarse'],
+        correct:1,
+        explain:'Queda r: Ax+C=0, cuyo vector normal (A;0) es horizontal, así que la recta es vertical (paralela al eje y).'
+      },
+      {
+        type:'mcq',
+        prompt:'En la ecuación segmentaria x/p + y/q = 1, ¿qué representan p y q?',
+        options:[
+          'La pendiente y la ordenada al origen.',
+          'Las componentes del vector director.',
+          'La abscisa al origen (corte con eje x) y la ordenada al origen (corte con eje y).',
+          'Dos puntos cualesquiera de la recta.'
+        ],
+        correct:2,
+        explain:'p es dónde la recta corta al eje x (con y=0) y q dónde corta al eje y (con x=0).'
+      },
+      {
+        type:'fill',
+        prompt:'En la ecuación explícita y=mx+b, si x=0 entonces y=___ (en términos de la propia ecuación).',
+        accept:['b'],
+        explain:'Reemplazando x=0: y=m·0+b=b. Por eso b es la ordenada al origen: el punto donde la recta corta al eje y es (0;b).'
+      },
+      {
+        type:'mcq',
+        prompt:'¿Cuál es la pendiente de la recta que pasa por A(−1;3) y B(4;2)?',
+        options:['5','−1/5','1/5','−5'],
+        correct:1,
+        explain:'m = (y₁−y₀)/(x₁−x₀) = (2−3)/(4−(−1)) = −1/5.'
+      },
+      {
+        type:'tf',
+        prompt:'La pendiente m de una recta es igual a la tangente de su ángulo de inclinación θ.',
+        correct:true,
+        explain:'Correcto: m = tg θ, donde θ es el ángulo entre el eje x positivo y la recta (0 ≤ θ ≤ π).'
+      }
+    ]
+  });
+})();
+</script>
+</body>
+</html>

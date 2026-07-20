@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3. Vectores en el plano · Cuaderno de Álgebra</title>
+<link rel="stylesheet" href="css/notebook.css">
+</head>
+<body data-module="3">
+
+<button id="index-tab" class="index-tab">📑 Índice</button>
+<div id="drawer-overlay" class="drawer-overlay"></div>
+<aside id="index-drawer" class="index-drawer"></aside>
+
+<div class="desk">
+  <main class="notebook-page">
+    <div class="spiral" aria-hidden="true"></div>
+    <div class="margin-line" aria-hidden="true"></div>
+
+    <div class="page-content">
+
+      <header class="page-header">
+        <span class="module-badge"><span class="dot"></span>Módulo 3 de 8</span>
+        <div class="progress-strip"></div>
+        <h1 class="underline-draw">Vectores en el plano
+          <svg viewBox="0 0 420 14" preserveAspectRatio="none"><path d="M4 9 Q 140 2, 416 8"/></svg>
+        </h1>
+        <p style="font-size:1.2rem;color:#4a453a;max-width:660px;">Un vector es más que una flecha: es <strong>toda</strong> flecha con la misma longitud y dirección, sin importar dónde la dibujes. Este módulo es la base de todo lo que sigue — el vector director y el vector normal del Módulo 4 son, ni más ni menos, vectores como los de acá.</p>
+      </header>
+
+      <div class="postit-row" style="justify-content:center;">
+        <div class="postit blue md">
+          <b>¿Sabías qué?</b>
+          En ingeniería civil, la tensión y la compresión en un puente se representan con vectores. En electrónica, los vectores ayudan a visualizar voltajes y corrientes al aplicar las Leyes de Kirchhoff.
+        </div>
+      </div>
+
+      <h2>1. Del segmento dirigido al vector</h2>
+      <p>Un <strong>segmento de recta dirigido</strong> <span class="math">PQ</span> va de un punto inicial P a un punto terminal Q. <span class="math">PQ</span> y <span class="math">QP</span> son distintos: apuntan en direcciones opuestas.</p>
+      <div class="box def">
+        <span class="box-tag">📌 Definición geométrica de vector</span>
+        <p style="margin:0;">Dos segmentos dirigidos son <strong>equivalentes</strong> si tienen la misma magnitud y dirección, sin importar dónde estén ubicados. Un <strong>vector</strong> es el conjunto de todos los segmentos dirigidos equivalentes a uno dado — cualquiera de ellos es una "representación" válida del vector.</p>
+      </div>
+      <p>Como cualquier representación sirve, conviene usar la que empieza en el origen: si trasladás <span class="math">PQ</span> paralelamente hasta que su punto inicial sea (0,0), su punto terminal queda en algún (a,b) — y ese par (a,b) alcanza para describir el vector entero.</p>
+      <div class="box def">
+        <span class="box-tag">📌 Definición algebraica de vector</span>
+        Un vector <span class="vec">v</span> en el plano es un par ordenado de números reales (a,b). El vector cero es (0,0).
+      </div>
+
+      <div class="widget">
+        <canvas id="plot-equivalentes" cssHeight="320"></canvas>
+        <p class="widget-caption">Las tres flechas moradas tienen la misma magnitud y dirección — son representaciones del <strong>mismo</strong> vector (2;3), aunque empiecen en puntos distintos. La que sale del origen (más gruesa) es la representación estándar.</p>
+      </div>
+
+      <h2>2. Magnitud y dirección</h2>
+      <div class="box formula">
+        <span class="box-tag">Magnitud (módulo o norma)</span>
+        |<span class="vec">v</span>| = √(a²+b²)
+      </div>
+      <div class="box formula">
+        <span class="box-tag">Dirección</span>
+        tg θ = b/a, &nbsp;con 0 ≤ θ &lt; 2π (el ángulo que forma con el eje x positivo)
+      </div>
+      <div class="box warn">
+        <span class="box-tag">⚠️ Ojo con la calculadora</span>
+        <p style="margin:0;">arctan siempre devuelve un ángulo entre −π/2 y π/2 (primer o cuarto cuadrante). Si el vector está en el segundo o tercer cuadrante, hay que <strong>sumarle π</strong> al resultado de la calculadora para obtener el θ correcto.</p>
+      </div>
+
+      <div class="widget">
+        <canvas id="plot-magdir" cssHeight="380"></canvas>
+        <div class="widget-controls">
+          <label>a: <input type="range" id="ctrl-va" min="-6" max="6" step="0.1" value="-2"></label>
+          <span>a = <span class="widget-readout" id="read-va">-2,0</span></span>
+        </div>
+        <div class="widget-controls">
+          <label>b: <input type="range" id="ctrl-vb" min="-6" max="6" step="0.1" value="3"></label>
+          <span>b = <span class="widget-readout" id="read-vb">3,0</span> &nbsp;|&nbsp; |v| = <span class="widget-readout" id="read-vmag">3,61</span> &nbsp;|&nbsp; θ = <span class="widget-readout" id="read-vtheta">123,7°</span></span>
+        </div>
+        <p class="widget-caption" id="magdir-note">Movés el vector y el cuaderno calcula su módulo, su ángulo y en qué cuadrante cae.</p>
+      </div>
+
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplos de la guía</span>
+        <p style="margin:0;">v=(2;2): |v|=2√2, θ=π/4 (1er cuadrante). &nbsp; v=(−2√3;2): |v|=4, θ=5π/6 (2º). &nbsp; v=(−3;−3): |v|=3√2, θ=5π/4 (3º). &nbsp; v=(6;−6): |v|=6√2, θ=7π/4 (4º).</p>
+      </div>
+
+      <h2>3. Suma de vectores</h2>
+      <p>Se suman componente a componente: <span class="vec">u</span>+<span class="vec">v</span> = (a₁+a₂; b₁+b₂). Geométricamente es la <strong>regla del paralelogramo</strong>: u+v es la diagonal del paralelogramo que forman u y v.</p>
+
+      <div class="widget">
+        <canvas id="plot-suma" cssHeight="380"></canvas>
+        <div class="widget-controls">
+          <label>u=(a₁;b₁) — a₁: <input type="range" id="ctrl-a1" min="-5" max="5" step="0.1" value="2"></label>
+          <span>a₁ = <span class="widget-readout" id="read-a1">2,0</span></span>
+        </div>
+        <div class="widget-controls">
+          <label>b₁: <input type="range" id="ctrl-b1" min="-5" max="5" step="0.1" value="3"></label>
+          <span>b₁ = <span class="widget-readout" id="read-b1">3,0</span></span>
+        </div>
+        <div class="widget-controls">
+          <label>v=(a₂;b₂) — a₂: <input type="range" id="ctrl-a2" min="-5" max="5" step="0.1" value="-5"></label>
+          <span>a₂ = <span class="widget-readout" id="read-a2">-5,0</span></span>
+        </div>
+        <div class="widget-controls">
+          <label>b₂: <input type="range" id="ctrl-b2" min="-5" max="5" step="0.1" value="4"></label>
+          <span>b₂ = <span class="widget-readout" id="read-b2">4,0</span> &nbsp;|&nbsp; u+v = <span class="widget-readout" id="read-suma">(-3,0; 7,0)</span></span>
+        </div>
+        <p class="widget-caption">u (morado) y v (rojo) forman un paralelogramo; su diagonal (verde) es u+v.</p>
+      </div>
+
+      <div class="box def">
+        <span class="box-tag">📌 Propiedades de la suma</span>
+        <p style="margin:0;">Cierre (u+v ∈ ℝ²), conmutativa (u+v=v+u), asociativa, existe neutro <span class="vec">0</span> (v+0=v) y existe opuesto −v tal que v+(−v)=0.</p>
+      </div>
+
+      <h2>4. Producto de un escalar por un vector</h2>
+      <div class="box formula">
+        <span class="box-tag">Definición</span>
+        α<span class="vec">v</span> = (αa; αb) &nbsp;·&nbsp; |α<span class="vec">v</span>| = |α|·|<span class="vec">v</span>|
+      </div>
+      <p>Multiplicar por un escalar cambia la <strong>longitud</strong> (se multiplica por |α|) y, según el signo, la <strong>dirección</strong>: si α&gt;0, α<span class="vec">v</span> apunta igual que <span class="vec">v</span>; si α&lt;0, apunta exactamente al revés (dirección + π).</p>
+
+      <div class="widget">
+        <canvas id="plot-escalar" cssHeight="360"></canvas>
+        <div class="widget-controls">
+          <label>α: <input type="range" id="ctrl-alpha" min="-3" max="3" step="0.1" value="1.5"></label>
+          <span>α = <span class="widget-readout" id="read-alpha">1,5</span> &nbsp;|&nbsp; αv = <span class="widget-readout" id="read-av">(3,0; 4,5)</span></span>
+        </div>
+        <p class="widget-caption" id="escalar-note">v=(2;3) fijo (rojo). Movés α y ves αv (morado): con α&gt;0 apunta igual, con α&lt;0 se da vuelta 180°.</p>
+      </div>
+
+      <h2>5. Vector opuesto y resta</h2>
+      <p>El opuesto de <span class="vec">v</span> es (−1)<span class="vec">v</span> = −<span class="vec">v</span>: misma longitud, dirección contraria. La resta se define a partir de la suma: <span class="vec">u</span>−<span class="vec">v</span> = <span class="vec">u</span>+(−<span class="vec">v</span>) — el vector que hay que sumarle a v para obtener u.</p>
+      <div class="box def">
+        <span class="box-tag">📌 Propiedades del módulo</span>
+        <ul style="margin:8px 0 0;padding-left:22px;">
+          <li>|<span class="vec">v</span>| ≥ 0 siempre.</li>
+          <li><strong>Desigualdad triangular:</strong> |<span class="vec">u</span>+<span class="vec">v</span>| ≤ |<span class="vec">u</span>|+|<span class="vec">v</span>| (ir directo nunca es más largo que ir por partes).</li>
+          <li>|α<span class="vec">v</span>| = |α|·|<span class="vec">v</span>|.</li>
+        </ul>
+      </div>
+
+      <h2>6. Vector unitario (versor)</h2>
+      <div class="box def">
+        <span class="box-tag">📌 Definición</span>
+        <span class="vec">u</span> es unitario ⇔ |<span class="vec">u</span>| = 1. El versor asociado a <span class="vec">v</span>≠0 se obtiene dividiendo por su propio módulo: <span class="vec">u</span> = <span class="vec">v</span>/|<span class="vec">v</span>| — misma dirección que v, longitud exactamente 1.
+      </div>
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplo</span>
+        <p style="margin:0;">Para v=2i−3j: |v|=√13, así que el versor es u=(2/√13; −3/√13).</p>
+      </div>
+
+      <h3>Vectores fundamentales i, j</h3>
+      <p><span class="vec">i</span>=(1;0) y <span class="vec">j</span>=(0;1) son unitarios y ninguno es múltiplo del otro. Cualquier vector se escribe como combinación de ambos:</p>
+      <div class="box formula">
+        <span class="box-tag">Componentes horizontal/vertical</span>
+        <span class="vec">v</span> = (a;b) = a<span class="vec">i</span> + b<span class="vec">j</span>
+      </div>
+      <p>Y como todo versor tiene módulo 1, se puede escribir en términos de su ángulo θ:</p>
+      <div class="box formula">
+        <span class="box-tag">Representación de un vector unitario</span>
+        <span class="vec">u</span> = (cos θ)<span class="vec">i</span> + (sen θ)<span class="vec">j</span>
+      </div>
+
+      <div class="widget">
+        <canvas id="plot-circulo" cssHeight="380"></canvas>
+        <div class="widget-controls">
+          <label>θ: <input type="range" id="ctrl-theta" min="0" max="6.283" step="0.01" value="1.0472"></label>
+          <span>θ = <span class="widget-readout" id="read-theta">60,0°</span> &nbsp;|&nbsp; u = <span class="widget-readout" id="read-u">(0,50; 0,87)</span></span>
+        </div>
+        <p class="widget-caption">A medida que θ recorre 0 a 2π, el versor u=(cosθ; senθ) recorre exactamente el círculo unitario — por eso |u| siempre da 1.</p>
+      </div>
+
+      <div class="box def" style="margin-top:32px;">
+        <span class="box-tag">🗂️ Resumen del módulo</span>
+        <ul style="margin:0;padding-left:22px;">
+          <li>Vector = par ordenado (a;b); todas sus representaciones tienen la misma magnitud y dirección.</li>
+          <li>|v|=√(a²+b²). Dirección: tg θ=b/a, ajustando el cuadrante (arctan no alcanza solo).</li>
+          <li>Suma: componente a componente (regla del paralelogramo). Resta: u−v=u+(−v).</li>
+          <li>αv=(αa;αb): escala la longitud por |α|, invierte la dirección si α&lt;0.</li>
+          <li>Versor de v: u=v/|v|, longitud 1, misma dirección. u=(cosθ)i+(senθ)j.</li>
+        </ul>
+      </div>
+
+      <div class="postit-row">
+        <div class="postit green md">
+          <b>Por qué importa</b>
+          El vector director y el vector normal del Módulo 4 son exactamente estos vectores: pares (a;b) con magnitud y dirección. Todo lo de acá se reutiliza tal cual.
+        </div>
+        <div class="postit pink md">
+          <b>Ojo con esto</b>
+          "Dirección de un vector" y "ángulo de inclinación de una recta" no son lo mismo: el vector tiene un único θ en [0,2π), mientras que una recta (que no tiene "sentido") usa un ángulo en [0,π).
+        </div>
+      </div>
+
+      <section class="quiz-section" id="quiz">
+        <div class="quiz-intro"><span class="pencil">📝</span><h2>Pon a prueba lo aprendido</h2></div>
+        <p class="quiz-progress">Respondé las preguntas y comprobá al toque. Podés reintentar las que falles.</p>
+        <div id="quiz-container"></div>
+      </section>
+
+      <nav class="page-nav">
+        <a class="corner prev" href="#"></a>
+        <a class="corner next" href="#"></a>
+      </nav>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/notebook.js"></script>
+<script src="js/plotter.js"></script>
+<script src="js/quiz.js"></script>
+<script>
+(function(){
+
+  // 1. Segmentos equivalentes
+  (function(){
+    const el = document.getElementById('plot-equivalentes');
+    const plot = new NotebookPlot(el, {xMin:-4, xMax:6, yMin:-3, yMax:6, xStep:1, yStep:1, cssHeight:320});
+    plot.clear(); plot.drawGrid(); plot.drawAxes();
+    plot.vector(0, 0, 2, 3, {color:NB_INK.purple, label:'(2;3)', lineWidth:3.4});
+    plot.vector(-3, -1, 2, 3, {color:NB_INK.purple, lineWidth:2, dash:[6,4]});
+    plot.vector(2, 1, 2, 3, {color:NB_INK.purple, lineWidth:2, dash:[6,4]});
+  })();
+
+  // 2. Magnitud y dirección
+  (function(){
+    const el = document.getElementById('plot-magdir');
+    const plot = new NotebookPlot(el, {xMin:-7, xMax:7, yMin:-7, yMax:7, xStep:1, yStep:1, cssHeight:380});
+    const sa = document.getElementById('ctrl-va'), sb = document.getElementById('ctrl-vb');
+    const ra = document.getElementById('read-va'), rb = document.getElementById('read-vb');
+    const rmag = document.getElementById('read-vmag'), rtheta = document.getElementById('read-vtheta');
+    const note = document.getElementById('magdir-note');
+
+    function draw(){
+      const a = parseFloat(sa.value), b = parseFloat(sb.value);
+      const mag = Math.sqrt(a*a+b*b);
+      let theta = Math.atan2(b,a);
+      if(theta < 0) theta += 2*Math.PI;
+      plot.clear(); plot.drawGrid(); plot.drawAxes();
+      plot.vector(0,0,a,b,{color:NB_INK.red, label:'v', lineWidth:3.4});
+      // arco de angulo
+      plot.ctx.save();
+      plot.ctx.strokeStyle = NB_INK.green;
+      plot.ctx.lineWidth = 2;
+      const center = plot.toPx(0,0);
+      const radiusPx = 34;
+      plot.ctx.beginPath();
+      plot.ctx.arc(center.x, center.y, radiusPx, -theta, 0, theta>0);
+      plot.ctx.stroke();
+      plot.ctx.restore();
+
+      ra.textContent = a.toFixed(1).replace('.',','); rb.textContent = b.toFixed(1).replace('.',',');
+      rmag.textContent = mag.toFixed(2).replace('.',',');
+      rtheta.textContent = (theta*180/Math.PI).toFixed(1).replace('.',',')+'°';
+
+      let cuad = 'sobre un eje';
+      if(a>0 && b>0) cuad = '1er cuadrante';
+      else if(a<0 && b>0) cuad = '2º cuadrante';
+      else if(a<0 && b<0) cuad = '3er cuadrante';
+      else if(a>0 && b<0) cuad = '4º cuadrante';
+      note.innerHTML = `v=(${a.toFixed(1).replace('.',',')}; ${b.toFixed(1).replace('.',',')}) está en el <strong>${cuad}</strong>.`;
+    }
+    plot.onRedraw(draw);
+    sa.addEventListener('input', draw);
+    sb.addEventListener('input', draw);
+    draw();
+  })();
+
+  // 3. Suma de vectores
+  (function(){
+    const el = document.getElementById('plot-suma');
+    const plot = new NotebookPlot(el, {xMin:-8, xMax:8, yMin:-4, yMax:9, xStep:1, yStep:1, cssHeight:380});
+    const s1 = document.getElementById('ctrl-a1'), s2 = document.getElementById('ctrl-b1');
+    const s3 = document.getElementById('ctrl-a2'), s4 = document.getElementById('ctrl-b2');
+    const r1 = document.getElementById('read-a1'), r2 = document.getElementById('read-b1');
+    const r3 = document.getElementById('read-a2'), r4 = document.getElementById('read-b2');
+    const rsuma = document.getElementById('read-suma');
+
+    function draw(){
+      const a1=parseFloat(s1.value), b1=parseFloat(s2.value);
+      const a2=parseFloat(s3.value), b2=parseFloat(s4.value);
+      const sx=a1+a2, sy=b1+b2;
+      plot.clear(); plot.drawGrid(); plot.drawAxes();
+
+      // paralelogramo
+      plot.ctx.save();
+      const pts = [[0,0],[a1,b1],[sx,sy],[a2,b2]].map(p=>plot.toPx(p[0],p[1]));
+      plot.ctx.beginPath();
+      plot.ctx.moveTo(pts[0].x,pts[0].y);
+      pts.slice(1).forEach(p=>plot.ctx.lineTo(p.x,p.y));
+      plot.ctx.closePath();
+      plot.ctx.fillStyle='rgba(35,62,130,.10)';
+      plot.ctx.fill();
+      plot.ctx.setLineDash([5,4]);
+      plot.ctx.strokeStyle = '#9a917c';
+      plot.ctx.lineWidth = 1.6;
+      plot.ctx.stroke();
+      plot.ctx.restore();
+
+      plot.vector(0,0,a1,b1,{color:NB_INK.purple, label:'u', lineWidth:3});
+      plot.vector(0,0,a2,b2,{color:NB_INK.red, label:'v', lineWidth:3});
+      plot.vector(0,0,sx,sy,{color:NB_INK.green, label:'u+v', lineWidth:3.4});
+
+      r1.textContent=a1.toFixed(1).replace('.',','); r2.textContent=b1.toFixed(1).replace('.',',');
+      r3.textContent=a2.toFixed(1).replace('.',','); r4.textContent=b2.toFixed(1).replace('.',',');
+      rsuma.textContent = `(${sx.toFixed(1).replace('.',',')}; ${sy.toFixed(1).replace('.',',')})`;
+    }
+    plot.onRedraw(draw);
+    [s1,s2,s3,s4].forEach(s=>s.addEventListener('input', draw));
+    draw();
+  })();
+
+  // 4. Escalar por vector
+  (function(){
+    const el = document.getElementById('plot-escalar');
+    const plot = new NotebookPlot(el, {xMin:-7, xMax:7, yMin:-7, yMax:7, xStep:1, yStep:1, cssHeight:360});
+    const slider = document.getElementById('ctrl-alpha');
+    const read = document.getElementById('read-alpha');
+    const readAv = document.getElementById('read-av');
+    const note = document.getElementById('escalar-note');
+    const v = {x:2, y:3};
+
+    function draw(){
+      const alpha = parseFloat(slider.value);
+      const av = {x: alpha*v.x, y: alpha*v.y};
+      plot.clear(); plot.drawGrid(); plot.drawAxes();
+      plot.vector(0,0,v.x,v.y,{color:NB_INK.red, label:'v', lineWidth:2.6, dash:[7,5]});
+      plot.vector(0,0,av.x,av.y,{color:NB_INK.purple, label:'αv', lineWidth:3.4});
+      read.textContent = alpha.toFixed(1).replace('.',',');
+      readAv.textContent = `(${av.x.toFixed(1).replace('.',',')}; ${av.y.toFixed(1).replace('.',',')})`;
+      if(Math.abs(alpha) < 0.05){
+        note.innerHTML = 'α≈0: αv es el vector nulo (un punto, sin dirección definida).';
+      } else if(alpha > 0){
+        note.innerHTML = `α=${alpha.toFixed(1).replace('.',',')}>0: αv tiene la <strong>misma dirección</strong> que v, con longitud ${Math.abs(alpha).toFixed(1).replace('.',',')} veces la de v.`;
+      } else {
+        note.innerHTML = `α=${alpha.toFixed(1).replace('.',',')}<0: αv apunta en <strong>dirección opuesta</strong> a v (θ+π), con longitud ${Math.abs(alpha).toFixed(1).replace('.',',')} veces la de v.`;
+      }
+    }
+    plot.onRedraw(draw);
+    slider.addEventListener('input', draw);
+    draw();
+  })();
+
+  // 5. Círculo unitario
+  (function(){
+    const el = document.getElementById('plot-circulo');
+    const plot = new NotebookPlot(el, {xMin:-1.6, xMax:1.6, yMin:-1.6, yMax:1.6, xStep:0.5, yStep:0.5, cssHeight:380});
+    const slider = document.getElementById('ctrl-theta');
+    const read = document.getElementById('read-theta');
+    const readU = document.getElementById('read-u');
+
+    function draw(){
+      const theta = parseFloat(slider.value);
+      const ux = Math.cos(theta), uy = Math.sin(theta);
+      plot.clear(); plot.drawGrid(); plot.drawAxes();
+      // circulo unitario
+      plot.ctx.save();
+      const c = plot.toPx(0,0);
+      const rpx = Math.abs(plot.toPx(1,0).x - c.x);
+      plot.ctx.strokeStyle = NB_INK.blueSoft;
+      plot.ctx.lineWidth = 2;
+      plot.ctx.beginPath();
+      plot.ctx.arc(c.x, c.y, rpx, 0, Math.PI*2);
+      plot.ctx.stroke();
+      plot.ctx.restore();
+
+      plot.vector(0,0,ux,uy,{color:NB_INK.red, label:'u', lineWidth:3});
+      plot.point(ux,uy,{color:NB_INK.red, r:5});
+
+      read.textContent = (theta*180/Math.PI).toFixed(1).replace('.',',')+'°';
+      readU.textContent = `(${ux.toFixed(2).replace('.',',')}; ${uy.toFixed(2).replace('.',',')})`;
+    }
+    plot.onRedraw(draw);
+    slider.addEventListener('input', draw);
+    draw();
+  })();
+
+  NBQuiz('quiz-container', {
+    moduleId:3,
+    passScore:0.7,
+    questions:[
+      {
+        type:'tf',
+        prompt:'Los segmentos dirigidos PQ y QP tienen la misma dirección.',
+        correct:false,
+        explain:'Falso: apuntan en direcciones opuestas, aunque unan los mismos dos puntos.'
+      },
+      {
+        type:'mcq',
+        prompt:'¿Cómo se define algebraicamente un vector en el plano?',
+        options:['Como un segmento de recta dirigido entre dos puntos','Como un par ordenado de números reales (a,b)','Como un escalar que representa magnitud y dirección','Como un punto en el origen'],
+        correct:1,
+        explain:'Un vector es un par ordenado (a,b); a y b son sus componentes.'
+      },
+      {
+        type:'fill',
+        prompt:'La magnitud del vector v=(3;−4) es ___.',
+        accept:['5'],
+        explain:'|v|=√(3²+(−4)²)=√(9+16)=√25=5.'
+      },
+      {
+        type:'mcq',
+        prompt:'El vector v=(−2;√3) se encuentra en el...',
+        options:['1er cuadrante','2º cuadrante','3er cuadrante','4º cuadrante'],
+        correct:1,
+        explain:'a<0 y b>0 ⇒ segundo cuadrante.'
+      },
+      {
+        type:'tf',
+        prompt:'La suma de dos vectores en el plano se obtiene sumando sus componentes correspondientes.',
+        correct:true,
+        explain:'Correcto: u+v=(a₁+a₂; b₁+b₂), lo que geométricamente equivale a la regla del paralelogramo.'
+      },
+      {
+        type:'mcq',
+        prompt:'¿Qué efecto tiene multiplicar un vector por un escalar negativo?',
+        options:['Cambia su magnitud, pero no su dirección','Cambia su dirección, pero no su magnitud','Cambia su magnitud y la invierte de dirección','No tiene efecto'],
+        correct:2,
+        explain:'|αv|=|α||v| (cambia la magnitud) y, si α<0, la dirección se invierte (θ+π).'
+      },
+      {
+        type:'tf',
+        prompt:'El módulo de la suma de dos vectores es siempre igual a la suma de sus módulos.',
+        correct:false,
+        explain:'Falso: la desigualdad triangular dice que |u+v| ≤ |u|+|v| — es "menor o igual", no siempre igual.'
+      },
+      {
+        type:'mcq',
+        prompt:'Un vector unitario (versor) se caracteriza por...',
+        options:['tener todas sus componentes iguales a 1','tener módulo igual a 1','ser siempre igual a i o a j','no tener dirección definida'],
+        correct:1,
+        explain:'Un vector es unitario si y sólo si su módulo (longitud) es exactamente 1.'
+      },
+      {
+        type:'fill',
+        prompt:'El versor asociado a un vector v≠0 se calcula como u = v / ___.',
+        accept:['|v|','modulo de v','módulo de v','norma de v'],
+        explain:'u=v/|v|: se divide el vector por su propio módulo para obtener uno de longitud 1 en la misma dirección.'
+      },
+      {
+        type:'mcq',
+        prompt:'¿Cuál es la representación de un vector unitario u en términos de su dirección θ?',
+        options:['(cosθ, sinθ)','(sinθ, cosθ)','(tanθ, −tanθ)','(−cosθ, −sinθ)'],
+        correct:0,
+        explain:'u=(cosθ)i+(senθ)j: el punto terminal de un versor siempre cae sobre el círculo unitario.'
+      }
+    ]
+  });
+})();
+</script>
+</body>
+</html>

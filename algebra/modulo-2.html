@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2. Propiedades de los determinantes y Regla de Cramer · Cuaderno de Álgebra</title>
+<link rel="stylesheet" href="css/notebook.css">
+</head>
+<body data-module="2">
+
+<button id="index-tab" class="index-tab">📑 Índice</button>
+<div id="drawer-overlay" class="drawer-overlay"></div>
+<aside id="index-drawer" class="index-drawer"></aside>
+
+<div class="desk">
+  <main class="notebook-page">
+    <div class="spiral" aria-hidden="true"></div>
+    <div class="margin-line" aria-hidden="true"></div>
+
+    <div class="page-content">
+
+      <header class="page-header">
+        <span class="module-badge"><span class="dot"></span>Módulo 2 de 8</span>
+        <div class="progress-strip"></div>
+        <h1 class="underline-draw">Propiedades de los determinantes y Regla de Cramer
+          <svg viewBox="0 0 700 14" preserveAspectRatio="none"><path d="M4 9 Q 220 2, 696 8"/></svg>
+        </h1>
+        <p style="font-size:1.2rem;color:#4a453a;max-width:660px;">Calcular un determinante grande a fuerza de cofactores es lento. Estas propiedades permiten <strong>simplificar la matriz primero</strong> (con operaciones de fila) y recién después calcular — y además resuelven sistemas de ecuaciones directamente, sin despejar nada, con la <strong>Regla de Cramer</strong>.</p>
+      </header>
+
+      <h2>1. Determinante de un producto</h2>
+      <div class="box formula">
+        <span class="box-tag">Teorema 4</span>
+        det(AB) = det(A) · det(B)
+      </div>
+      <p>El determinante del producto de matrices es el producto de los determinantes — aunque a la izquierda hay un producto de <em>matrices</em> y a la derecha un producto de <em>escalares</em>.</p>
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplo</span>
+        <p style="margin:0;">Con det A = 16 y det B = −8, se cumple det(AB) = −128 = (16)(−8) = det A · det B.</p>
+      </div>
+
+      <div class="box warn">
+        <span class="box-tag">⚠️ Importante — la suma NO se comporta igual</span>
+        <p style="margin:0;">En general, <span class="math">det(A+B) ≠ det A + det B</span>.</p>
+        <p style="margin-top:8px;">Con A=(1 2; 3 4) y B=(3 0; −2 2): A+B=(4 2; 1 6). det A=−2, det B=6, pero det(A+B)=22, mientras que det A + det B = −2+6 = 4. Son distintos.</p>
+      </div>
+
+      <h2>2. Determinante de la transpuesta</h2>
+      <div class="box formula">
+        <span class="box-tag">Teorema 5</span>
+        det(Aᵀ) = det(A)
+      </div>
+      <p>Trasponer (cambiar filas por columnas) no altera el determinante. Por ejemplo, con A=(1 −1 2; 3 1 4; 0 −2 5), det A = 16, y su transpuesta Aᵀ=(1 3 0; −1 1 −2; 2 4 5) también da det Aᵀ = 16.</p>
+
+      <h2>3. Expansión por cualquier fila o columna</h2>
+      <div class="box formula">
+        <span class="box-tag">Teorema 6</span>
+        det A = <span class="math">Σₖ aᵢₖAᵢₖ</span> (expandiendo por la fila i) &nbsp;=&nbsp; <span class="math">Σₖ aₖⱼAₖⱼ</span> (expandiendo por la columna j)
+      </div>
+      <p>No hace falta expandir siempre por la primera fila (como en el Módulo 1): <strong>cualquier</strong> fila o columna da el mismo resultado. Conviene elegir la que tenga más ceros.</p>
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplo — misma matriz, dos expansiones distintas</span>
+        <p style="margin:0;">A=(4 7 −2; 3 −5 1; −8 6 9). Expandiendo por la <strong>segunda fila</strong>: det A = (3)A₂₁+(−5)A₂₂+(1)A₂₃ = −405. Expandiendo por la <strong>tercera columna</strong>: det A = (−2)A₁₃+(1)A₂₃+(9)A₃₃ = −405. Mismo resultado por dos caminos distintos.</p>
+      </div>
+
+      <h2>4. Laboratorio de propiedades</h2>
+      <p>Las próximas cinco propiedades son las que en la práctica <strong>simplifican cuentas</strong>. En vez de memorizarlas sueltas, probalas sobre la misma matriz de la guía: A=(1 −1 2; 3 1 4; 0 −2 5), con det A = 16.</p>
+
+      <div class="widget">
+        <canvas id="plot-lab" cssHeight="320"></canvas>
+        <div class="widget-controls">
+          <span>det actual = <span class="widget-readout" id="lab-det">16</span></span>
+        </div>
+        <div class="widget-controls">
+          <button class="btn ghost" data-op="swap">🔀 Intercambiar F1↔F3</button>
+          <button class="btn ghost" data-op="scale">✖️ Multiplicar F2 ×4</button>
+          <button class="btn ghost" data-op="addrow">➕ Sumar 4×F3 a F2</button>
+          <button class="btn secondary" data-op="reset">↺ Volver a la matriz original</button>
+        </div>
+        <div class="widget-controls">
+          <span style="font-family:var(--font-note);font-size:.9rem;color:#6b6252;">Casos con det = 0:</span>
+          <button class="btn ghost" data-op="zero">Fila de ceros</button>
+          <button class="btn ghost" data-op="equal">Dos filas iguales</button>
+          <button class="btn ghost" data-op="prop">Fila proporcional</button>
+        </div>
+        <p class="widget-caption" id="lab-note">Tocá una operación y mirá qué le pasa al determinante.</p>
+      </div>
+
+      <div class="box def">
+        <span class="box-tag">📌 Propiedad 1</span>
+        Si una fila o columna de A es el vector cero, det A = 0.
+      </div>
+      <div class="box def">
+        <span class="box-tag">📌 Propiedad 2</span>
+        Si una fila o columna de A se multiplica por un escalar c, det A queda multiplicado por c.
+      </div>
+      <div class="box def">
+        <span class="box-tag">📌 Propiedad 3 — linealidad en una columna</span>
+        <p style="margin:0;">Si A, B y C son iguales salvo en la columna j, y esa columna de C es la suma de las columnas j de A y de B, entonces det C = det A + det B.</p>
+        <p style="margin-top:8px;font-size:.95rem;">Ejemplo: con A y B iguales salvo su columna 2, si det A=16 y det B=108, la matriz C con columna 2 = (columna 2 de A) + (columna 2 de B) da det C = 124 = 16+108.</p>
+      </div>
+      <div class="box def">
+        <span class="box-tag">📌 Propiedad 4</span>
+        Intercambiar dos filas (o columnas) distintas multiplica det A por −1.
+      </div>
+      <div class="box def">
+        <span class="box-tag">📌 Propiedad 5</span>
+        Si A tiene dos filas o columnas iguales, det A = 0.
+      </div>
+      <div class="box def">
+        <span class="box-tag">📌 Propiedad 6</span>
+        Si una fila (columna) es múltiplo escalar de otra, det A = 0.
+      </div>
+      <div class="box def">
+        <span class="box-tag">📌 Propiedad 7 — la más usada para simplificar</span>
+        Sumar a una fila (columna) un múltiplo escalar de otra fila (columna) <strong>no cambia</strong> el determinante.
+      </div>
+
+      <div class="box def">
+        <span class="box-tag">🎯 La estrategia general</span>
+        <p style="margin:0;">Usando sobre todo la Propiedad 7 (que no cambia nada), se van haciendo ceros hasta que:</p>
+        <ol style="margin:8px 0 0;padding-left:22px;">
+          <li>aparece una fila o columna de ceros, o una fila múltiplo de otra ⇒ det = 0 directamente, o</li>
+          <li>la matriz queda triangular ⇒ det = producto de la diagonal (Módulo 1).</li>
+        </ol>
+        <p style="margin-top:8px;font-size:.95rem;">Así se evita calcular varios determinantes de 3×3 para resolver uno de 4×4 o 5×5.</p>
+      </div>
+
+      <h2>5. Determinantes e inversas</h2>
+      <div class="box formula">
+        <span class="box-tag">Teorema 7</span>
+        Si A es invertible, entonces det A ≠ 0, y det(A⁻¹) = 1/det(A).
+      </div>
+      <div class="box def">
+        <span class="box-tag">🔑 Teorema resumen (siete afirmaciones equivalentes)</span>
+        <p style="margin:0;">Para una matriz A de n×n, estas siete afirmaciones son todas equivalentes entre sí (si una es cierta, todas lo son):</p>
+        <ol style="margin:8px 0 0;padding-left:22px;font-size:.95rem;">
+          <li>A es invertible.</li>
+          <li>La única solución de Ax=0 es x=0 (solución trivial).</li>
+          <li>Ax=b tiene solución única para cada vector b.</li>
+          <li>A es equivalente por filas a la identidad Iₙ.</li>
+          <li>A es producto de matrices elementales.</li>
+          <li>La forma escalonada de A tiene n pivotes.</li>
+          <li><strong>det A ≠ 0.</strong></li>
+        </ol>
+      </div>
+
+      <h2>6. Regla de Cramer</h2>
+      <p>Si det A ≠ 0, el sistema Ax=b tiene una única solución que se calcula sin despejar variables — reemplazando columnas por el vector b:</p>
+      <div class="box formula">
+        <span class="box-tag">Teorema 8 — Regla de Cramer</span>
+        <span class="math">xᵢ = Dᵢ / D</span>, donde D = det(A) y Dᵢ = det(A con la columna i reemplazada por b)
+      </div>
+
+      <div class="widget">
+        <canvas id="plot-cramer" cssHeight="260"></canvas>
+        <div class="widget-controls">
+          <label>b₁: <input type="range" id="ctrl-b1" min="-30" max="30" step="1" value="18"></label>
+          <span>b₁ = <span class="widget-readout" id="read-b1">18</span></span>
+        </div>
+        <div class="widget-controls">
+          <label>b₂: <input type="range" id="ctrl-b2" min="-30" max="30" step="1" value="24"></label>
+          <span>b₂ = <span class="widget-readout" id="read-b2">24</span></span>
+        </div>
+        <div class="widget-controls">
+          <label>b₃: <input type="range" id="ctrl-b3" min="-30" max="30" step="1" value="4"></label>
+          <span>b₃ = <span class="widget-readout" id="read-b3">4</span></span>
+        </div>
+        <p class="widget-caption" id="cramer-note">La matriz A = (2 4 6; 4 5 6; 3 1 −2) queda fija (D=6, siempre el mismo). Movés b y se recalculan D₁, D₂, D₃ y la solución.</p>
+      </div>
+
+      <div class="box example">
+        <span class="box-tag">✏️ Valores por defecto — sistema de la guía</span>
+        <p style="margin:0;">2x₁+4x₂+6x₃=18 &nbsp;·&nbsp; 4x₁+5x₂+6x₃=24 &nbsp;·&nbsp; 3x₁+x₂−2x₃=4. D=6, D₁=24, D₂=−12, D₃=18 ⇒ x₁=4, x₂=−2, x₃=3.</p>
+      </div>
+
+      <div class="box def" style="margin-top:32px;">
+        <span class="box-tag">🗂️ Resumen del módulo</span>
+        <ul style="margin:0;padding-left:22px;">
+          <li>det(AB)=det A·det B, pero det(A+B)≠det A+det B en general.</li>
+          <li>det(Aᵀ)=det A. Se puede expandir por cualquier fila o columna.</li>
+          <li>Fila/columna de ceros, filas iguales o proporcionales ⇒ det=0.</li>
+          <li>Escalar × fila ⇒ det × ese escalar. Intercambiar filas ⇒ det cambia de signo.</li>
+          <li>Sumar un múltiplo de una fila a otra ⇒ det no cambia (clave para simplificar antes de calcular).</li>
+          <li>A invertible ⇔ det A ≠ 0 (una de siete afirmaciones equivalentes).</li>
+          <li>Cramer: xᵢ = Dᵢ/D, sin despejar variables, siempre que det A ≠ 0.</li>
+        </ul>
+      </div>
+
+      <div class="postit-row">
+        <div class="postit yellow md">
+          <b>Por qué importa</b>
+          Estas propiedades son la base de la "reducción por filas": la técnica que de verdad se usa para matrices grandes, en vez de la expansión por cofactores a mano.
+        </div>
+        <div class="postit pink md">
+          <b>Ojo con esto</b>
+          Cramer sólo funciona si det A ≠ 0. Si det A = 0, el sistema no tiene solución única (puede no tener solución, o tener infinitas) y hay que resolverlo por otro método.
+        </div>
+      </div>
+
+      <section class="quiz-section" id="quiz">
+        <div class="quiz-intro"><span class="pencil">📝</span><h2>Pon a prueba lo aprendido</h2></div>
+        <p class="quiz-progress">Respondé las preguntas y comprobá al toque. Podés reintentar las que falles.</p>
+        <div id="quiz-container"></div>
+      </section>
+
+      <nav class="page-nav">
+        <a class="corner prev" href="#"></a>
+        <a class="corner next" href="#"></a>
+      </nav>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/notebook.js"></script>
+<script src="js/plotter.js"></script>
+<script src="js/quiz.js"></script>
+<script>
+(function(){
+
+  function det3(M){
+    return M[0][0]*(M[1][1]*M[2][2]-M[1][2]*M[2][1])
+         - M[0][1]*(M[1][0]*M[2][2]-M[1][2]*M[2][0])
+         + M[0][2]*(M[1][0]*M[2][1]-M[1][1]*M[2][0]);
+  }
+
+  function renderMatrix(plot, M, highlightRows){
+    plot.clear();
+    const n = M.length;
+    for(let i=0;i<n;i++){
+      for(let j=0;j<n;j++){
+        const p1 = plot.toPx(j, -i), p2 = plot.toPx(j+1, -i-1);
+        const dimmed = highlightRows && highlightRows.includes(i);
+        plot.ctx.save();
+        if(dimmed){
+          plot.ctx.fillStyle = 'rgba(182,57,47,.15)';
+          plot.ctx.fillRect(Math.min(p1.x,p2.x), Math.min(p1.y,p2.y), Math.abs(p2.x-p1.x), Math.abs(p2.y-p1.y));
+        }
+        plot.ctx.strokeStyle = '#cabf9e';
+        plot.ctx.lineWidth = 1.4;
+        plot.ctx.strokeRect(Math.min(p1.x,p2.x), Math.min(p1.y,p2.y), Math.abs(p2.x-p1.x), Math.abs(p2.y-p1.y));
+        plot.ctx.restore();
+        plot.text(j+0.5, -i-0.38, String(M[i][j]), {align:'center', size:16, color: dimmed? '#b6392f':'#2a2622'});
+      }
+    }
+  }
+
+  // 4. Laboratorio de propiedades
+  (function(){
+    const el = document.getElementById('plot-lab');
+    const plot = new NotebookPlot(el, {xMin:-0.5, xMax:3.5, yMin:-3.5, yMax:0.5, xStep:1, yStep:1, cssHeight:320, showGrid:false});
+    const original = [[1,-1,2],[3,1,4],[0,-2,5]];
+    let M = original.map(r=>r.slice());
+    let lastDet = det3(M);
+    const readDet = document.getElementById('lab-det');
+    const note = document.getElementById('lab-note');
+
+    function draw(highlightRows, msg){
+      const d = det3(M);
+      plot.clear();
+      renderMatrix(plot, M, highlightRows);
+      readDet.textContent = d;
+      if(msg) note.innerHTML = msg(d, lastDet);
+      lastDet = d;
+    }
+
+    document.querySelectorAll('[data-op]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const op = btn.dataset.op;
+        if(op==='swap'){
+          const tmp = M[0]; M[0]=M[2]; M[2]=tmp;
+          draw([0,2], (d,prev)=>`<strong>Propiedad 4:</strong> intercambiar F1↔F3 cambió det de ${prev} a ${d} — el signo se invirtió.`);
+        } else if(op==='scale'){
+          M[1] = M[1].map(v=>v*4);
+          draw([1], (d,prev)=>`<strong>Propiedad 2:</strong> multiplicar F2 ×4 llevó el determinante de ${prev} a ${d} = 4×${prev}.`);
+        } else if(op==='addrow'){
+          M[1] = M[1].map((v,k)=>v+4*M[2][k]);
+          draw([1,2], (d,prev)=>`<strong>Propiedad 7:</strong> sumar 4×F3 a F2 dejó el determinante <strong>igual</strong>: ${prev} → ${d}.`);
+        } else if(op==='zero'){
+          M = [[1,-1,2],[0,0,0],[0,-2,5]];
+          draw([1], (d)=>`<strong>Propiedad 1:</strong> la fila 2 es toda ceros ⇒ det = ${d}.`);
+        } else if(op==='equal'){
+          M = [[1,-1,2],[1,-1,2],[0,-2,5]];
+          draw([0,1], (d)=>`<strong>Propiedad 5:</strong> F1 y F2 son iguales ⇒ det = ${d}.`);
+        } else if(op==='prop'){
+          M = [[1,-1,2],[2,-2,4],[0,-2,5]];
+          draw([0,1], (d)=>`<strong>Propiedad 6:</strong> F2 = 2×F1 (proporcional) ⇒ det = ${d}.`);
+        } else if(op==='reset'){
+          M = original.map(r=>r.slice());
+          draw(null, (d)=>`Matriz original: det A = ${d}. Elegí una operación para ver qué le pasa.`);
+        }
+      });
+    });
+    draw(null, (d)=>`Matriz original: det A = ${d}. Elegí una operación para ver qué le pasa.`);
+  })();
+
+  // 6. Regla de Cramer interactiva
+  (function(){
+    const el = document.getElementById('plot-cramer');
+    const plot = new NotebookPlot(el, {xMin:-0.5, xMax:3.5, yMin:-3.5, yMax:0.5, xStep:1, yStep:1, cssHeight:260, showGrid:false});
+    const A = [[2,4,6],[4,5,6],[3,1,-2]];
+    const D = det3(A);
+    const s1 = document.getElementById('ctrl-b1'), s2 = document.getElementById('ctrl-b2'), s3 = document.getElementById('ctrl-b3');
+    const r1 = document.getElementById('read-b1'), r2 = document.getElementById('read-b2'), r3 = document.getElementById('read-b3');
+    const note = document.getElementById('cramer-note');
+
+    function withColumn(M, col, vec){
+      return M.map((row,i)=> row.map((v,j)=> j===col? vec[i] : v));
+    }
+
+    function draw(){
+      const b = [parseFloat(s1.value), parseFloat(s2.value), parseFloat(s3.value)];
+      r1.textContent = b[0]; r2.textContent = b[1]; r3.textContent = b[2];
+      const D1 = det3(withColumn(A,0,b));
+      const D2 = det3(withColumn(A,1,b));
+      const D3 = det3(withColumn(A,2,b));
+      plot.clear();
+      renderMatrix(plot, A, null);
+      if(D===0){
+        note.innerHTML = 'D=0: la Regla de Cramer no se puede aplicar (el sistema no tiene solución única).';
+        return;
+      }
+      const x1 = D1/D, x2 = D2/D, x3 = D3/D;
+      note.innerHTML = `D=${D} (fijo) &nbsp;·&nbsp; D₁=${D1}, D₂=${D2}, D₃=${D3} &nbsp;·&nbsp; x₁=${x1.toFixed(2)}, x₂=${x2.toFixed(2)}, x₃=${x3.toFixed(2)}.`;
+    }
+    plot.onRedraw(draw);
+    [s1,s2,s3].forEach(s=>s.addEventListener('input', draw));
+    draw();
+  })();
+
+  NBQuiz('quiz-container', {
+    moduleId:2,
+    passScore:0.7,
+    questions:[
+      {
+        type:'mcq',
+        prompt:'Si det A = 5 y det B = 3, ¿cuánto vale det(AB)?',
+        options:['8','15','2','no se puede saber sin las matrices'],
+        correct:1,
+        explain:'Teorema 4: det(AB) = det A · det B = 5·3 = 15.'
+      },
+      {
+        type:'tf',
+        prompt:'det(A+B) siempre es igual a det A + det B.',
+        correct:false,
+        explain:'Falso en general: el determinante no se distribuye sobre la suma de matrices completas (sí se cumple, bajo ciertas condiciones, columna por columna — Propiedad 3).'
+      },
+      {
+        type:'mcq',
+        prompt:'¿Cuál es la relación entre det A y det(Aᵀ)?',
+        options:['det(Aᵀ) = −det A','det(Aᵀ) = det A','det(Aᵀ) = 1/det A','no tienen relación'],
+        correct:1,
+        explain:'Teorema 5: trasponer una matriz no cambia su determinante.'
+      },
+      {
+        type:'tf',
+        prompt:'Para calcular un determinante por cofactores, siempre hay que expandir por la primera fila.',
+        correct:false,
+        explain:'Falso: se puede expandir por cualquier fila o columna (Teorema 6); conviene elegir la que tenga más ceros.'
+      },
+      {
+        type:'mcq',
+        prompt:'Si una matriz tiene dos filas iguales, su determinante es...',
+        options:['1','0','igual al producto de esas filas','no se puede calcular'],
+        correct:1,
+        explain:'Propiedad 5: filas o columnas iguales implican determinante 0.'
+      },
+      {
+        type:'mcq',
+        prompt:'Si se multiplica una fila de A por 3, el nuevo determinante es...',
+        options:['igual al original','el original multiplicado por 3','el original multiplicado por 9','el original dividido por 3'],
+        correct:1,
+        explain:'Propiedad 2: escalar por fila (o columna) multiplica el determinante por ese mismo escalar.'
+      },
+      {
+        type:'mcq',
+        prompt:'¿Qué le pasa al determinante si sumás a una fila un múltiplo escalar de otra fila?',
+        options:['se anula','cambia de signo','no cambia','se multiplica por el escalar usado'],
+        correct:2,
+        explain:'Propiedad 7: es la operación de fila que no altera el determinante — la base de la reducción por filas.'
+      },
+      {
+        type:'tf',
+        prompt:'Si det A ≠ 0, entonces A es invertible.',
+        correct:true,
+        explain:'Es el Teorema resumen: det A ≠ 0 es una de las siete condiciones equivalentes a que A sea invertible.'
+      },
+      {
+        type:'mcq',
+        prompt:'En la Regla de Cramer, xᵢ se calcula como...',
+        options:['det(A)/Dᵢ','Dᵢ/det(A), reemplazando la columna i de A por b','Dᵢ · det(A)','el cofactor Aᵢᵢ'],
+        correct:1,
+        explain:'xᵢ = Dᵢ/D, donde D=det A y Dᵢ es el determinante de A con su columna i reemplazada por el vector b.'
+      },
+      {
+        type:'fill',
+        prompt:'La Regla de Cramer sólo puede aplicarse si det A es distinto de ___.',
+        accept:['0','cero'],
+        explain:'Si det A = 0 no hay solución única, así que no se puede dividir por D.'
+      }
+    ]
+  });
+})();
+</script>
+</body>
+</html>

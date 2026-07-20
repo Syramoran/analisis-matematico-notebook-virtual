@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>5. Vectores en el espacio (R³) · Cuaderno de Álgebra</title>
+<link rel="stylesheet" href="css/notebook.css">
+</head>
+<body data-module="5">
+
+<button id="index-tab" class="index-tab">📑 Índice</button>
+<div id="drawer-overlay" class="drawer-overlay"></div>
+<aside id="index-drawer" class="index-drawer"></aside>
+
+<div class="desk">
+  <main class="notebook-page">
+    <div class="spiral" aria-hidden="true"></div>
+    <div class="margin-line" aria-hidden="true"></div>
+
+    <div class="page-content">
+
+      <header class="page-header">
+        <span class="module-badge"><span class="dot"></span>Módulo 5 de 8</span>
+        <div class="progress-strip"></div>
+        <h1 class="underline-draw">Vectores en el espacio (R³)
+          <svg viewBox="0 0 480 14" preserveAspectRatio="none"><path d="M4 9 Q 160 2, 476 8"/></svg>
+        </h1>
+        <p style="font-size:1.2rem;color:#4a453a;max-width:660px;">Todo lo de los Módulos 3 y 4 —magnitud, suma, producto escalar, ángulo, paralelismo, proyección— se traslada a R³ <strong>agregando una tercera componente</strong>. Lo nuevo de este módulo es la geometría de tres ejes y la manera de describir una dirección con tres ángulos.</p>
+      </header>
+
+      <div class="postit-row" style="justify-content:center;">
+        <div class="postit blue md">
+          <b>¿Sabías qué?</b>
+          En robótica, los vectores en R³ describen la posición y orientación de un brazo robótico. En ingeniería civil, modelan fuerzas y momentos en estructuras tridimensionales.
+        </div>
+      </div>
+
+      <h2>1. El espacio R³</h2>
+      <p>Un punto en el espacio se representa con una terna ordenada <span class="math">(x;y;z)</span>. Se eligen tres ejes perpendiculares entre sí (x, y, z) que se cruzan en el origen, siguiendo la <strong>regla de la mano derecha</strong> (sistema derecho). Los tres ejes determinan tres <strong>planos coordenados</strong>: xy, xz e yz — y esos planos dividen al espacio en <strong>ocho octantes</strong> (el análogo tridimensional de los cuatro cuadrantes de R²).</p>
+
+      <div class="widget">
+        <canvas id="plot-ejes" cssHeight="360"></canvas>
+        <p class="widget-caption">Los tres ejes de R³ dibujados en perspectiva: y hacia la derecha, z hacia arriba, x saliendo hacia el lector (abajo-izquierda). Así se dibujan todos los vectores de este módulo.</p>
+      </div>
+
+      <div class="box formula">
+        <span class="box-tag">Teorema 1 — distancia entre dos puntos en R³</span>
+        PQ = √[(x₁−x₂)² + (y₁−y₂)² + (z₁−z₂)²]
+      </div>
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplo</span>
+        <p style="margin:0;">Distancia entre (3;−1;6) y (−2;3;5): √[(3−(−2))²+(−1−3)²+(6−5)²] = √(25+16+1) = √42.</p>
+      </div>
+
+      <h2>2. Magnitud y operaciones — lo que no cambia</h2>
+      <p>Un vector <span class="vec">v</span>=(x;y;z) en R³ se define, se suma y se escala <strong>exactamente igual</strong> que en R², sólo con una coordenada más:</p>
+      <div class="box formula">
+        <span class="box-tag">Magnitud</span>
+        |<span class="vec">v</span>| = √(x²+y²+z²)
+      </div>
+      <div class="box formula">
+        <span class="box-tag">Suma y producto por escalar</span>
+        <span class="vec">u</span>+<span class="vec">v</span> = (x₁+x₂; y₁+y₂; z₁+z₂) &nbsp;·&nbsp; α<span class="vec">u</span> = (αx₁; αy₁; αz₁)
+      </div>
+      <div class="box formula">
+        <span class="box-tag">Versor</span>
+        <span class="vec">u</span> = <span class="vec">v</span>/|<span class="vec">v</span>| (misma dirección, longitud 1)
+      </div>
+
+      <h2>3. Dirección en R³: ángulos y cosenos directores</h2>
+      <p>En R² la dirección era un solo ángulo θ. En R³ hacen falta <strong>tres ángulos</strong> — uno con cada eje — porque un solo ángulo ya no alcanza para fijar una dirección en el espacio:</p>
+      <div class="box def">
+        <span class="box-tag">📌 Ángulos directores α, β, γ</span>
+        <p style="margin:0;">α es el ángulo entre <span class="vec">v</span> y el eje x positivo, β con el eje y, γ con el eje z. Los tres están siempre en [0,π].</p>
+      </div>
+      <div class="box formula">
+        <span class="box-tag">Cosenos directores</span>
+        cos α = x/|v|, &nbsp;cos β = y/|v|, &nbsp;cos γ = z/|v|
+      </div>
+      <div class="box def">
+        <span class="box-tag">📌 La identidad clave</span>
+        cos²α + cos²β + cos²γ = 1 &nbsp;(siempre, para cualquier vector no nulo)
+      </div>
+
+      <div class="widget">
+        <canvas id="plot-cosenos" cssHeight="380"></canvas>
+        <div class="widget-controls">
+          <label>x: <input type="range" id="ctrl-vx" min="-8" max="8" step="0.1" value="4"></label>
+          <span>x = <span class="widget-readout" id="read-vx">4,0</span></span>
+        </div>
+        <div class="widget-controls">
+          <label>y: <input type="range" id="ctrl-vy" min="-8" max="8" step="0.1" value="-1"></label>
+          <span>y = <span class="widget-readout" id="read-vy">-1,0</span></span>
+        </div>
+        <div class="widget-controls">
+          <label>z: <input type="range" id="ctrl-vz" min="-8" max="8" step="0.1" value="6"></label>
+          <span>z = <span class="widget-readout" id="read-vz">6,0</span> &nbsp;|&nbsp; |v| = <span class="widget-readout" id="read-vmag">7,28</span></span>
+        </div>
+        <p class="widget-caption" id="cosenos-note">cos α=0,549 (α≈56,7°) · cos β=−0,137 (β≈97,9°) · cos γ=0,824 (γ≈34,5°). Suma de cuadrados = 1,000.</p>
+      </div>
+
+      <h2>4. Vectores fundamentales i, j, k</h2>
+      <div class="box formula">
+        <span class="box-tag">Base de R³</span>
+        <span class="vec">i</span>=(1;0;0), &nbsp;<span class="vec">j</span>=(0;1;0), &nbsp;<span class="vec">k</span>=(0;0;1) &nbsp;⇒&nbsp; <span class="vec">v</span>=(x;y;z) = x<span class="vec">i</span>+y<span class="vec">j</span>+z<span class="vec">k</span>
+      </div>
+      <p>Son ortogonales entre sí y unitarios: <span class="math">i·i=j·j=k·k=1</span> y <span class="math">i·j=j·k=i·k=0</span>.</p>
+
+      <h2>5. Producto escalar, ángulo, paralelismo y ortogonalidad</h2>
+      <p>Se definen con la misma fórmula que en R², sumando la tercera componente:</p>
+      <div class="box formula">
+        <span class="box-tag">Producto escalar</span>
+        <span class="vec">u</span>·<span class="vec">v</span> = u₁v₁+u₂v₂+u₃v₃
+      </div>
+      <div class="box formula">
+        <span class="box-tag">Teorema 2 — ángulo entre vectores</span>
+        cos φ = (<span class="vec">u</span>·<span class="vec">v</span>)/(|<span class="vec">u</span>||<span class="vec">v</span>|)
+      </div>
+      <div class="box def">
+        <span class="box-tag">📌 Teorema 3 — paralelismo y ortogonalidad</span>
+        <span class="vec">u</span>∥<span class="vec">v</span> ⇔ v=αu (α≠0). &nbsp;&nbsp; <span class="vec">u</span>⊥<span class="vec">v</span> ⇔ u·v=0. Exactamente las mismas condiciones que en el plano.
+      </div>
+
+      <div class="widget">
+        <canvas id="plot-angulo" cssHeight="380"></canvas>
+        <div class="widget-controls">
+          <label>u=(a;b;c) — a: <input type="range" id="ctrl-ua" min="-8" max="8" step="0.1" value="3"></label>
+          <span>a = <span class="widget-readout" id="read-ua">3,0</span></span>
+        </div>
+        <div class="widget-controls">
+          <label>b: <input type="range" id="ctrl-ub" min="-8" max="8" step="0.1" value="-1"></label>
+          <span>b = <span class="widget-readout" id="read-ub">-1,0</span></span>
+        </div>
+        <div class="widget-controls">
+          <label>c: <input type="range" id="ctrl-uc" min="-8" max="8" step="0.1" value="2"></label>
+          <span>c = <span class="widget-readout" id="read-uc">2,0</span></span>
+        </div>
+        <p class="widget-caption" id="angulo-note">v=(4;3;−1) fijo (morado). u·v=7, φ≈68,5°.</p>
+      </div>
+
+      <h2>6. Proyección de un vector sobre otro en R³</h2>
+      <div class="box formula">
+        <span class="box-tag">Definición (idéntica a R²)</span>
+        proy<sub>v</sub> <span class="vec">u</span> = [(<span class="vec">u</span>·<span class="vec">v</span>)/|<span class="vec">v</span>|²] <span class="vec">v</span>
+      </div>
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplo de la guía</span>
+        <p style="margin:0;">u=2i+3j+k, v=i+2j−6k: u·v=2+6−6=2, |v|²=41 ⇒ proy<sub>v</sub>u = (2/41)i+(4/41)j−(12/41)k.</p>
+      </div>
+
+      <div class="widget">
+        <canvas id="plot-proyeccion" cssHeight="380"></canvas>
+        <div class="widget-controls">
+          <label>u=(a;b;c) — a: <input type="range" id="ctrl-pa" min="-6" max="6" step="0.1" value="2"></label>
+          <span>a = <span class="widget-readout" id="read-pa">2,0</span></span>
+        </div>
+        <div class="widget-controls">
+          <label>b: <input type="range" id="ctrl-pb" min="-6" max="6" step="0.1" value="3"></label>
+          <span>b = <span class="widget-readout" id="read-pb">3,0</span></span>
+        </div>
+        <div class="widget-controls">
+          <label>c: <input type="range" id="ctrl-pc" min="-6" max="6" step="0.1" value="1"></label>
+          <span>c = <span class="widget-readout" id="read-pc">1,0</span></span>
+        </div>
+        <p class="widget-caption" id="proyeccion-note">v=(1;2;−6) fijo. proyᵥu (verde) es paralelo a v.</p>
+      </div>
+
+      <div class="box def" style="margin-top:32px;">
+        <span class="box-tag">🗂️ Resumen del módulo</span>
+        <ul style="margin:0;padding-left:22px;">
+          <li>Punto/vector en R³: terna (x;y;z). Distancia: √[(Δx)²+(Δy)²+(Δz)²].</li>
+          <li>Magnitud, suma, escalar, versor: mismas fórmulas que en R², con una coordenada más.</li>
+          <li>Dirección = tres ángulos directores α,β,γ, con cos²α+cos²β+cos²γ=1.</li>
+          <li>Base i,j,k: v=xi+yj+zk, todos unitarios y ortogonales entre sí.</li>
+          <li>Producto escalar, ángulo, paralelismo (v=αu), ortogonalidad (u·v=0) y proyección: mismas fórmulas que en R².</li>
+        </ul>
+      </div>
+
+      <div class="postit-row">
+        <div class="postit green md">
+          <b>Por qué importa</b>
+          Casi nada es nuevo en las fórmulas — lo único distinto es que ahora hay tres componentes y tres ángulos directores en vez de uno. Si dominás los Módulos 3 y 4, este módulo es "lo mismo con una coordenada más".
+        </div>
+        <div class="postit pink md">
+          <b>Ojo con esto</b>
+          El ángulo φ entre dos vectores (Teorema 2) es un solo número entre 0 y π. No lo confundas con los tres ángulos directores α, β, γ de un único vector respecto a los ejes.
+        </div>
+      </div>
+
+      <section class="quiz-section" id="quiz">
+        <div class="quiz-intro"><span class="pencil">📝</span><h2>Pon a prueba lo aprendido</h2></div>
+        <p class="quiz-progress">Respondé las preguntas y comprobá al toque. Podés reintentar las que falles.</p>
+        <div id="quiz-container"></div>
+      </section>
+
+      <nav class="page-nav">
+        <a class="corner prev" href="#"></a>
+        <a class="corner next" href="#"></a>
+      </nav>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/notebook.js"></script>
+<script src="js/plotter.js"></script>
+<script src="js/quiz.js"></script>
+<script>
+(function(){
+  // proyección oblicua (cabinet): plano y-z visible, x recede abajo-izquierda
+  function proj3(x,y,z){
+    return { X: y - 0.5*x, Y: z - 0.35*x };
+  }
+
+  function drawAxes3(plot){
+    const L = 6.5;
+    const xPos = proj3(L,0,0), xNeg = proj3(-L,0,0);
+    const yPos = proj3(0,L,0), yNeg = proj3(0,-L,0);
+    const zPos = proj3(0,0,L), zNeg = proj3(0,0,-L);
+    plot.segment(xNeg.X,xNeg.Y, xPos.X,xPos.Y, {color:'#8b8371', lineWidth:1.6, dash:[4,4]});
+    plot.vector(0,0, xPos.X,xPos.Y, {color:NB_INK.axis, label:'x', lineWidth:2});
+    plot.segment(yNeg.X,yNeg.Y, yPos.X,yPos.Y, {color:'#8b8371', lineWidth:1.6, dash:[4,4]});
+    plot.vector(0,0, yPos.X,yPos.Y, {color:NB_INK.axis, label:'y', lineWidth:2});
+    plot.segment(zNeg.X,zNeg.Y, zPos.X,zPos.Y, {color:'#8b8371', lineWidth:1.6, dash:[4,4]});
+    plot.vector(0,0, zPos.X,zPos.Y, {color:NB_INK.axis, label:'z', lineWidth:2});
+  }
+
+  // 1. Ejes de referencia
+  (function(){
+    const el = document.getElementById('plot-ejes');
+    const plot = new NotebookPlot(el, {xMin:-6, xMax:6, yMin:-6, yMax:6, xStep:1, yStep:1, cssHeight:360, showGrid:false});
+    plot.clear();
+    drawAxes3(plot);
+    const p = proj3(3,4,5);
+    plot.vector(0,0,p.X,p.Y,{color:NB_INK.red, label:'v(3;4;5)', lineWidth:3});
+  })();
+
+  // 3. Cosenos directores
+  (function(){
+    const el = document.getElementById('plot-cosenos');
+    const plot = new NotebookPlot(el, {xMin:-8, xMax:8, yMin:-8, yMax:8, xStep:1, yStep:1, cssHeight:380, showGrid:false});
+    const sx=document.getElementById('ctrl-vx'), sy=document.getElementById('ctrl-vy'), sz=document.getElementById('ctrl-vz');
+    const rx=document.getElementById('read-vx'), ry=document.getElementById('read-vy'), rz=document.getElementById('read-vz');
+    const rmag=document.getElementById('read-vmag');
+    const note = document.getElementById('cosenos-note');
+
+    function draw(){
+      const x=parseFloat(sx.value), y=parseFloat(sy.value), z=parseFloat(sz.value);
+      const mag = Math.sqrt(x*x+y*y+z*z);
+      plot.clear();
+      drawAxes3(plot);
+      const p = proj3(x,y,z);
+      plot.vector(0,0,p.X,p.Y,{color:NB_INK.red, label:'v', lineWidth:3.2});
+
+      rx.textContent=x.toFixed(1).replace('.',','); ry.textContent=y.toFixed(1).replace('.',',');
+      rz.textContent=z.toFixed(1).replace('.',','); rmag.textContent=mag.toFixed(2).replace('.',',');
+
+      if(mag < 0.001){
+        note.innerHTML = 'v es el vector nulo: la dirección no está definida.';
+        return;
+      }
+      const ca=x/mag, cb=y/mag, cc=z/mag;
+      const alpha = Math.acos(Math.max(-1,Math.min(1,ca)))*180/Math.PI;
+      const beta = Math.acos(Math.max(-1,Math.min(1,cb)))*180/Math.PI;
+      const gamma = Math.acos(Math.max(-1,Math.min(1,cc)))*180/Math.PI;
+      const suma = ca*ca+cb*cb+cc*cc;
+      note.innerHTML = `cos α=${ca.toFixed(3)} (α≈${alpha.toFixed(1).replace('.',',')}°) · cos β=${cb.toFixed(3)} (β≈${beta.toFixed(1).replace('.',',')}°) · cos γ=${cc.toFixed(3)} (γ≈${gamma.toFixed(1).replace('.',',')}°). Suma de cuadrados = ${suma.toFixed(3).replace('.',',')}.`;
+    }
+    plot.onRedraw(draw);
+    [sx,sy,sz].forEach(s=>s.addEventListener('input', draw));
+    draw();
+  })();
+
+  // 5. Ángulo entre vectores
+  (function(){
+    const el = document.getElementById('plot-angulo');
+    const plot = new NotebookPlot(el, {xMin:-8, xMax:8, yMin:-8, yMax:8, xStep:1, yStep:1, cssHeight:380, showGrid:false});
+    const sa=document.getElementById('ctrl-ua'), sb=document.getElementById('ctrl-ub'), sc=document.getElementById('ctrl-uc');
+    const ra=document.getElementById('read-ua'), rb=document.getElementById('read-ub'), rc=document.getElementById('read-uc');
+    const note = document.getElementById('angulo-note');
+    const v = {x:4, y:3, z:-1};
+
+    function draw(){
+      const a=parseFloat(sa.value), b=parseFloat(sb.value), c=parseFloat(sc.value);
+      const dot = a*v.x+b*v.y+c*v.z;
+      const mu = Math.sqrt(a*a+b*b+c*c), mv = Math.sqrt(v.x*v.x+v.y*v.y+v.z*v.z);
+      const cosphi = dot/(mu*mv);
+      const phi = Math.acos(Math.max(-1,Math.min(1,cosphi)))*180/Math.PI;
+
+      plot.clear();
+      drawAxes3(plot);
+      const pu = proj3(a,b,c), pv = proj3(v.x,v.y,v.z);
+      plot.vector(0,0,pu.X,pu.Y,{color:NB_INK.red, label:'u', lineWidth:3});
+      plot.vector(0,0,pv.X,pv.Y,{color:NB_INK.purple, label:'v', lineWidth:3});
+
+      ra.textContent=a.toFixed(1).replace('.',','); rb.textContent=b.toFixed(1).replace('.',',');
+      rc.textContent=c.toFixed(1).replace('.',',');
+
+      let tipo='recto (90°)';
+      if(dot>0.001) tipo='agudo';
+      else if(dot<-0.001) tipo='obtuso';
+      note.innerHTML = `v=(4;3;−1) fijo (morado). u·v=${dot.toFixed(2)}, φ≈${phi.toFixed(1).replace('.',',')}° (<strong>${tipo}</strong>).`;
+    }
+    plot.onRedraw(draw);
+    [sa,sb,sc].forEach(s=>s.addEventListener('input', draw));
+    draw();
+  })();
+
+  // 6. Proyección
+  (function(){
+    const el = document.getElementById('plot-proyeccion');
+    const plot = new NotebookPlot(el, {xMin:-8, xMax:8, yMin:-8, yMax:8, xStep:1, yStep:1, cssHeight:380, showGrid:false});
+    const sa=document.getElementById('ctrl-pa'), sb=document.getElementById('ctrl-pb'), sc=document.getElementById('ctrl-pc');
+    const ra=document.getElementById('read-pa'), rb=document.getElementById('read-pb'), rc=document.getElementById('read-pc');
+    const note = document.getElementById('proyeccion-note');
+    const v = {x:1, y:2, z:-6};
+    const v2 = v.x*v.x+v.y*v.y+v.z*v.z;
+
+    function draw(){
+      const a=parseFloat(sa.value), b=parseFloat(sb.value), c=parseFloat(sc.value);
+      const dot = a*v.x+b*v.y+c*v.z;
+      const k = dot/v2;
+      const proy = {x:k*v.x, y:k*v.y, z:k*v.z};
+
+      plot.clear();
+      drawAxes3(plot);
+      const pv = proj3(v.x,v.y,v.z), pu = proj3(a,b,c), pp = proj3(proy.x,proy.y,proy.z);
+      plot.vector(0,0,pv.X,pv.Y,{color:NB_INK.blueSoft, label:'v', lineWidth:2.6});
+      plot.vector(0,0,pu.X,pu.Y,{color:NB_INK.red, label:'u', lineWidth:3});
+      plot.vector(0,0,pp.X,pp.Y,{color:NB_INK.green, label:'proyᵥu', lineWidth:3.4});
+      plot.segment(pp.X,pp.Y,pu.X,pu.Y,{color:NB_INK.purple, lineWidth:1.8, dash:[5,4]});
+
+      ra.textContent=a.toFixed(1).replace('.',','); rb.textContent=b.toFixed(1).replace('.',',');
+      rc.textContent=c.toFixed(1).replace('.',',');
+      note.innerHTML = `v=(1;2;−6) fijo. proyᵥu = (${proy.x.toFixed(3)}; ${proy.y.toFixed(3)}; ${proy.z.toFixed(3)}) (verde, paralelo a v).`;
+    }
+    plot.onRedraw(draw);
+    [sa,sb,sc].forEach(s=>s.addEventListener('input', draw));
+    draw();
+  })();
+
+  NBQuiz('quiz-container', {
+    moduleId:5,
+    passScore:0.7,
+    questions:[
+      {
+        type:'tf',
+        prompt:'En R³, un punto se representa como una terna ordenada de números reales (x,y,z).',
+        correct:true,
+        explain:'Correcto: cada punto (o vector con punto inicial en el origen) queda determinado por tres coordenadas.'
+      },
+      {
+        type:'fill',
+        prompt:'La magnitud del vector v=(1,3,−2) es √___.',
+        accept:['14'],
+        explain:'|v|=√(1²+3²+(−2)²)=√(1+9+4)=√14.'
+      },
+      {
+        type:'mcq',
+        prompt:'¿Cuáles son los vectores unitarios fundamentales de R³?',
+        options:[
+          'i=(1,0), j=(0,1)',
+          'i=(1,0,0), j=(0,1,0), k=(0,0,1)',
+          'i=(0,0,1), j=(1,0,0), k=(0,1,0) únicamente en ese orden',
+          'No existen en R³'
+        ],
+        correct:1,
+        explain:'i, j, k son los versores según los ejes x, y, z respectivamente.'
+      },
+      {
+        type:'tf',
+        prompt:'Los cosenos directores de un vector satisfacen cos²α+cos²β+cos²γ=1.',
+        correct:true,
+        explain:'Es una identidad que se cumple siempre, para cualquier vector no nulo — sale directo de que cada coseno director es x/|v|, y/|v| o z/|v|.'
+      },
+      {
+        type:'mcq',
+        prompt:'¿Cuál es la magnitud del vector v=(3,−4,12)?',
+        options:['10','13','169','193'],
+        correct:1,
+        explain:'|v|=√(9+16+144)=√169=13.'
+      },
+      {
+        type:'tf',
+        prompt:'Dos vectores en R³ son ortogonales si la magnitud de ambos es igual.',
+        correct:false,
+        explain:'Falso: la ortogonalidad depende del producto escalar (u·v=0), no de que tengan la misma magnitud.'
+      },
+      {
+        type:'mcq',
+        prompt:'Si u=(3,−1,2) y v=(4,3,−1), ¿cuál es u·v?',
+        options:['−7','0','7','13'],
+        correct:2,
+        explain:'u·v=(3)(4)+(−1)(3)+(2)(−1)=12−3−2=7.'
+      },
+      {
+        type:'mcq',
+        prompt:'¿Cuál es la condición para que dos vectores u y v (no nulos) de R³ sean paralelos?',
+        options:['u·v=0','v=αu para algún escalar α≠0','|u|=|v|','u+v=0'],
+        correct:1,
+        explain:'Igual que en R²: paralelismo significa que uno es múltiplo escalar del otro.'
+      },
+      {
+        type:'mcq',
+        prompt:'La proyección de u sobre v en R³ se calcula como...',
+        options:['(u·v)v','[(u·v)/|v|²]v','[(u·v)/|v|]u','|u||v|cosφ · u'],
+        correct:1,
+        explain:'proyᵥu = [(u·v)/|v|²]v, la misma fórmula que en R².'
+      },
+      {
+        type:'tf',
+        prompt:'El ángulo φ entre dos vectores y los ángulos directores α, β, γ de un vector son lo mismo.',
+        correct:false,
+        explain:'Falso: φ es el ángulo entre dos vectores distintos; α, β, γ son los ángulos de un único vector respecto a los tres ejes coordenados.'
+      }
+    ]
+  });
+})();
+</script>
+</body>
+</html>

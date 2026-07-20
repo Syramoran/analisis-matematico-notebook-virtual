@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1. Determinantes · Cuaderno de Álgebra</title>
+<link rel="stylesheet" href="css/notebook.css">
+</head>
+<body data-module="1">
+
+<button id="index-tab" class="index-tab">📑 Índice</button>
+<div id="drawer-overlay" class="drawer-overlay"></div>
+<aside id="index-drawer" class="index-drawer"></aside>
+
+<div class="desk">
+  <main class="notebook-page">
+    <div class="spiral" aria-hidden="true"></div>
+    <div class="margin-line" aria-hidden="true"></div>
+
+    <div class="page-content">
+
+      <header class="page-header">
+        <span class="module-badge"><span class="dot"></span>Módulo 1 de 8</span>
+        <div class="progress-strip"></div>
+        <h1 class="underline-draw">Determinantes
+          <svg viewBox="0 0 340 14" preserveAspectRatio="none"><path d="M4 9 Q 110 2, 336 8"/></svg>
+        </h1>
+        <p style="font-size:1.2rem;color:#4a453a;max-width:660px;">A cada matriz cuadrada se le puede asociar <strong>un único número</strong>: su determinante. Ese número dice si la matriz es invertible, cuánta "área" o "volumen" genera, y si un sistema de ecuaciones tiene solución única.</p>
+      </header>
+
+      <div class="postit-row" style="justify-content:center;">
+        <div class="postit blue md">
+          <b>¿Sabías qué?</b>
+          En ingeniería civil, un determinante distinto de cero en el sistema de fuerzas de una estructura indica solución única — la estructura es estable. En electrónica, lo mismo pasa al resolver corrientes y voltajes de un circuito con varias mallas.
+        </div>
+      </div>
+
+      <h2>1. Determinante 2×2</h2>
+      <p>Para una matriz <span class="math">A</span> de 2×2, el determinante ya lo conocías: es un producto cruzado con resta.</p>
+      <div class="box formula">
+        <span class="box-tag">det(A) para 2×2</span>
+        A = <span class="math">(a₁₁ a₁₂ ; a₂₁ a₂₂)</span> &nbsp;⇒&nbsp; det A = |A| = a₁₁a₂₂ − a₂₁a₁₂
+      </div>
+      <p>Un resultado clave que ya viste con matrices inversas: <strong>A es invertible si y sólo si det A ≠ 0.</strong> Los determinantes de matrices más grandes se definen apoyándose en este caso base, de forma inductiva (se usa 2×2 para definir 3×3, 3×3 para definir 4×4, y así siguiendo).</p>
+
+      <h2>2. Determinante 3×3 — expansión por cofactores</h2>
+      <p>Para una matriz de 3×3, el determinante se calcula "abriendo" por la primera fila, multiplicando cada elemento por el determinante 2×2 que queda al tachar su fila y columna (alternando signos +, −, +):</p>
+      <div class="box formula">
+        <span class="box-tag">det(A) para 3×3</span>
+        det A = a₁₁<span class="math">|a₂₂ a₂₃; a₃₂ a₃₃|</span> − a₁₂<span class="math">|a₂₁ a₂₃; a₃₁ a₃₃|</span> + a₁₃<span class="math">|a₂₁ a₂₂; a₃₁ a₃₂|</span>
+      </div>
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplo</span>
+        <p style="margin:0;">A = <span class="math">(4 7 2; 3 −5 1; −8 6 9)</span></p>
+        <p style="margin:8px 0 0;">det A = 4[(−5)(9)−(6)(1)] − 7[(3)(9)−(−8)(1)] + 2[(3)(6)−(−8)(−5)]</p>
+        <p style="margin:4px 0 0;">det A = 4(−51) − 7(35) + 2(−22) = −204 − 245 − 44 = <strong>−493</strong></p>
+      </div>
+
+      <h3>Atajo para 3×3 — Regla de Sarrus</h3>
+      <p>Sólo para matrices 3×3 existe un atajo: se repiten las dos primeras columnas a la derecha, se multiplican las tres diagonales que bajan (con signo +) y las tres que suben (con signo −), y se suma todo.</p>
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplo con Sarrus</span>
+        <p style="margin:0;">A = <span class="math">(3 5 2; 4 2 3; −1 2 4)</span></p>
+        <p style="margin:8px 0 0;">|A| = (3)(2)(4)+(5)(3)(−1)+(2)(4)(2) − (−1)(2)(2)−(2)(3)(3)−(4)(4)(5)</p>
+        <p style="margin:4px 0 0;">|A| = 24−15+16+4−18−80 = <strong>−69</strong></p>
+      </div>
+      <div class="box warn">
+        <span class="box-tag">⚠️ Ojo</span>
+        <p style="margin:0;">La Regla de Sarrus <strong>sólo funciona para 3×3</strong>. Para 4×4 o más grande da un resultado equivocado — ahí hay que usar cofactores.</p>
+      </div>
+
+      <h2>3. Menor y cofactor</h2>
+      <div class="box def">
+        <span class="box-tag">📌 Menor Mᵢⱼ</span>
+        <p style="margin:0;">Dada una matriz A de n×n, el <strong>menor Mᵢⱼ</strong> es el determinante de la matriz (n−1)×(n−1) que queda al eliminar la fila i y la columna j de A.</p>
+      </div>
+      <div class="box def">
+        <span class="box-tag">📌 Cofactor Aᵢⱼ</span>
+        <p style="margin:0;">El <strong>cofactor Aᵢⱼ</strong> es el menor con un signo pegado, según la posición: <span class="math">Aᵢⱼ = (−1)^(i+j) · Mᵢⱼ</span>. El signo es + si i+j es par, y − si i+j es impar (como un tablero de ajedrez).</p>
+      </div>
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplo — menores de una 3×3</span>
+        <p style="margin:0;">A = <span class="math">(2 −1 4; 0 1 5; 6 3 −4)</span>. Para M₁₃, tachá la fila 1 y la columna 3: queda <span class="math">|0 1; 6 3| </span>. Para M₃₂, tachá la fila 3 y la columna 2: queda <span class="math">|2 4; 0 5|</span>.</p>
+      </div>
+
+      <div class="widget">
+        <canvas id="plot-menor" cssHeight="300"></canvas>
+        <div class="widget-controls">
+          <label>Fila i a eliminar: <input type="range" id="ctrl-i" min="1" max="3" step="1" value="1"></label>
+          <span>i = <span class="widget-readout" id="read-i">1</span></span>
+        </div>
+        <div class="widget-controls">
+          <label>Columna j a eliminar: <input type="range" id="ctrl-j" min="1" max="3" step="1" value="3"></label>
+          <span>j = <span class="widget-readout" id="read-j">3</span></span>
+        </div>
+        <p class="widget-caption" id="menor-note">Elegí i y j: se tachan esa fila y columna, y queda marcado el menor Mᵢⱼ resultante (con su signo de cofactor).</p>
+      </div>
+
+      <h2>4. Determinante n×n</h2>
+      <p>La idea de "expandir por la primera fila" se generaliza a cualquier tamaño: el determinante es la suma de cada elemento de una fila (o columna) multiplicado por su cofactor.</p>
+      <div class="box formula">
+        <span class="box-tag">Expansión por cofactores</span>
+        det A = a₁₁A₁₁ + a₁₂A₁₂ + ⋯ + a₁ₙA₁ₙ = <span class="math">Σₖ a₁ₖA₁ₖ</span>
+      </div>
+      <div class="box def">
+        <span class="box-tag">📌 Para recordar</span>
+        <p style="margin:0;">Se puede expandir por <strong>cualquier</strong> fila o columna, no sólo la primera — el resultado es siempre el mismo. Conviene elegir la fila o columna con más ceros, para ahorrar cuentas: cada cero anula un término entero de la suma.</p>
+      </div>
+      <p style="font-size:.95rem;color:#4a453a;">Calcular a mano crece rápido: un 4×4 pide cuatro determinantes de 3×3; un 5×5 pide cinco de 4×4 (=veinte de 3×3). Por suerte, las matrices triangulares dan un atajo enorme.</p>
+
+      <h2>5. Determinante de una matriz triangular</h2>
+      <div class="box def">
+        <span class="box-tag">📌 Triangular superior / inferior / diagonal</span>
+        <p style="margin:0;">Triangular superior: todo lo que está <strong>debajo</strong> de la diagonal es cero. Triangular inferior: todo lo que está <strong>arriba</strong> es cero. Diagonal: cero en todos lados salvo la diagonal (es ambas a la vez).</p>
+      </div>
+      <div class="box formula">
+        <span class="box-tag">Teorema — determinante triangular</span>
+        Si A es triangular (superior o inferior): det A = a₁₁ · a₂₂ · a₃₃ ··· aₙₙ
+      </div>
+      <p>El determinante es, simplemente, <strong>el producto de la diagonal</strong>. Se demuestra expandiendo por cofactores repetidamente: en cada paso, todos los términos salvo el de la diagonal se anulan porque multiplican por un cero.</p>
+
+      <div class="widget">
+        <canvas id="plot-triangular" cssHeight="300"></canvas>
+        <div class="widget-controls">
+          <button class="btn ghost" data-tipo="sup">Triangular superior</button>
+          <button class="btn ghost" data-tipo="inf">Triangular inferior</button>
+          <button class="btn ghost" data-tipo="diag">Diagonal</button>
+        </div>
+        <p class="widget-caption" id="triangular-note">Tocá un caso: se resalta la diagonal (el único producto que sobrevive) y se calcula det A.</p>
+      </div>
+
+      <div class="box def">
+        <span class="box-tag">📌 Consecuencia directa</span>
+        <p style="margin:0;">Una matriz triangular es invertible <strong>si y sólo si</strong> ningún elemento de su diagonal es cero (porque el producto de la diagonal, que es el determinante, sería 0 apenas uno de ellos lo sea).</p>
+      </div>
+
+      <h2>6. Interpretación geométrica (2×2)</h2>
+      <p>Si A es 2×2 con columnas (o filas) <span class="vec">a</span>=(a;c) y <span class="vec">b</span>=(b;d), esos dos vectores forman un paralelogramo con un vértice en el origen.</p>
+      <div class="box formula">
+        <span class="box-tag">Teorema — área generada por A</span>
+        Área del paralelogramo = |det A|
+      </div>
+      <p>El valor absoluto del determinante es exactamente esa área — sin necesidad de fórmulas de trigonometría.</p>
+
+      <div class="widget">
+        <canvas id="plot-area" cssHeight="380"></canvas>
+        <div class="widget-controls">
+          <label>Vector a=(a;c) — a: <input type="range" id="ctrl-a" min="-5" max="5" step="0.1" value="3"></label>
+          <span>a = <span class="widget-readout" id="read-a">3,0</span></span>
+        </div>
+        <div class="widget-controls">
+          <label>c: <input type="range" id="ctrl-c" min="-5" max="5" step="0.1" value="1"></label>
+          <span>c = <span class="widget-readout" id="read-c">1,0</span></span>
+        </div>
+        <div class="widget-controls">
+          <label>Vector b=(b;d) — b: <input type="range" id="ctrl-b" min="-5" max="5" step="0.1" value="1"></label>
+          <span>b = <span class="widget-readout" id="read-b">1,0</span></span>
+        </div>
+        <div class="widget-controls">
+          <label>d: <input type="range" id="ctrl-d" min="-5" max="5" step="0.1" value="4"></label>
+          <span>d = <span class="widget-readout" id="read-d">4,0</span> &nbsp;|&nbsp; det A = <span class="widget-readout" id="read-det">11,00</span> &nbsp;|&nbsp; Área = <span class="widget-readout" id="read-area">11,00</span></span>
+        </div>
+        <p class="widget-caption">Movés los cuatro deslizadores y el paralelogramo (sombreado) se actualiza junto con |det A| — siempre coinciden.</p>
+      </div>
+
+      <div class="box def" style="margin-top:32px;">
+        <span class="box-tag">🗂️ Resumen del módulo</span>
+        <ul style="margin:0;padding-left:22px;">
+          <li>2×2: <span class="math">det A = a₁₁a₂₂−a₂₁a₁₂</span>.</li>
+          <li>3×3: expansión por cofactores, o el atajo de Sarrus (sólo para 3×3).</li>
+          <li>Menor Mᵢⱼ: se tacha fila i y columna j. Cofactor Aᵢⱼ = (−1)^(i+j)Mᵢⱼ.</li>
+          <li>n×n: expansión por cofactores por cualquier fila o columna (conviene la de más ceros).</li>
+          <li>Triangular: det = producto de la diagonal. Invertible ⇔ det ≠ 0 ⇔ ninguna entrada diagonal es 0.</li>
+          <li>2×2 geométrico: |det A| = área del paralelogramo generado por sus vectores fila/columna.</li>
+        </ul>
+      </div>
+
+      <div class="postit-row">
+        <div class="postit green md">
+          <b>Por qué importa</b>
+          El criterio "det ≠ 0 ⇔ invertible" es la puerta de entrada a resolver sistemas de ecuaciones lineales con solución única — la vas a volver a usar todo el cuatrimestre.
+        </div>
+        <div class="postit pink md">
+          <b>Ojo con esto</b>
+          |A+B| ≠ |A|+|B| en general: el determinante no es lineal respecto a la suma de matrices completas (sí lo es fila por fila, pero no toda la matriz de una vez).
+        </div>
+      </div>
+
+      <section class="quiz-section" id="quiz">
+        <div class="quiz-intro"><span class="pencil">📝</span><h2>Pon a prueba lo aprendido</h2></div>
+        <p class="quiz-progress">Respondé las preguntas y comprobá al toque. Podés reintentar las que falles.</p>
+        <div id="quiz-container"></div>
+      </section>
+
+      <nav class="page-nav">
+        <a class="corner prev" href="#"></a>
+        <a class="corner next" href="#"></a>
+      </nav>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/notebook.js"></script>
+<script src="js/plotter.js"></script>
+<script src="js/quiz.js"></script>
+<script>
+(function(){
+
+  function drawGridMatrix(plot, n, highlightRow, highlightCol, values, opts={}){
+    // dibuja una matriz nxn como grilla de celdas de texto
+    const cell = 1;
+    for(let i=0;i<n;i++){
+      for(let j=0;j<n;j++){
+        const x0 = j*cell, y0 = -i*cell;
+        const dimmed = (highlightRow!=null && (i===highlightRow-1 || j===highlightCol-1));
+        if(dimmed && opts.dimStrike){
+          plot.ctx.save();
+          const p1 = plot.toPx(x0, y0), p2 = plot.toPx(x0+cell, y0-cell);
+          plot.ctx.fillStyle = 'rgba(182,57,47,.12)';
+          plot.ctx.fillRect(p1.x, p1.y, p2.x-p1.x, p2.y-p1.y);
+          plot.ctx.restore();
+        }
+        plot.ctx.save();
+        plot.ctx.strokeStyle = '#cabf9e';
+        plot.ctx.lineWidth = 1.4;
+        const p1 = plot.toPx(x0,y0), p2=plot.toPx(x0+cell,y0-cell);
+        plot.ctx.strokeRect(Math.min(p1.x,p2.x), Math.min(p1.y,p2.y), Math.abs(p2.x-p1.x), Math.abs(p2.y-p1.y));
+        plot.ctx.restore();
+        plot.text(x0+cell/2, y0-cell/2+0.12, values[i][j], {align:'center', size:16, color: dimmed? '#b6392f':'#2a2622'});
+      }
+    }
+  }
+
+  // 3. Menor interactivo
+  (function(){
+    const el = document.getElementById('plot-menor');
+    const plot = new NotebookPlot(el, {xMin:-0.5, xMax:3.5, yMin:-3.5, yMax:0.5, xStep:1, yStep:1, cssHeight:300, showGrid:false});
+    const A = [[2,-1,4],[0,1,5],[6,3,-4]];
+    const sliderI = document.getElementById('ctrl-i');
+    const sliderJ = document.getElementById('ctrl-j');
+    const readI = document.getElementById('read-i');
+    const readJ = document.getElementById('read-j');
+    const note = document.getElementById('menor-note');
+
+    function draw(){
+      const i = parseInt(sliderI.value,10), j = parseInt(sliderJ.value,10);
+      plot.clear();
+      drawGridMatrix(plot, 3, i, j, A, {dimStrike:true});
+      readI.textContent = i;
+      readJ.textContent = j;
+      const sign = ((i+j)%2===0) ? '+' : '−';
+      // construir el menor
+      const rows = [0,1,2].filter(r=>r!==i-1);
+      const cols = [0,1,2].filter(c=>c!==j-1);
+      const m = rows.map(r=>cols.map(c=>A[r][c]));
+      const det2 = m[0][0]*m[1][1]-m[0][1]*m[1][0];
+      note.innerHTML = `M<sub>${i}${j}</sub> = |${m[0][0]} ${m[0][1]}; ${m[1][0]} ${m[1][1]}| = ${det2}. Cofactor A<sub>${i}${j}</sub> = (${sign}1)·M<sub>${i}${j}</sub> = ${sign==='+'?det2:-det2}.`;
+    }
+    plot.onRedraw(draw);
+    sliderI.addEventListener('input', draw);
+    sliderJ.addEventListener('input', draw);
+    draw();
+  })();
+
+  // 5. Triangular interactivo
+  (function(){
+    const el = document.getElementById('plot-triangular');
+    const plot = new NotebookPlot(el, {xMin:-0.5, xMax:3.5, yMin:-3.5, yMax:0.5, xStep:1, yStep:1, cssHeight:300, showGrid:false});
+    const note = document.getElementById('triangular-note');
+    const matrices = {
+      sup: [[2,1,7],[0,2,-5],[0,0,1]],
+      inf: [[5,0,0],[2,3,0],[-1,2,4]],
+      diag: [[2,0,0],[0,-7,0],[0,0,4]]
+    };
+    const names = {sup:'triangular superior', inf:'triangular inferior', diag:'diagonal'};
+    function draw(tipo){
+      const A = matrices[tipo];
+      plot.clear();
+      for(let i=0;i<3;i++){
+        for(let j=0;j<3;j++){
+          const onDiag = i===j;
+          plot.ctx.save();
+          const p1 = plot.toPx(j, -i), p2 = plot.toPx(j+1, -i-1);
+          if(onDiag){
+            plot.ctx.fillStyle = 'rgba(39,107,69,.18)';
+            plot.ctx.fillRect(Math.min(p1.x,p2.x), Math.min(p1.y,p2.y), Math.abs(p2.x-p1.x), Math.abs(p2.y-p1.y));
+          }
+          plot.ctx.strokeStyle = '#cabf9e';
+          plot.ctx.lineWidth = 1.4;
+          plot.ctx.strokeRect(Math.min(p1.x,p2.x), Math.min(p1.y,p2.y), Math.abs(p2.x-p1.x), Math.abs(p2.y-p1.y));
+          plot.ctx.restore();
+          plot.text(j+0.5, -i-0.38, String(A[i][j]), {align:'center', size:16, color: onDiag? NB_INK.green:'#2a2622'});
+        }
+      }
+      const det = A[0][0]*A[1][1]*A[2][2];
+      note.innerHTML = `Matriz <strong>${names[tipo]}</strong>: det A = ${A[0][0]}·${A[1][1]}·${A[2][2]} = <strong>${det}</strong> (producto de la diagonal, resaltada en verde).`;
+    }
+    document.querySelectorAll('[data-tipo]').forEach(btn=>{
+      btn.addEventListener('click', ()=>draw(btn.dataset.tipo));
+    });
+    draw('sup');
+  })();
+
+  // 6. Área del paralelogramo
+  (function(){
+    const el = document.getElementById('plot-area');
+    const plot = new NotebookPlot(el, {xMin:-6, xMax:6, yMin:-6, yMax:6, xStep:1, yStep:1, cssHeight:380});
+    const sa = document.getElementById('ctrl-a'), sc = document.getElementById('ctrl-c');
+    const sb = document.getElementById('ctrl-b'), sd = document.getElementById('ctrl-d');
+    const ra = document.getElementById('read-a'), rc = document.getElementById('read-c');
+    const rb = document.getElementById('read-b'), rd = document.getElementById('read-d');
+    const rdet = document.getElementById('read-det'), rarea = document.getElementById('read-area');
+
+    function draw(){
+      const a = parseFloat(sa.value), c = parseFloat(sc.value);
+      const b = parseFloat(sb.value), d = parseFloat(sd.value);
+      const det = a*d - c*b;
+      plot.clear(); plot.drawGrid(); plot.drawAxes();
+
+      // paralelogramo con vertices (0,0),(a,c),(a+b,c+d),(b,d)
+      plot.ctx.save();
+      const pts = [[0,0],[a,c],[a+b,c+d],[b,d]].map(p=>plot.toPx(p[0],p[1]));
+      plot.ctx.beginPath();
+      plot.ctx.moveTo(pts[0].x,pts[0].y);
+      pts.slice(1).forEach(p=>plot.ctx.lineTo(p.x,p.y));
+      plot.ctx.closePath();
+      plot.ctx.fillStyle = 'rgba(35,62,130,.18)';
+      plot.ctx.fill();
+      plot.ctx.strokeStyle = NB_INK.blue;
+      plot.ctx.lineWidth = 2;
+      plot.ctx.stroke();
+      plot.ctx.restore();
+
+      plot.vector(0,0,a,c,{color:NB_INK.purple, label:'a(a;c)', lineWidth:2.8});
+      plot.vector(0,0,b,d,{color:NB_INK.red, label:'b(b;d)', lineWidth:2.8});
+
+      ra.textContent = a.toFixed(1).replace('.',','); rc.textContent = c.toFixed(1).replace('.',',');
+      rb.textContent = b.toFixed(1).replace('.',','); rd.textContent = d.toFixed(1).replace('.',',');
+      rdet.textContent = det.toFixed(2).replace('.',',');
+      rarea.textContent = Math.abs(det).toFixed(2).replace('.',',');
+    }
+    plot.onRedraw(draw);
+    [sa,sc,sb,sd].forEach(s=>s.addEventListener('input', draw));
+    draw();
+  })();
+
+  NBQuiz('quiz-container', {
+    moduleId:1,
+    passScore:0.7,
+    questions:[
+      {
+        type:'mcq',
+        prompt:'¿Cuál es el determinante de A = (3 6; 2 −12)?',
+        options:['−48','0','−24','12'],
+        correct:0,
+        explain:'det A = a₁₁a₂₂−a₂₁a₁₂ = (3)(−12) − (2)(6) = −36 − 12 = −48.'
+      },
+      {
+        type:'tf',
+        prompt:'La Regla de Sarrus (método de las diagonales) puede usarse para calcular el determinante de una matriz 4×4.',
+        correct:false,
+        explain:'Falso: Sarrus sólo es válido para matrices 3×3. Para 4×4 o más hay que usar expansión por cofactores.'
+      },
+      {
+        type:'mcq',
+        prompt:'El cofactor Aᵢⱼ se relaciona con el menor Mᵢⱼ mediante...',
+        options:['Aᵢⱼ = Mᵢⱼ siempre','Aᵢⱼ = (−1)^(i+j)·Mᵢⱼ','Aᵢⱼ = Mᵢⱼ²','Aᵢⱼ = i+j+Mᵢⱼ'],
+        correct:1,
+        explain:'El cofactor es el menor con signo alternado según la posición: + si i+j es par, − si es impar.'
+      },
+      {
+        type:'mcq',
+        prompt:'¿Cuál es el determinante de una matriz triangular superior con diagonal (2; 2; 1)?',
+        options:['5','4','2','0'],
+        correct:1,
+        explain:'det = producto de la diagonal = 2·2·1 = 4.'
+      },
+      {
+        type:'tf',
+        prompt:'Una matriz A es invertible si y sólo si det A = 0.',
+        correct:false,
+        explain:'Al revés: A es invertible si y sólo si det A ≠ 0. Si det A = 0, la matriz NO es invertible.'
+      },
+      {
+        type:'mcq',
+        prompt:'El valor absoluto del determinante de una matriz 2×2 representa geométricamente...',
+        options:['la distancia entre los vectores columna','el área del paralelogramo generado por sus vectores fila o columna','el perímetro del paralelogramo','el volumen de un cubo'],
+        correct:1,
+        explain:'Teorema: el área generada por A es |det A|.'
+      },
+      {
+        type:'tf',
+        prompt:'En general, |A+B| = |A| + |B| para cualquier par de matrices cuadradas.',
+        correct:false,
+        explain:'Falso: el determinante no se distribuye sobre la suma de matrices completas — es un contraejemplo clásico.'
+      },
+      {
+        type:'fill',
+        prompt:'El menor M₃₂ de una matriz se obtiene eliminando la fila ___ y la columna ___ (separados por coma, ej: 1,2).',
+        accept:['3,2'],
+        explain:'El subíndice ij del menor indica exactamente qué fila (i) y qué columna (j) se eliminan: M₃₂ elimina fila 3, columna 2.'
+      }
+    ]
+  });
+})();
+</script>
+</body>
+</html>

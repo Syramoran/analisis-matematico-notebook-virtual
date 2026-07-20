@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>8. Posiciones relativas, ángulo y distancia entre rectas · Cuaderno de Álgebra</title>
+<link rel="stylesheet" href="css/notebook.css">
+</head>
+<body data-module="8">
+
+<button id="index-tab" class="index-tab">📑 Índice</button>
+<div id="drawer-overlay" class="drawer-overlay"></div>
+<aside id="index-drawer" class="index-drawer"></aside>
+
+<div class="desk">
+  <main class="notebook-page">
+    <div class="spiral" aria-hidden="true"></div>
+    <div class="margin-line" aria-hidden="true"></div>
+
+    <div class="page-content">
+
+      <header class="page-header">
+        <span class="module-badge"><span class="dot"></span>Módulo 8 de 8</span>
+        <div class="progress-strip"></div>
+        <h1 class="underline-draw">Posiciones relativas, ángulo y distancia entre rectas
+          <svg viewBox="0 0 700 14" preserveAspectRatio="none"><path d="M4 9 Q 220 2, 696 8"/></svg>
+        </h1>
+        <p style="font-size:1.2rem;color:#4a453a;max-width:660px;">Dadas dos rectas del plano, hay cuatro preguntas naturales: ¿son <strong>paralelas</strong>? ¿son <strong>perpendiculares</strong>? ¿dónde se <strong>cruzan</strong>? y, si no son paralelas, ¿qué <strong>ángulo</strong> forman? Este módulo responde las cuatro, y cierra con la distancia de un punto a una recta.</p>
+      </header>
+
+      <h2>1. Posiciones relativas de dos rectas</h2>
+      <p>Dos rectas <span class="math">r₁</span> y <span class="math">r₂</span> en el plano pueden ser: <strong>paralelas</strong> (no se cruzan nunca), <strong>coincidentes</strong> (son la misma recta), <strong>perpendiculares</strong> (se cruzan formando 90°), o simplemente <strong>secantes</strong> (se cruzan en un ángulo distinto de 90°). Se puede decidir con cualquiera de estos tres criterios, según qué forma de la ecuación tengas (ver <a class="btn ghost" style="font-size:.9rem;padding:4px 10px;" href="modulo-7.html">Módulo 7 →</a>):</p>
+
+      <div class="box def">
+        <span class="box-tag">∥ Rectas paralelas</span>
+        <p style="margin:0;">Se cumple <strong>cualquiera</strong> de estas tres condiciones equivalentes:</p>
+        <ul style="margin:8px 0 0;padding-left:22px;">
+          <li>Sus vectores directores son paralelos: <span class="math">∃α∈ℝ: </span><span class="vec">a</span><span class="math">=α</span><span class="vec">b</span></li>
+          <li>Sus vectores normales son paralelos: <span class="math">∃α∈ℝ: </span><span class="vec">n₁</span><span class="math">=α</span><span class="vec">n₂</span></li>
+          <li>Tienen la misma pendiente: <span class="math">m₁ = m₂</span></li>
+        </ul>
+      </div>
+      <div class="box def">
+        <span class="box-tag">＝ Rectas coincidentes</span>
+        <p style="margin:0;">Son paralelas y además comparten todos sus puntos: <span class="math">r₁ ⊂ r₂</span> y <span class="math">r₂ ⊂ r₁</span>. En la práctica: son paralelas <strong>y</strong> un punto de una está en la otra (o sus ecuaciones generales son proporcionales en A, B <em>y</em> C).</p>
+      </div>
+      <div class="box def">
+        <span class="box-tag">⊥ Rectas perpendiculares</span>
+        <p style="margin:0;">Se cumple <strong>cualquiera</strong> de estas tres condiciones equivalentes:</p>
+        <ul style="margin:8px 0 0;padding-left:22px;">
+          <li>Vectores directores perpendiculares: <span class="vec">a</span><span class="math">·</span><span class="vec">b</span><span class="math"> = 0 ⇔ a₁b₁+a₂b₂=0</span></li>
+          <li>Vectores normales perpendiculares: <span class="vec">n₁</span><span class="math">·</span><span class="vec">n₂</span><span class="math"> = 0 ⇔ A₁A₂+B₁B₂=0</span></li>
+          <li>Producto de pendientes: <span class="math">m₁·m₂ = −1</span></li>
+        </ul>
+      </div>
+
+      <div class="widget">
+        <canvas id="plot-relacion" cssHeight="380"></canvas>
+        <div class="widget-controls">
+          <label>Pendiente de r₂ (m₂): <input type="range" id="ctrl-m2" min="-3" max="3" step="0.05" value="2"></label>
+          <span>m₂ = <span class="widget-readout" id="read-m2">2,00</span></span>
+        </div>
+        <div class="widget-controls">
+          <label>Ordenada al origen de r₂ (b₂): <input type="range" id="ctrl-b2" min="-4" max="4" step="0.1" value="-2"></label>
+          <span>b₂ = <span class="widget-readout" id="read-b2">−2,0</span></span>
+        </div>
+        <p class="widget-caption" id="relacion-note">r₁: y=x (fija, morada). Movés r₂ (roja) y el cuaderno te dice qué relación tienen.</p>
+      </div>
+
+      <h3>Ejemplos de la guía</h3>
+      <div class="box example">
+        <span class="box-tag">✏️ Paralelas</span>
+        <p style="margin:0;">r₁: x=2−3λ₁, y=4+2λ₁ &nbsp;·&nbsp; r₂: x=2−6λ₂, y=3+4λ₂. Los directores son (−3;2) y (−6;4): <span class="math">−3/−6 = 2/4 = 1/2</span> ⇒ son proporcionales ⇒ <strong>paralelas</strong> (no coincidentes, porque el punto de paso de r₁ no cumple la ecuación de r₂).</p>
+      </div>
+      <div class="box example">
+        <span class="box-tag">✏️ Coincidentes</span>
+        <p style="margin:0;">r₁: 2x+3y+5=0 &nbsp;·&nbsp; r₂: 10x+15y+25=0. Los coeficientes son proporcionales incluyendo el término independiente: <span class="math">2/10 = 3/15 = 5/25 = 1/5</span> ⇒ <strong>coincidentes</strong>: son la misma recta escrita con otra escala.</p>
+      </div>
+      <div class="box example">
+        <span class="box-tag">✏️ Perpendiculares</span>
+        <p style="margin:0;">r₁ con director (4;−5) y r₂ con director (15;12): <span class="vec">d₁</span><span class="math">·</span><span class="vec">d₂</span><span class="math"> = 4·15+(−5)·12 = 60−60 = 0</span> ⇒ <strong>perpendiculares</strong>.</p>
+      </div>
+
+      <h2>2. Punto de intersección entre dos rectas</h2>
+      <p>Si dos rectas no son paralelas, se cortan en <strong>un único punto</strong>: el que satisface simultáneamente las dos ecuaciones. Si son paralelas no coincidentes, el sistema <strong>no tiene solución</strong>; si son coincidentes, tiene <strong>infinitas</strong> (todos los puntos de la recta).</p>
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplo — hallar la intersección</span>
+        <p style="margin:0;">r₁: x=2+λ₁, y=4+2λ₁ &nbsp;·&nbsp; r₂: x=2+2λ₂, y=6−λ₂. Igualando x e y se arma el sistema:</p>
+        <p style="text-align:center;margin:8px 0;">2+λ₁ = 2+2λ₂ &nbsp;·&nbsp; 4+2λ₁ = 6−λ₂</p>
+        <p style="margin:0;">De la primera: <span class="math">λ₁=2λ₂</span>. Reemplazando en la segunda: <span class="math">4λ₂+λ₂=2 ⇒ λ₂=2/5</span>, y entonces <span class="math">λ₁=4/5</span>. El punto de intersección es <span class="math">P₀(14/5; 28/5)</span>.</p>
+      </div>
+      <canvas id="plot-interseccion" style="width:100%;height:340px;display:block;margin-top:12px;border:1px solid #ddd;border-radius:4px;"></canvas>
+
+      <h2>3. Ángulo entre dos rectas</h2>
+      <p>El ángulo <span class="math">θ̂</span> entre dos rectas se calcula igual que el ángulo entre dos vectores — con el producto escalar — usando <strong>o bien los vectores directores, o bien los vectores normales</strong> (da el mismo resultado):</p>
+
+      <div class="box formula">
+        <span class="box-tag">Con vectores directores</span>
+        θ̂ = arccos <span class="math">|</span> <span class="frac"><span class="num"><span class="vec">a</span>·<span class="vec">b</span></span><span class="den">|<span class="vec">a</span>||<span class="vec">b</span>|</span></span> <span class="math">|</span> &nbsp;=&nbsp; arccos <span class="math">|</span> <span class="frac"><span class="num">a₁b₁+a₂b₂</span><span class="den">√(a₁²+a₂²)·√(b₁²+b₂²)</span></span> <span class="math">|</span>
+      </div>
+      <div class="box formula">
+        <span class="box-tag">Con vectores normales</span>
+        θ̂ = arccos <span class="math">|</span> <span class="frac"><span class="num">A₁A₂+B₁B₂</span><span class="den">√(A₁²+B₁²)·√(A₂²+B₂²)</span></span> <span class="math">|</span>
+      </div>
+
+      <div class="box def">
+        <span class="box-tag">📌 Para recordar</span>
+        <p style="margin:0;">Si θ̂=0°, las rectas son paralelas. Si θ̂=90°, son perpendiculares. El valor absoluto en la fórmula asegura que siempre obtengas el ángulo agudo entre las dos rectas (el otro ángulo, obtuso, es su suplemento π−θ̂).</p>
+      </div>
+
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplo — r₁: x+y+1=0 y r₂: −2x+7=0</span>
+        <p style="margin:0;">Vectores normales: <span class="vec">n₁</span>=(1;1), <span class="vec">n₂</span>=(−2;0). Aplicando la fórmula:</p>
+        <p style="text-align:center;margin:8px 0;">θ̂ = arccos <span class="math">|</span><span class="frac"><span class="num">1(−2)+1(0)</span><span class="den">√2 · 2</span></span><span class="math">|</span> = arccos <span class="math">|</span><span class="frac"><span class="num">−1</span><span class="den">√2</span></span><span class="math">|</span> = arccos(1/√2) = <strong>45° (π/4)</strong></p>
+      </div>
+      <canvas id="plot-angulo" style="width:100%;height:340px;display:block;margin-top:12px;border:1px solid #ddd;border-radius:4px;"></canvas>
+
+      <h2>4. Distancia de un punto a una recta</h2>
+      <p>La distancia de un punto <span class="math">P₁(x₁;y₁)</span> a una recta <span class="math">r</span> es la longitud del segmento <strong>perpendicular</strong> desde P₁ hasta r (el camino más corto posible):</p>
+      <div class="box formula">
+        <span class="box-tag">Teorema — distancia punto-recta</span>
+        Si r : Ax+By+C=0, entonces:
+        <p style="text-align:center;font-size:1.2rem;margin-top:8px;">dist(P₁;r) = <span class="frac"><span class="num">|Ax₁+By₁+C|</span><span class="den">√(A²+B²)</span></span></p>
+      </div>
+      <p style="font-size:.98rem;color:#4a453a;">Sale de proyectar el vector <span class="math">P₀P₁</span> (con P₀ cualquier punto de la recta) sobre la dirección del vector normal — la proyección escalar da directamente la longitud del segmento perpendicular.</p>
+
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplo — distancia de M(−3;4) a r: 6x−8y−6=0</span>
+        <p style="margin:0;">dist(M;r) = <span class="frac"><span class="num">|6(−3)−8(4)−6|</span><span class="den">√(6²+8²)</span></span> = <span class="frac"><span class="num">|−56|</span><span class="den">10</span></span> = 5,6 unidades.</p>
+      </div>
+
+      <div class="widget">
+        <canvas id="plot-distancia" cssHeight="380"></canvas>
+        <div class="widget-controls">
+          <label>x del punto P: <input type="range" id="ctrl-px" min="-8" max="8" step="0.1" value="-3"></label>
+          <span>P = <span class="widget-readout" id="read-P2">(−3,0; 4,0)</span></span>
+        </div>
+        <div class="widget-controls">
+          <label>y del punto P: <input type="range" id="ctrl-py" min="-4" max="10" step="0.1" value="4"></label>
+          <span>dist(P;r) = <span class="widget-readout" id="read-dist">5,60</span></span>
+        </div>
+        <p class="widget-caption">La recta fija es r: 6x−8y−6=0. Movés P y el segmento punteado <span style="color:var(--ink-red)">rojo</span> muestra siempre el camino perpendicular más corto hasta la recta.</p>
+      </div>
+
+      <div class="postit-row">
+        <div class="postit yellow md">
+          <b>El orden de las preguntas</b>
+          Primero fijate si son paralelas (pendientes o directores/normales proporcionales). Si no lo son, ya sabés que se cruzan en un punto — buscalo resolviendo el sistema. El ángulo y la distancia son cálculos aparte, con su propia fórmula.
+        </div>
+        <div class="postit pink md">
+          <b>Ojo con esto</b>
+          "Paralelas" y "coincidentes" no son lo mismo: coincidentes es un caso particular (extremo) de paralelas, donde además comparten todos los puntos.
+        </div>
+      </div>
+
+      <section class="quiz-section" id="quiz">
+        <div class="quiz-intro"><span class="pencil">📝</span><h2>Pon a prueba lo aprendido</h2></div>
+        <p class="quiz-progress">Respondé las preguntas y comprobá al toque. Podés reintentar las que falles.</p>
+        <div id="quiz-container"></div>
+      </section>
+
+      <nav class="page-nav">
+        <a class="corner prev" href="#"></a>
+        <a class="corner next" href="#"></a>
+      </nav>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/notebook.js"></script>
+<script src="js/plotter.js"></script>
+<script src="js/quiz.js"></script>
+<script>
+(function(){
+
+  // 1. Widget de relación entre dos rectas
+  (function(){
+    const el = document.getElementById('plot-relacion');
+    const plot = new NotebookPlot(el, {xMin:-6, xMax:6, yMin:-6, yMax:6, xStep:1, yStep:1, cssHeight:380});
+    const sliderM = document.getElementById('ctrl-m2');
+    const sliderB = document.getElementById('ctrl-b2');
+    const readM = document.getElementById('read-m2');
+    const readB = document.getElementById('read-b2');
+    const note = document.getElementById('relacion-note');
+    const m1 = 1, b1 = 0;
+
+    function draw(){
+      const m2 = parseFloat(sliderM.value);
+      const b2 = parseFloat(sliderB.value);
+      plot.clear(); plot.drawGrid(); plot.drawAxes();
+      plot.lineThrough(0, b1, 1, m1, {color:NB_INK.purple, lineWidth:3});
+      plot.lineThrough(0, b2, 1, m2, {color:NB_INK.red, lineWidth:3});
+
+      readM.textContent = m2.toFixed(2).replace('.',',');
+      readB.textContent = b2.toFixed(1).replace('.',',');
+
+      const sameM = Math.abs(m2-m1) < 0.02;
+      const perp = Math.abs(m1*m2 + 1) < 0.04;
+      if(sameM && Math.abs(b2-b1) < 0.05){
+        note.innerHTML = '<strong>Coincidentes:</strong> misma pendiente (m₁=m₂=1) y mismo punto de paso ⇒ son la misma recta.';
+      } else if(sameM){
+        note.innerHTML = '<strong>Paralelas:</strong> m₁=m₂=1, pero cortan al eje y en puntos distintos ⇒ nunca se cruzan.';
+      } else if(perp){
+        const x = b2/(1-m2), y = x*m1+b1;
+        plot.point(x,y,{color:NB_INK.green, r:7, label:'⊥', labelDy:-14});
+        note.innerHTML = `<strong>Perpendiculares:</strong> m₁·m₂ = ${(m1*m2).toFixed(2)} ≈ −1 ⇒ se cruzan formando 90°, en (${x.toFixed(2)}; ${y.toFixed(2)}).`;
+      } else {
+        const x = b2/(1-m2), y = x*m1+b1;
+        plot.point(x,y,{color:NB_INK.green, r:7, label:'∩', labelDy:-14});
+        note.innerHTML = `<strong>Secantes:</strong> se cruzan en un solo punto (${x.toFixed(2)}; ${y.toFixed(2)}), con un ángulo distinto de 90°.`;
+      }
+    }
+    plot.onRedraw(draw);
+    sliderM.addEventListener('input', draw);
+    sliderB.addEventListener('input', draw);
+    draw();
+  })();
+
+  // 2. Intersección (ejemplo de la guía)
+  (function(){
+    const el = document.getElementById('plot-interseccion');
+    const plot = new NotebookPlot(el, {xMin:-2, xMax:8, yMin:-2, yMax:10, xStep:1, yStep:1, cssHeight:340});
+    plot.clear(); plot.drawGrid(); plot.drawAxes();
+    plot.lineThrough(2, 4, 1, 2, {color:NB_INK.purple, lineWidth:2.8, dash:[8,5]});
+    plot.lineThrough(2, 6, 2, -1, {color:NB_INK.red, lineWidth:2.8, dash:[8,5]});
+    plot.point(2, 4, {color:NB_INK.purple, r:5, label:'r₁: P₀(2;4)', labelDy:16});
+    plot.point(2, 6, {color:NB_INK.red, r:5, label:'r₂: P₁(2;6)', labelDy:16});
+    plot.point(14/5, 28/5, {color:NB_INK.green, r:7, label:'(14/5; 28/5)', labelDy:-14});
+  })();
+
+  // 3. Ángulo (ejemplo de la guía)
+  (function(){
+    const el = document.getElementById('plot-angulo');
+    const plot = new NotebookPlot(el, {xMin:-6, xMax:6, yMin:-6, yMax:6, xStep:1, yStep:1, cssHeight:340});
+    plot.clear(); plot.drawGrid(); plot.drawAxes();
+    // r1: x+y+1=0 -> direccion (1,-1), pasa por (0,-1)
+    plot.lineThrough(0, -1, 1, -1, {color:NB_INK.purple, lineWidth:3});
+    plot.vector(0, -1, 1, 1, {color:NB_INK.purple, label:'n₁(1;1)', lineWidth:2.4});
+    // r2: -2x+7=0 -> x=3.5, vertical
+    plot.lineThrough(3.5, 0, 0, 1, {color:NB_INK.red, lineWidth:3});
+    plot.vector(3.5, 0, -2, 0, {color:NB_INK.red, label:'n₂(−2;0)', lineWidth:2.4});
+    plot.text(-3.5, 4.6, 'θ̂ = 45°', {color:NB_INK.green, size:18});
+  })();
+
+  // 4. Distancia (widget interactivo)
+  (function(){
+    const el = document.getElementById('plot-distancia');
+    const plot = new NotebookPlot(el, {xMin:-9, xMax:9, yMin:-5, yMax:11, xStep:1, yStep:1, cssHeight:380});
+    const sliderX = document.getElementById('ctrl-px');
+    const sliderY = document.getElementById('ctrl-py');
+    const readP = document.getElementById('read-P2');
+    const readD = document.getElementById('read-dist');
+    const A=6, B=-8, C=-6;
+
+    function draw(){
+      const x1 = parseFloat(sliderX.value), y1 = parseFloat(sliderY.value);
+      plot.clear(); plot.drawGrid(); plot.drawAxes();
+      // recta 6x-8y-6=0 -> direccion (8,6) o simplificada (4,3)
+      plot.lineThrough(1, 0, 4, 3, {color:NB_INK.blue, lineWidth:3});
+
+      const denom = A*A+B*B;
+      const k = (A*x1+B*y1+C)/denom;
+      const qx = x1 - k*A, qy = y1 - k*B;
+      const dist = Math.abs(A*x1+B*y1+C)/Math.sqrt(denom);
+
+      plot.segment(x1, y1, qx, qy, {color:NB_INK.red, lineWidth:2.4, dash:[5,4]});
+      plot.point(x1, y1, {color:NB_INK.red, r:7, label:'P', labelDy:-14});
+      plot.point(qx, qy, {color:NB_INK.axis, r:5, label:'pie de la perpendicular', labelDy:16});
+
+      readP.textContent = `(${x1.toFixed(1).replace('.',',')}; ${y1.toFixed(1).replace('.',',')})`;
+      readD.textContent = dist.toFixed(2).replace('.',',');
+    }
+    plot.onRedraw(draw);
+    sliderX.addEventListener('input', draw);
+    sliderY.addEventListener('input', draw);
+    draw();
+  })();
+
+  NBQuiz('quiz-container', {
+    moduleId:8,
+    passScore:0.7,
+    questions:[
+      {
+        type:'mcq',
+        prompt:'Dos rectas con pendientes m₁=3 y m₂=3 (y ordenadas al origen distintas) son...',
+        options:['perpendiculares','paralelas (no coincidentes)','coincidentes','secantes en un ángulo cualquiera'],
+        correct:1,
+        explain:'Misma pendiente pero distinto punto de paso ⇒ paralelas, nunca se tocan.'
+      },
+      {
+        type:'mcq',
+        prompt:'¿Qué condición sobre las pendientes indica que dos rectas son perpendiculares?',
+        options:['m₁=m₂','m₁+m₂=0','m₁·m₂=−1','m₁·m₂=1'],
+        correct:2,
+        explain:'m₁·m₂=−1 es la condición necesaria y suficiente de perpendicularidad entre rectas no verticales.'
+      },
+      {
+        type:'tf',
+        prompt:'Si dos rectas son coincidentes, entonces también son paralelas.',
+        correct:true,
+        explain:'Coincidentes es un caso particular de paralelas: comparten dirección y además todos sus puntos.'
+      },
+      {
+        type:'mcq',
+        prompt:'Si el sistema formado por las ecuaciones de dos rectas no tiene solución, las rectas son...',
+        options:['perpendiculares','secantes en un punto','paralelas no coincidentes','coincidentes'],
+        correct:2,
+        explain:'Sin solución significa que ningún punto satisface ambas ecuaciones a la vez: las rectas nunca se cruzan.'
+      },
+      {
+        type:'fill',
+        prompt:'La fórmula del ángulo entre dos rectas usando vectores normales es θ̂ = arccos|(A₁A₂+B₁B₂)/(√(A₁²+B₁²)·√(A₂²+B₂²))|. Si ese cociente da 0, el ángulo θ̂ es ___ grados.',
+        accept:['90','90°'],
+        explain:'arccos(0) = 90°: normales perpendiculares entre sí implican rectas perpendiculares entre sí.'
+      },
+      {
+        type:'mcq',
+        prompt:'¿Cuál es la fórmula correcta de la distancia de P₁(x₁;y₁) a la recta Ax+By+C=0?',
+        options:[
+          '|Ax₁+By₁+C| / (A+B)',
+          '(Ax₁+By₁+C) / √(A²+B²)',
+          '|Ax₁+By₁+C| / √(A²+B²)',
+          '|Ax₁−By₁−C| / √(A²+B²)'
+        ],
+        correct:2,
+        explain:'dist(P₁;r) = |Ax₁+By₁+C| / √(A²+B²): valor absoluto en el numerador, norma del vector normal en el denominador.'
+      },
+      {
+        type:'mcq',
+        prompt:'La distancia de M(−3;4) a la recta r: 6x−8y−6=0 es...',
+        options:['5,6','0,56','56','11,2'],
+        correct:0,
+        explain:'dist = |6(−3)−8(4)−6| / √(36+64) = |−56|/10 = 5,6.'
+      },
+      {
+        type:'tf',
+        prompt:'El segmento que representa la distancia de un punto a una recta es siempre perpendicular a esa recta.',
+        correct:true,
+        explain:'Por definición, la distancia es la longitud del camino más corto, que siempre es perpendicular a la recta.'
+      }
+    ]
+  });
+})();
+</script>
+</body>
+</html>

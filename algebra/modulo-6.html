@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>6. Producto cruz, área, volumen y coplanaridad · Cuaderno de Álgebra</title>
+<link rel="stylesheet" href="css/notebook.css">
+</head>
+<body data-module="6">
+
+<button id="index-tab" class="index-tab">📑 Índice</button>
+<div id="drawer-overlay" class="drawer-overlay"></div>
+<aside id="index-drawer" class="index-drawer"></aside>
+
+<div class="desk">
+  <main class="notebook-page">
+    <div class="spiral" aria-hidden="true"></div>
+    <div class="margin-line" aria-hidden="true"></div>
+
+    <div class="page-content">
+
+      <header class="page-header">
+        <span class="module-badge"><span class="dot"></span>Módulo 6 de 8</span>
+        <div class="progress-strip"></div>
+        <h1 class="underline-draw">Producto cruz, área, volumen y coplanaridad
+          <svg viewBox="0 0 640 14" preserveAspectRatio="none"><path d="M4 9 Q 200 2, 636 8"/></svg>
+        </h1>
+        <p style="font-size:1.2rem;color:#4a453a;max-width:660px;">Hasta ahora, multiplicar dos vectores daba un número (producto escalar). El <strong>producto cruz</strong> es distinto: multiplica dos vectores de R³ y da <strong>otro vector</strong> — perpendicular a los dos originales.</p>
+      </header>
+
+      <div class="postit-row" style="justify-content:center;">
+        <div class="postit blue md">
+          <b>¿Sabías qué?</b>
+          El producto cruz calcula momentos y torques: en una viga, el producto cruz entre la fuerza y la distancia al punto de apoyo da el momento resultante; en un motor, entre la posición y la fuerza da el torque.
+        </div>
+      </div>
+
+      <h2>1. Producto cruz (o producto vectorial)</h2>
+      <p>Sean <span class="vec">u</span>=a₁i+b₁j+c₁k y <span class="vec">v</span>=a₂i+b₂j+c₂k. El producto cruz <span class="vec">u</span>×<span class="vec">v</span> es el vector:</p>
+      <div class="box formula">
+        <span class="box-tag">Definición</span>
+        <span class="vec">u</span>×<span class="vec">v</span> = (b₁c₂−c₁b₂)i + (c₁a₂−a₁c₂)j + (a₁b₂−b₁a₂)k
+      </div>
+      <div class="box formula">
+        <span class="box-tag">Teorema 1 — pseudo-determinante (forma práctica de calcularlo)</span>
+        <span class="vec">u</span>×<span class="vec">v</span> = | i&nbsp;&nbsp;j&nbsp;&nbsp;k &nbsp;;&nbsp; a₁&nbsp;b₁&nbsp;c₁ &nbsp;;&nbsp; a₂&nbsp;b₂&nbsp;c₂ |
+      </div>
+      <p style="font-size:.95rem;color:#4a453a;">Se calcula como un determinante 3×3 (expandiendo por la primera fila, Módulo 1) salvo que el resultado es un <strong>vector</strong>, no un número — por eso se llama "pseudo-determinante".</p>
+
+      <div class="box def">
+        <span class="box-tag">📌 Propiedades</span>
+        <ul style="margin:0;padding-left:22px;">
+          <li><span class="vec">u</span>×<span class="vec">0</span>=<span class="vec">0</span>.</li>
+          <li><strong>Anticonmutativa:</strong> <span class="vec">u</span>×<span class="vec">v</span> = −(<span class="vec">v</span>×<span class="vec">u</span>).</li>
+          <li>(α<span class="vec">u</span>)×<span class="vec">v</span> = α(<span class="vec">u</span>×<span class="vec">v</span>).</li>
+          <li>Distributiva: <span class="vec">u</span>×(<span class="vec">v</span>+<span class="vec">w</span>) = (<span class="vec">u</span>×<span class="vec">v</span>)+(<span class="vec">u</span>×<span class="vec">w</span>).</li>
+          <li><span class="vec">u</span>·(<span class="vec">u</span>×<span class="vec">v</span>) = <span class="vec">v</span>·(<span class="vec">u</span>×<span class="vec">v</span>) = 0 — <span class="vec">u</span>×<span class="vec">v</span> es ortogonal a los dos.</li>
+          <li><strong>u,v paralelos ⇔ u×v=0</strong> (con u,v≠0).</li>
+        </ul>
+      </div>
+
+      <div class="box def">
+        <span class="box-tag">✋ Regla de la mano derecha</span>
+        <p style="margin:0;">Hay exactamente dos vectores unitarios ortogonales a <span class="vec">u</span> y <span class="vec">v</span>: n y −n. ¿Cuál de los dos es la dirección de u×v? Apuntá el índice según <span class="vec">u</span> y el dedo medio según <span class="vec">v</span>: el pulgar señala u×v.</p>
+      </div>
+
+      <div class="widget">
+        <canvas id="plot-cruz" cssHeight="380"></canvas>
+        <div class="widget-controls">
+          <label>v=(a;b;c) — a: <input type="range" id="ctrl-va" min="-8" max="8" step="0.1" value="-5"></label>
+          <span>a = <span class="widget-readout" id="read-va">-5,0</span></span>
+        </div>
+        <div class="widget-controls">
+          <label>b: <input type="range" id="ctrl-vb" min="-8" max="8" step="0.1" value="0"></label>
+          <span>b = <span class="widget-readout" id="read-vb">0,0</span></span>
+        </div>
+        <div class="widget-controls">
+          <label>c: <input type="range" id="ctrl-vc" min="-8" max="8" step="0.1" value="2"></label>
+          <span>c = <span class="widget-readout" id="read-vc">2,0</span></span>
+        </div>
+        <p class="widget-caption" id="cruz-note">u=(1;−2;6) fijo (rojo). u×v (verde) siempre queda perpendicular a ambos — comprobalo mirando u·(u×v) y v·(u×v), que siempre dan 0.</p>
+      </div>
+
+      <h2>2. Área de un paralelogramo</h2>
+      <div class="box formula">
+        <span class="box-tag">Teorema 2</span>
+        |<span class="vec">u</span>×<span class="vec">v</span>| = |<span class="vec">u</span>||<span class="vec">v</span>| sen φ
+      </div>
+      <p>Y como el área de un paralelogramo de lados adyacentes <span class="vec">u</span> y <span class="vec">v</span> es exactamente |u||v|senφ (base por altura), se obtiene:</p>
+      <div class="box def">
+        <span class="box-tag">📌 Área = módulo del producto cruz</span>
+        Área del paralelogramo con lados <span class="vec">u</span> y <span class="vec">v</span> = |<span class="vec">u</span>×<span class="vec">v</span>|
+      </div>
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplo de la guía</span>
+        <p style="margin:0;">Paralelogramo con vértices P(1;3;−2), Q(2;1;4), R(−3;1;6). Con PQ=(1;−2;6) y QR=(−5;0;2): PQ×QR = −4i−32j−10k, así que el área es |PQ×QR| = √1140 unidades cuadradas — el mismo cálculo del widget de arriba.</p>
+      </div>
+
+      <h2>3. Triple producto escalar y volumen del paralelepípedo</h2>
+      <p>Tres vectores <span class="vec">u</span>, <span class="vec">v</span>, <span class="vec">w</span> que no están en un mismo plano forman un paralelepípedo. Su base es el paralelogramo de u y v (área=|u×v|), y la altura es la componente de w perpendicular a esa base:</p>
+      <div class="box formula">
+        <span class="box-tag">Triple producto escalar y volumen</span>
+        Volumen = |<span class="vec">w</span>·(<span class="vec">u</span>×<span class="vec">v</span>)|
+      </div>
+      <div class="box def">
+        <span class="box-tag">📌 Coplanaridad</span>
+        <p style="margin:0;">Si <span class="vec">u</span>, <span class="vec">v</span> y <span class="vec">w</span> están en el mismo plano (son coplanares), el paralelepípedo "se aplasta" y su volumen es 0. Por eso: <strong>tres vectores son coplanares ⇔ su triple producto escalar es 0.</strong></p>
+      </div>
+
+      <div class="widget">
+        <canvas id="plot-triple" cssHeight="380"></canvas>
+        <div class="widget-controls">
+          <label>w=(a;b;c) — a: <input type="range" id="ctrl-wa" min="-6" max="6" step="0.1" value="-2"></label>
+          <span>a = <span class="widget-readout" id="read-wa">-2,0</span></span>
+        </div>
+        <div class="widget-controls">
+          <label>b: <input type="range" id="ctrl-wb" min="-6" max="6" step="0.1" value="3"></label>
+          <span>b = <span class="widget-readout" id="read-wb">3,0</span></span>
+        </div>
+        <div class="widget-controls">
+          <label>c: <input type="range" id="ctrl-wc" min="-6" max="6" step="0.1" value="1"></label>
+          <span>c = <span class="widget-readout" id="read-wc">1,0</span></span>
+        </div>
+        <p class="widget-caption" id="triple-note">u=(−1;1;2) y v=(2;−1;3) fijos. Movés w y ves el triple producto escalar y si los tres vectores son coplanares.</p>
+      </div>
+
+      <div class="box example">
+        <span class="box-tag">✏️ Probá esto</span>
+        <p style="margin:0;">Con w=(−2;3;1) (valores por defecto): u×v=(5;7;−1), triple = w·(u×v) = −10+21−1 = 10 ⇒ Volumen = 10 (no coplanares). Si en cambio w fuera, por ejemplo, una combinación de u y v (como w=u+v=(1;0;5)), el triple producto escalar daría 0.</p>
+      </div>
+
+      <div class="box def" style="margin-top:32px;">
+        <span class="box-tag">🗂️ Resumen del módulo</span>
+        <ul style="margin:0;padding-left:22px;">
+          <li>u×v es un <strong>vector</strong> (a diferencia de u·v, que es un escalar), calculado con el pseudo-determinante de i,j,k y las componentes de u,v.</li>
+          <li>u×v es ortogonal a u y a v; su dirección sigue la regla de la mano derecha; es anticonmutativo.</li>
+          <li>u∥v ⇔ u×v=0. |u×v|=|u||v|senφ = área del paralelogramo de lados u,v.</li>
+          <li>Volumen del paralelepípedo de u,v,w = |w·(u×v)| (triple producto escalar).</li>
+          <li>u,v,w coplanares ⇔ w·(u×v)=0.</li>
+        </ul>
+      </div>
+
+      <div class="postit-row">
+        <div class="postit green md">
+          <b>Por qué importa</b>
+          El producto cruz es exactamente cómo se calculan momentos y torques en física — y la condición de coplanaridad (triple producto = 0) es la misma idea que vas a usar para decidir si un punto pertenece a un plano.
+        </div>
+        <div class="postit pink md">
+          <b>Ojo con esto</b>
+          u×v y v×u no son el mismo vector: apuntan en direcciones exactamente opuestas (anticonmutativo). El orden importa, a diferencia del producto escalar.
+        </div>
+      </div>
+
+      <section class="quiz-section" id="quiz">
+        <div class="quiz-intro"><span class="pencil">📝</span><h2>Pon a prueba lo aprendido</h2></div>
+        <p class="quiz-progress">Respondé las preguntas y comprobá al toque. Podés reintentar las que falles.</p>
+        <div id="quiz-container"></div>
+      </section>
+
+      <nav class="page-nav">
+        <a class="corner prev" href="#"></a>
+        <a class="corner next" href="#"></a>
+      </nav>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/notebook.js"></script>
+<script src="js/plotter.js"></script>
+<script src="js/quiz.js"></script>
+<script>
+(function(){
+  function proj3(x,y,z){
+    return { X: y - 0.5*x, Y: z - 0.35*x };
+  }
+  function drawAxes3(plot){
+    const L = 8;
+    const xPos = proj3(L,0,0), xNeg = proj3(-L,0,0);
+    const yPos = proj3(0,L,0), yNeg = proj3(0,-L,0);
+    const zPos = proj3(0,0,L), zNeg = proj3(0,0,-L);
+    plot.segment(xNeg.X,xNeg.Y, xPos.X,xPos.Y, {color:'#8b8371', lineWidth:1.6, dash:[4,4]});
+    plot.vector(0,0, xPos.X,xPos.Y, {color:NB_INK.axis, label:'x', lineWidth:2});
+    plot.segment(yNeg.X,yNeg.Y, yPos.X,yPos.Y, {color:'#8b8371', lineWidth:1.6, dash:[4,4]});
+    plot.vector(0,0, yPos.X,yPos.Y, {color:NB_INK.axis, label:'y', lineWidth:2});
+    plot.segment(zNeg.X,zNeg.Y, zPos.X,zPos.Y, {color:'#8b8371', lineWidth:1.6, dash:[4,4]});
+    plot.vector(0,0, zPos.X,zPos.Y, {color:NB_INK.axis, label:'z', lineWidth:2});
+  }
+  function cross(u,v){
+    return [
+      u[1]*v[2]-u[2]*v[1],
+      u[2]*v[0]-u[0]*v[2],
+      u[0]*v[1]-u[1]*v[0]
+    ];
+  }
+  function dot(u,v){ return u[0]*v[0]+u[1]*v[1]+u[2]*v[2]; }
+  function norm(u){ return Math.sqrt(dot(u,u)); }
+
+  // 1. Producto cruz
+  (function(){
+    const el = document.getElementById('plot-cruz');
+    const plot = new NotebookPlot(el, {xMin:-10, xMax:10, yMin:-10, yMax:10, xStep:1, yStep:1, cssHeight:380, showGrid:false});
+    const sa=document.getElementById('ctrl-va'), sb=document.getElementById('ctrl-vb'), sc=document.getElementById('ctrl-vc');
+    const ra=document.getElementById('read-va'), rb=document.getElementById('read-vb'), rc=document.getElementById('read-vc');
+    const note = document.getElementById('cruz-note');
+    const u = [1,-2,6];
+
+    function draw(){
+      const v = [parseFloat(sa.value), parseFloat(sb.value), parseFloat(sc.value)];
+      const c = cross(u,v);
+      const area = norm(c);
+      const du = dot(u,c), dv = dot(v,c);
+
+      plot.clear();
+      drawAxes3(plot);
+      const pu = proj3(u[0],u[1],u[2]), pv = proj3(v[0],v[1],v[2]), pc = proj3(c[0],c[1],c[2]);
+      plot.vector(0,0,pu.X,pu.Y,{color:NB_INK.red, label:'u', lineWidth:3});
+      plot.vector(0,0,pv.X,pv.Y,{color:NB_INK.purple, label:'v', lineWidth:3});
+      plot.vector(0,0,pc.X,pc.Y,{color:NB_INK.green, label:'u×v', lineWidth:3.4});
+
+      ra.textContent=v[0].toFixed(1).replace('.',','); rb.textContent=v[1].toFixed(1).replace('.',',');
+      rc.textContent=v[2].toFixed(1).replace('.',',');
+
+      note.innerHTML = `u=(1;−2;6) fijo (rojo). u×v=(${c[0].toFixed(2)}; ${c[1].toFixed(2)}; ${c[2].toFixed(2)}), |u×v|=${area.toFixed(2)} (área del paralelogramo). Verificación de ortogonalidad: u·(u×v)=${du.toFixed(2)}, v·(u×v)=${dv.toFixed(2)} (deberían dar 0).`;
+    }
+    plot.onRedraw(draw);
+    [sa,sb,sc].forEach(s=>s.addEventListener('input', draw));
+    draw();
+  })();
+
+  // 3. Triple producto escalar
+  (function(){
+    const el = document.getElementById('plot-triple');
+    const plot = new NotebookPlot(el, {xMin:-8, xMax:8, yMin:-8, yMax:8, xStep:1, yStep:1, cssHeight:380, showGrid:false});
+    const sa=document.getElementById('ctrl-wa'), sb=document.getElementById('ctrl-wb'), sc=document.getElementById('ctrl-wc');
+    const ra=document.getElementById('read-wa'), rb=document.getElementById('read-wb'), rc=document.getElementById('read-wc');
+    const note = document.getElementById('triple-note');
+    const u = [-1,1,2], v = [2,-1,3];
+    const uv = cross(u,v);
+
+    function draw(){
+      const w = [parseFloat(sa.value), parseFloat(sb.value), parseFloat(sc.value)];
+      const triple = dot(w, uv);
+      const vol = Math.abs(triple);
+
+      plot.clear();
+      drawAxes3(plot);
+      const pu=proj3(u[0],u[1],u[2]), pv=proj3(v[0],v[1],v[2]), pw=proj3(w[0],w[1],w[2]);
+      plot.vector(0,0,pu.X,pu.Y,{color:NB_INK.red, label:'u', lineWidth:2.8});
+      plot.vector(0,0,pv.X,pv.Y,{color:NB_INK.purple, label:'v', lineWidth:2.8});
+      plot.vector(0,0,pw.X,pw.Y,{color:NB_INK.blueSoft, label:'w', lineWidth:3.2});
+
+      ra.textContent=w[0].toFixed(1).replace('.',','); rb.textContent=w[1].toFixed(1).replace('.',',');
+      rc.textContent=w[2].toFixed(1).replace('.',',');
+
+      const coplanar = vol < 0.05;
+      note.innerHTML = `u=(−1;1;2), v=(2;−1;3) fijos. u×v=(${uv[0]};${uv[1]};${uv[2]}). Triple producto escalar w·(u×v)=${triple.toFixed(2)} ⇒ Volumen=${vol.toFixed(2)} ${coplanar ? '⇒ <strong>son coplanares</strong> (volumen ≈ 0)' : '⇒ <strong>no son coplanares</strong>'}.`;
+    }
+    plot.onRedraw(draw);
+    [sa,sb,sc].forEach(s=>s.addEventListener('input', draw));
+    draw();
+  })();
+
+  NBQuiz('quiz-container', {
+    moduleId:6,
+    passScore:0.7,
+    questions:[
+      {
+        type:'tf',
+        prompt:'El producto cruz de dos vectores en R³ es un escalar.',
+        correct:false,
+        explain:'Falso: a diferencia del producto escalar (que da un número), el producto cruz da un vector.'
+      },
+      {
+        type:'mcq',
+        prompt:'El vector u×v es siempre...',
+        options:['paralelo a u y a v','ortogonal a u y a v','igual a u+v','de módulo 1'],
+        correct:1,
+        explain:'u·(u×v)=0 y v·(u×v)=0: el producto cruz es perpendicular a ambos vectores originales.'
+      },
+      {
+        type:'tf',
+        prompt:'El producto cruz cumple la propiedad conmutativa: u×v=v×u.',
+        correct:false,
+        explain:'Falso: es anticonmutativo, u×v=−(v×u). Apuntan en direcciones opuestas.'
+      },
+      {
+        type:'mcq',
+        prompt:'Si u y v son paralelos (no nulos), ¿cuánto vale u×v?',
+        options:['|u||v|','1','el vector cero','u·v'],
+        correct:2,
+        explain:'u∥v ⇔ u×v=0: es la condición de paralelismo con producto cruz.'
+      },
+      {
+        type:'mcq',
+        prompt:'|u×v| representa geométricamente...',
+        options:[
+          'el volumen de un paralelepípedo',
+          'el área del paralelogramo de lados u y v',
+          'la longitud del vector más largo',
+          'el ángulo entre u y v'
+        ],
+        correct:1,
+        explain:'|u×v|=|u||v|senφ, que es exactamente el área del paralelogramo con lados adyacentes u y v.'
+      },
+      {
+        type:'mcq',
+        prompt:'El volumen del paralelepípedo determinado por u, v y w se calcula como...',
+        options:['|u×v×w|','|w·(u×v)|','|u·v·w|','|u+v+w|'],
+        correct:1,
+        explain:'Es el valor absoluto del triple producto escalar: |w·(u×v)|.'
+      },
+      {
+        type:'tf',
+        prompt:'Si tres vectores son coplanares, su triple producto escalar es igual a cero.',
+        correct:true,
+        explain:'Correcto: coplanares ⇔ el paralelepípedo se aplasta (volumen 0) ⇔ w·(u×v)=0.'
+      },
+      {
+        type:'mcq',
+        prompt:'La dirección de u×v se determina con...',
+        options:['la regla de Sarrus','la regla de la mano derecha','el teorema de Pitágoras','la regla de Cramer'],
+        correct:1,
+        explain:'Índice según u, dedo medio según v, el pulgar señala la dirección de u×v.'
+      },
+      {
+        type:'fill',
+        prompt:'El producto escalar da un ___ y el producto cruz da un ___ (separados por coma, ej: escalar,vector).',
+        accept:['escalar,vector'],
+        explain:'Son operaciones distintas con resultados de distinta naturaleza: u·v es un número, u×v es un vector.'
+      },
+      {
+        type:'tf',
+        prompt:'El producto cruz está definido para vectores de cualquier Rⁿ, con n≥2.',
+        correct:false,
+        explain:'Falso: tal como se define acá (con i, j, k), el producto cruz es una operación específica de R³.'
+      }
+    ]
+  });
+})();
+</script>
+</body>
+</html>

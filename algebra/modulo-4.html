@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4. Producto escalar, ángulo, paralelismo y proyección · Cuaderno de Álgebra</title>
+<link rel="stylesheet" href="css/notebook.css">
+</head>
+<body data-module="4">
+
+<button id="index-tab" class="index-tab">📑 Índice</button>
+<div id="drawer-overlay" class="drawer-overlay"></div>
+<aside id="index-drawer" class="index-drawer"></aside>
+
+<div class="desk">
+  <main class="notebook-page">
+    <div class="spiral" aria-hidden="true"></div>
+    <div class="margin-line" aria-hidden="true"></div>
+
+    <div class="page-content">
+
+      <header class="page-header">
+        <span class="module-badge"><span class="dot"></span>Módulo 4 de 8</span>
+        <div class="progress-strip"></div>
+        <h1 class="underline-draw">Producto escalar, ángulo, paralelismo y proyección
+          <svg viewBox="0 0 700 14" preserveAspectRatio="none"><path d="M4 9 Q 220 2, 696 8"/></svg>
+        </h1>
+        <p style="font-size:1.2rem;color:#4a453a;max-width:660px;">Con un solo número —el producto escalar— se puede saber el <strong>ángulo</strong> entre dos vectores, si son <strong>paralelos</strong> u <strong>ortogonales</strong>, y cuánto de uno "apunta en la dirección" del otro. Esto es exactamente lo que en el Módulo 5 se usa para decidir si dos rectas son paralelas o perpendiculares.</p>
+      </header>
+
+      <h2>1. Producto escalar (punto o interno)</h2>
+      <div class="box formula">
+        <span class="box-tag">Definición</span>
+        <span class="vec">u</span>·<span class="vec">v</span> = u₁v₁ + u₂v₂
+      </div>
+      <p>A diferencia de la suma o el producto por escalar, el resultado <strong>no es un vector</strong>: es un número (escalar).</p>
+      <div class="box def">
+        <span class="box-tag">📌 Propiedades</span>
+        <ul style="margin:0;padding-left:22px;">
+          <li>Conmutativa: <span class="vec">u</span>·<span class="vec">v</span> = <span class="vec">v</span>·<span class="vec">u</span>.</li>
+          <li>Distributiva: <span class="vec">u</span>·(<span class="vec">v</span>+<span class="vec">w</span>) = <span class="vec">u</span>·<span class="vec">v</span>+<span class="vec">u</span>·<span class="vec">w</span>.</li>
+          <li>Asociativa mixta: α(<span class="vec">u</span>·<span class="vec">v</span>) = (α<span class="vec">u</span>)·<span class="vec">v</span> = <span class="vec">u</span>·(α<span class="vec">v</span>).</li>
+          <li><span class="vec">u</span>·<span class="vec">0</span> = 0.</li>
+          <li><strong><span class="vec">v</span>·<span class="vec">v</span> = |<span class="vec">v</span>|²</strong> — el producto de un vector por sí mismo es el cuadrado de su módulo.</li>
+        </ul>
+      </div>
+
+      <h2>2. Ángulo entre vectores</h2>
+      <div class="box formula">
+        <span class="box-tag">Teorema 1 — interpretación geométrica</span>
+        cos φ = (<span class="vec">u</span>·<span class="vec">v</span>) / (|<span class="vec">u</span>||<span class="vec">v</span>|), &nbsp;con 0 ≤ φ ≤ π
+      </div>
+      <p style="font-size:.95rem;color:#4a453a;">Sale de aplicar el teorema del coseno al triángulo que forman <span class="vec">u</span>, <span class="vec">v</span> y <span class="vec">v</span>−<span class="vec">u</span>. A diferencia de la dirección θ de un vector (que va de 0 a 2π), el ángulo <strong>entre dos vectores</strong> φ siempre se toma como el menor posible, entre 0 y π.</p>
+
+      <div class="box def">
+        <span class="box-tag">📌 El signo de u·v dice el tipo de ángulo</span>
+        <ul style="margin:0;padding-left:22px;">
+          <li><span class="vec">u</span>·<span class="vec">v</span> &gt; 0 ⇒ φ agudo (0 ≤ φ &lt; π/2).</li>
+          <li><span class="vec">u</span>·<span class="vec">v</span> = 0 ⇒ φ recto (φ = π/2).</li>
+          <li><span class="vec">u</span>·<span class="vec">v</span> &lt; 0 ⇒ φ obtuso (π/2 &lt; φ ≤ π).</li>
+        </ul>
+      </div>
+
+      <div class="widget">
+        <canvas id="plot-angulo" cssHeight="380"></canvas>
+        <div class="widget-controls">
+          <label>u=(a₁;b₁) — a₁: <input type="range" id="ctrl-a1" min="-8" max="8" step="0.1" value="2"></label>
+          <span>a₁ = <span class="widget-readout" id="read-a1">2,0</span></span>
+        </div>
+        <div class="widget-controls">
+          <label>b₁: <input type="range" id="ctrl-b1" min="-8" max="8" step="0.1" value="3"></label>
+          <span>b₁ = <span class="widget-readout" id="read-b1">3,0</span></span>
+        </div>
+        <div class="widget-controls">
+          <label>v=(a₂;b₂) — a₂: <input type="range" id="ctrl-a2" min="-8" max="8" step="0.1" value="-7"></label>
+          <span>a₂ = <span class="widget-readout" id="read-a2">-7,0</span></span>
+        </div>
+        <div class="widget-controls">
+          <label>b₂: <input type="range" id="ctrl-b2" min="-8" max="8" step="0.1" value="1"></label>
+          <span>b₂ = <span class="widget-readout" id="read-b2">1,0</span></span>
+        </div>
+        <p class="widget-caption" id="angulo-note">u·v=−11, φ≈115,6° (obtuso).</p>
+      </div>
+
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplo de la guía (valores por defecto)</span>
+        <p style="margin:0;">u=2i+3j, v=−7i+j: u·v=−14+3=−11; |u|=√13, |v|=√50. cos φ = −11/√650 ≈ −0,4315 ⇒ φ = arccos(−0,4315) ≈ 2,017 rad ≈ 115,6°.</p>
+      </div>
+
+      <h2>3. Vectores paralelos</h2>
+      <div class="box def">
+        <span class="box-tag">📌 Condición de paralelismo</span>
+        <span class="vec">u</span> ∥ <span class="vec">v</span> ⇔ ∃α∈ℝ tal que <span class="vec">v</span> = α<span class="vec">u</span> (con u,v≠0). Geométricamente: el ángulo entre ellos es φ=0 (α&gt;0, misma dirección) o φ=π (α&lt;0, direcciones opuestas).
+      </div>
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplo — paralelos</span>
+        <p style="margin:0;">u=(2;−3), v=(−4;6): v=−2·u, así que son paralelos (con α=−2&lt;0, cos φ=1 en valor absoluto pero con φ=π ya que apuntan en direcciones opuestas — en la guía, al tomar u·v/(|u||v|) da exactamente ±1).</p>
+      </div>
+
+      <h2>4. Vectores ortogonales</h2>
+      <div class="box def">
+        <span class="box-tag">📌 Condición de ortogonalidad</span>
+        <span class="vec">u</span> ⊥ <span class="vec">v</span> ⇔ <span class="vec">u</span>·<span class="vec">v</span> = 0 &nbsp;(con u,v≠0)
+      </div>
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplo — ortogonales</span>
+        <p style="margin:0;">u=3i+4j, v=−4i+3j: u·v=3(−4)+4(3)=−12+12=0 ⇒ ortogonales, φ=π/2.</p>
+      </div>
+
+      <div class="widget">
+        <canvas id="plot-clasificar" cssHeight="320"></canvas>
+        <div class="widget-controls">
+          <button class="btn ghost" data-caso="paralelos">Cargar: paralelos</button>
+          <button class="btn ghost" data-caso="ortogonales">Cargar: ortogonales</button>
+          <button class="btn ghost" data-caso="ninguno">Cargar: ninguno de los dos</button>
+        </div>
+        <p class="widget-caption" id="clasificar-note">Tocá un caso para ver el par de vectores y cómo se verifica la condición.</p>
+      </div>
+
+      <h2>5. Proyección de un vector sobre otro</h2>
+      <p>La proyección de <span class="vec">u</span> sobre <span class="vec">v</span> es el vector <strong>paralelo a v</strong> que mejor representa "cuánto de u apunta en la dirección de v":</p>
+      <div class="box formula">
+        <span class="box-tag">Definición</span>
+        proy<sub>v</sub> <span class="vec">u</span> = [(<span class="vec">u</span>·<span class="vec">v</span>) / |<span class="vec">v</span>|²] <span class="vec">v</span>
+      </div>
+      <div class="box def">
+        <span class="box-tag">📌 Teorema 3 — de dónde sale</span>
+        <p style="margin:0;">Para cualquier <span class="vec">u</span> y cualquier <span class="vec">v</span>≠0, el vector <span class="vec">w</span> = <span class="vec">u</span> − [(<span class="vec">u</span>·<span class="vec">v</span>)/|<span class="vec">v</span>|²]<span class="vec">v</span> es <strong>ortogonal</strong> a <span class="vec">v</span>. Por eso proy<sub>v</sub>u y ese resto w descomponen a u en una parte paralela a v y una parte perpendicular a v.</p>
+      </div>
+      <div class="box def">
+        <span class="box-tag">📌 Para recordar</span>
+        <ul style="margin:0;padding-left:22px;">
+          <li>Si u·v&gt;0, proy<sub>v</sub>u apunta en la misma dirección que v; si u·v&lt;0, en dirección opuesta.</li>
+          <li>Si u y v son ortogonales, proy<sub>v</sub>u = <span class="vec">0</span>.</li>
+          <li>La <strong>componente escalar</strong> de u en la dirección de v es (u·v)/|v| — un número, no un vector.</li>
+        </ul>
+      </div>
+
+      <div class="widget">
+        <canvas id="plot-proyeccion" cssHeight="380"></canvas>
+        <div class="widget-controls">
+          <label>u=(a;b) — a: <input type="range" id="ctrl-ua" min="-6" max="6" step="0.1" value="2"></label>
+          <span>a = <span class="widget-readout" id="read-ua">2,0</span></span>
+        </div>
+        <div class="widget-controls">
+          <label>b: <input type="range" id="ctrl-ub" min="-6" max="6" step="0.1" value="3"></label>
+          <span>b = <span class="widget-readout" id="read-ub">3,0</span></span>
+        </div>
+        <p class="widget-caption" id="proyeccion-note">v=(1;1) fijo. u (rojo) se descompone en proy<sub>v</sub>u (verde, sobre la recta de v) y w (punteado, perpendicular a v).</p>
+      </div>
+
+      <div class="box example">
+        <span class="box-tag">✏️ Ejemplos de la guía</span>
+        <p style="margin:0;">u=2i+3j, v=i+j: proy<sub>v</sub>u = (5/2)i+(5/2)j. &nbsp;·&nbsp; u=2i−3j, v=i+j: proy<sub>v</sub>u = (−1/2)i+(−1/2)j.</p>
+      </div>
+
+      <div class="box def" style="margin-top:32px;">
+        <span class="box-tag">🗂️ Resumen del módulo</span>
+        <ul style="margin:0;padding-left:22px;">
+          <li>u·v = u₁v₁+u₂v₂ (escalar, no vector). v·v=|v|².</li>
+          <li>cos φ = (u·v)/(|u||v|), con φ∈[0,π]. Signo de u·v ⇒ agudo/recto/obtuso.</li>
+          <li>Paralelos: v=αu. Ortogonales: u·v=0.</li>
+          <li>proy<sub>v</sub>u = [(u·v)/|v|²]v — parte de u paralela a v. Componente escalar: (u·v)/|v|.</li>
+        </ul>
+      </div>
+
+      <div class="postit-row">
+        <div class="postit green md">
+          <b>Por qué importa</b>
+          "Paralelos ⇔ v=αu" y "ortogonales ⇔ u·v=0" son exactamente las condiciones que el Módulo 5 usa para clasificar rectas — ahí las vas a ver aplicadas a vectores directores y normales.
+        </div>
+        <div class="postit pink md">
+          <b>Ojo con esto</b>
+          proy<sub>v</sub>u es un <strong>vector</strong> (paralelo a v); la componente escalar (u·v)/|v| es sólo un <strong>número</strong>. No son lo mismo, aunque se parecen en la fórmula.
+        </div>
+      </div>
+
+      <section class="quiz-section" id="quiz">
+        <div class="quiz-intro"><span class="pencil">📝</span><h2>Pon a prueba lo aprendido</h2></div>
+        <p class="quiz-progress">Respondé las preguntas y comprobá al toque. Podés reintentar las que falles.</p>
+        <div id="quiz-container"></div>
+      </section>
+
+      <nav class="page-nav">
+        <a class="corner prev" href="#"></a>
+        <a class="corner next" href="#"></a>
+      </nav>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/notebook.js"></script>
+<script src="js/plotter.js"></script>
+<script src="js/quiz.js"></script>
+<script>
+(function(){
+
+  // 2. Ángulo entre vectores
+  (function(){
+    const el = document.getElementById('plot-angulo');
+    const plot = new NotebookPlot(el, {xMin:-8, xMax:8, yMin:-4, yMax:8, xStep:1, yStep:1, cssHeight:380});
+    const s1=document.getElementById('ctrl-a1'), s2=document.getElementById('ctrl-b1');
+    const s3=document.getElementById('ctrl-a2'), s4=document.getElementById('ctrl-b2');
+    const r1=document.getElementById('read-a1'), r2=document.getElementById('read-b1');
+    const r3=document.getElementById('read-a2'), r4=document.getElementById('read-b2');
+    const note = document.getElementById('angulo-note');
+
+    function draw(){
+      const a1=parseFloat(s1.value), b1=parseFloat(s2.value);
+      const a2=parseFloat(s3.value), b2=parseFloat(s4.value);
+      const dot = a1*a2+b1*b2;
+      const mu = Math.sqrt(a1*a1+b1*b1), mv = Math.sqrt(a2*a2+b2*b2);
+      const cosphi = dot/(mu*mv);
+      const phi = Math.acos(Math.max(-1,Math.min(1,cosphi)));
+
+      plot.clear(); plot.drawGrid(); plot.drawAxes();
+      plot.vector(0,0,a1,b1,{color:NB_INK.red, label:'u', lineWidth:3.2});
+      plot.vector(0,0,a2,b2,{color:NB_INK.purple, label:'v', lineWidth:3.2});
+
+      r1.textContent=a1.toFixed(1).replace('.',','); r2.textContent=b1.toFixed(1).replace('.',',');
+      r3.textContent=a2.toFixed(1).replace('.',','); r4.textContent=b2.toFixed(1).replace('.',',');
+
+      let tipo = 'recto (90°)';
+      if(dot>0.001) tipo='agudo';
+      else if(dot<-0.001) tipo='obtuso';
+      note.innerHTML = `u·v=${dot.toFixed(2)}, φ≈${(phi*180/Math.PI).toFixed(1).replace('.',',')}° (<strong>${tipo}</strong>).`;
+    }
+    plot.onRedraw(draw);
+    [s1,s2,s3,s4].forEach(s=>s.addEventListener('input', draw));
+    draw();
+  })();
+
+  // 4. Clasificar (paralelos / ortogonales / ninguno)
+  (function(){
+    const el = document.getElementById('plot-clasificar');
+    const plot = new NotebookPlot(el, {xMin:-6, xMax:6, yMin:-6, yMax:6, xStep:1, yStep:1, cssHeight:320});
+    const note = document.getElementById('clasificar-note');
+    const casos = {
+      paralelos: {u:[2,-3], v:[-4,6], msg:'u=(2;−3), v=(−4;6): v=−2·u ⇒ <strong>paralelos</strong> (dirección opuesta, α=−2&lt;0).'},
+      ortogonales: {u:[3,4], v:[-4,3], msg:'u=(3;4), v=(−4;3): u·v=3(−4)+4(3)=−12+12=0 ⇒ <strong>ortogonales</strong>.'},
+      ninguno: {u:[2,3], v:[6,4], msg:'u=(2;3), v=(6;4): u·v=12+12=24≠0 (no ortogonales) y v≠αu para ningún α (no paralelos) ⇒ <strong>ninguno de los dos</strong>.'}
+    };
+    function draw(caso){
+      const c = casos[caso];
+      plot.clear(); plot.drawGrid(); plot.drawAxes();
+      plot.vector(0,0,c.u[0],c.u[1],{color:NB_INK.red, label:'u', lineWidth:3});
+      plot.vector(0,0,c.v[0],c.v[1],{color:NB_INK.purple, label:'v', lineWidth:3});
+      note.innerHTML = c.msg;
+    }
+    document.querySelectorAll('[data-caso]').forEach(btn=>{
+      btn.addEventListener('click', ()=>draw(btn.dataset.caso));
+    });
+    draw('paralelos');
+  })();
+
+  // 5. Proyección
+  (function(){
+    const el = document.getElementById('plot-proyeccion');
+    const plot = new NotebookPlot(el, {xMin:-4, xMax:6, yMin:-4, yMax:6, xStep:1, yStep:1, cssHeight:380});
+    const sa = document.getElementById('ctrl-ua'), sb = document.getElementById('ctrl-ub');
+    const ra = document.getElementById('read-ua'), rb = document.getElementById('read-ub');
+    const note = document.getElementById('proyeccion-note');
+    const v = {x:1, y:1};
+
+    function draw(){
+      const a = parseFloat(sa.value), b = parseFloat(sb.value);
+      const dot = a*v.x+b*v.y;
+      const v2 = v.x*v.x+v.y*v.y;
+      const k = dot/v2;
+      const proy = {x:k*v.x, y:k*v.y};
+      const w = {x:a-proy.x, y:b-proy.y};
+
+      plot.clear(); plot.drawGrid(); plot.drawAxes();
+      plot.lineThrough(0,0,v.x,v.y,{color:'#cabf9e', lineWidth:1.6, dash:[3,4]});
+      plot.vector(0,0,v.x,v.y,{color:NB_INK.blueSoft, label:'v', lineWidth:2.6});
+      plot.vector(0,0,a,b,{color:NB_INK.red, label:'u', lineWidth:3});
+      plot.vector(0,0,proy.x,proy.y,{color:NB_INK.green, label:'proyᵥu', lineWidth:3.4});
+      plot.segment(proy.x,proy.y,a,b,{color:NB_INK.purple, lineWidth:2, dash:[5,4]});
+
+      ra.textContent=a.toFixed(1).replace('.',','); rb.textContent=b.toFixed(1).replace('.',',');
+      note.innerHTML = `v=(1;1) fijo. proy<sub>v</sub>u = (${proy.x.toFixed(2).replace('.',',')}; ${proy.y.toFixed(2).replace('.',',')}) &nbsp;·&nbsp; w = u−proy<sub>v</sub>u = (${w.x.toFixed(2).replace('.',',')}; ${w.y.toFixed(2).replace('.',',')}) (perpendicular a v, línea punteada morada).`;
+    }
+    plot.onRedraw(draw);
+    sa.addEventListener('input', draw);
+    sb.addEventListener('input', draw);
+    draw();
+  })();
+
+  NBQuiz('quiz-container', {
+    moduleId:4,
+    passScore:0.7,
+    questions:[
+      {
+        type:'tf',
+        prompt:'El producto escalar de dos vectores u=(u₁,u₂) y v=(v₁,v₂) es un vector.',
+        correct:false,
+        explain:'Falso: u·v=u₁v₁+u₂v₂ es un número (escalar), no un vector.'
+      },
+      {
+        type:'fill',
+        prompt:'El producto escalar de u=(2,3) y v=(−1,4) es ___.',
+        accept:['10'],
+        explain:'u·v = (2)(−1)+(3)(4) = −2+12 = 10.'
+      },
+      {
+        type:'mcq',
+        prompt:'¿Qué condición deben cumplir dos vectores u y v (no nulos) para ser paralelos?',
+        options:['u·v=0','u=v','u=αv para algún escalar α≠0','|u|=|v|'],
+        correct:2,
+        explain:'Paralelismo: uno es múltiplo escalar del otro.'
+      },
+      {
+        type:'mcq',
+        prompt:'Dos vectores no nulos u y v son ortogonales si y sólo si...',
+        options:['u·v=0','u·v=1','u=−v','|u+v|=|u|+|v|'],
+        correct:0,
+        explain:'La condición necesaria y suficiente de ortogonalidad es que el producto escalar sea cero.'
+      },
+      {
+        type:'tf',
+        prompt:'Si u·v > 0, el ángulo entre u y v es obtuso.',
+        correct:false,
+        explain:'Falso: u·v>0 implica ángulo agudo (0≤φ<π/2), no obtuso.'
+      },
+      {
+        type:'mcq',
+        prompt:'Si el producto escalar u·v es negativo, ¿qué podemos afirmar sobre el ángulo entre ellos?',
+        options:['Es 0°','Es menor que 90°','Es igual a 90°','Es mayor que 90°'],
+        correct:3,
+        explain:'u·v<0 ⇒ cos φ<0 ⇒ φ obtuso, mayor que 90°.'
+      },
+      {
+        type:'tf',
+        prompt:'v·v = |v|².',
+        correct:true,
+        explain:'Correcto: el producto de un vector por sí mismo es siempre el cuadrado de su módulo.'
+      },
+      {
+        type:'mcq',
+        prompt:'La proyección de u sobre v (proyᵥu) es siempre...',
+        options:['un escalar','un vector paralelo a v','un vector paralelo a u','un vector perpendicular a v'],
+        correct:1,
+        explain:'proyᵥu = [(u·v)/|v|²]v es un múltiplo escalar de v, por lo tanto paralelo a v.'
+      },
+      {
+        type:'tf',
+        prompt:'Si u y v son ortogonales, entonces proyᵥu = u.',
+        correct:false,
+        explain:'Falso: si son ortogonales, u·v=0, así que proyᵥu = [(0)/|v|²]v = el vector nulo, no u.'
+      },
+      {
+        type:'mcq',
+        prompt:'¿Cuál es la proyección de u=(2,3) sobre v=(1,1)?',
+        options:['(2,5; 2,5)','(1,5; 1,5)','(3; 2)','(0,5; 0,5)'],
+        correct:0,
+        explain:'u·v=2+3=5, |v|²=2, proyᵥu=(5/2)v=(2,5;2,5).'
+      }
+    ]
+  });
+})();
+</script>
+</body>
+</html>
